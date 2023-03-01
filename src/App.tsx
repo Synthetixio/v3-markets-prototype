@@ -1,7 +1,9 @@
-import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useAccount } from "wagmi";
 
-import { Attestooooooor } from "./components";
+import { Header, Attestooooooor, PriceChart, Account } from "./components";
+
+import theme from "./theme";
+import { ChakraProvider, ColorModeScript, Flex, Box } from "@chakra-ui/react";
 
 export function App() {
   /**
@@ -11,11 +13,20 @@ export function App() {
   const { isConnected } = useAccount();
 
   return (
-    <>
-      <h1>OP Eth Denver Hackathon</h1>
+    <ChakraProvider theme={theme}>
+      <ColorModeScript initialColorMode={theme.config.initialColorMode} />
 
-      {/** @see https://www.rainbowkit.com/docs/connect-button */}
-      <ConnectButton />
+      <Flex height="100vh" maxHeight="100vh" flexDirection="column">
+        <Header />
+        <Flex flex="1" height="100%">
+          <Box flex="5">
+            <PriceChart />
+          </Box>
+          <Box flex="2">
+            <Account />
+          </Box>
+        </Flex>
+      </Flex>
 
       {isConnected && (
         <>
@@ -24,6 +35,6 @@ export function App() {
           <hr />
         </>
       )}
-    </>
+    </ChakraProvider>
   );
 }
