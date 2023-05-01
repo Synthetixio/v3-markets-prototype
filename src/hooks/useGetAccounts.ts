@@ -35,7 +35,7 @@ export const useGetAccounts = () => {
 
   return {
     acccountCount,
-    accountIds,
+    accountIds: accountIds || [],
     isLoading: accountIdsIsLoading || acccountCountisLoading,
     refetch,
   };

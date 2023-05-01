@@ -1,4 +1,5 @@
 import { BigNumber } from "ethers";
+import { formatEther } from "ethers/lib/utils.js";
 import { useContractRead } from "wagmi";
 import { useContract } from "../useContract";
 
@@ -29,6 +30,7 @@ export const useSpotMarketInfo = (marketId: string | number) => {
 
 export const useSpotMarketStat = (marketId: string | number) => {
   const spotMarketProxy = useContract("SPOT_MARKET");
+  const synthetixProxy = useContract("SYNTHETIX");
 
   const { data: reportedDebt } = useContractRead({
     address: spotMarketProxy.address,
@@ -37,8 +39,18 @@ export const useSpotMarketStat = (marketId: string | number) => {
     args: [marketId],
     enabled: !!marketId,
   });
+  const { data: withdrawableMarketUsd } = useContractRead({
+    address: synthetixProxy.address,
+    abi: synthetixProxy.abi,
+    functionName: "getWithdrawableMarketUsd",
+    args: [marketId],
+    enabled: !!marketId,
+  });
 
   return {
-    reportedDebt: reportedDebt as BigNumber,
+    reportedDebt: formatEther(reportedDebt?.toString() || "0"),
+    withdrawableMarketUsd: formatEther(
+      withdrawableMarketUsd?.toString() || "0",
+    ),
   };
 };
