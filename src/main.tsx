@@ -14,6 +14,7 @@ import { ChakraProvider, ColorModeScript } from "@chakra-ui/react";
 import { Index } from "./pages/Index";
 import { PerpsAdmin } from "./pages/perps/PerpsAdmin";
 import { SpotMarket } from "./pages/spot/SpotMarket";
+import { SpotAdmin } from "./pages/spot/SpotAdmin";
 
 const router = createBrowserRouter([
   {
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
   {
     path: "/perps/markets/:marketId/:accountId",
     element: <PerpsMarket />,
+  },
+  {
+    path: "/spot/admin",
+    element: <SpotAdmin />,
   },
   {
     path: "/spot/markets/:marketId",
