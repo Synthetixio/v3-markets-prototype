@@ -2,32 +2,28 @@ import { defineConfig } from "@wagmi/cli";
 import fs from "fs";
 import path from "path";
 
-const directoryPath = "./deployments/synthetix-sandbox/local";
+const directoryPath = "deployments/synthetix-sandbox/local";
 
 // Recursively read all files in the directory and its subdirectories
-function readDeployments(directoryPath) {
+function readDeployments(directoryPath, baseDirectoryPath = directoryPath) {
   const files = fs.readdirSync(directoryPath);
-  let result: { abi: any; address: any; name: string }[] = [];
+  const result: { abi: any; address: any; name: string }[] = [];
 
-  files.forEach((file) => {
+  for (const file of files) {
     const filePath = path.join(directoryPath, file);
     const stats = fs.statSync(filePath);
 
     if (stats.isDirectory()) {
       // Recurse into subdirectories
-      result.push(...readDeployments(filePath));
+      result.push(...readDeployments(filePath, baseDirectoryPath));
     } else if (stats.isFile()) {
       // Read contents of file
       const fileContents = fs.readFileSync(filePath).toString();
       const json = JSON.parse(fileContents);
 
-      let name = filePath;
-      if (name.startsWith("deployments")) {
-        name = name.replace("deployments", "");
-      }
-      if (name.endsWith("json")) {
-        name = name.split("json")[0];
-      }
+      let name = filePath
+        .replace(`${baseDirectoryPath}/`, "") // remove base directory path
+        .replace(/\.json$/, ""); // Remove .json extension
 
       // Add to result array
       result.push({
@@ -36,7 +32,7 @@ function readDeployments(directoryPath) {
         name,
       });
     }
-  });
+  }
 
   return result;
 }
