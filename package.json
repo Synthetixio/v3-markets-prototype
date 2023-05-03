@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "vite",
-    "synthetix": "cannon inspect synthetix-sandbox --write-deployments ./deployments/synthetix-sandbox/local && npm run wagmi && cannon synthetix-sandbox --fund-addresses 0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
-    "deployments:optimism-goerli": "cannon inspect synthetix-omnibus --chain-id 420 --write-deployments ./deployments/synthetix-omnibus/optimism-goerli",
+    "synthetix": "cannon inspect synthetix-sandbox --write-deployments ./deployments/local && npm run wagmi && cannon synthetix-sandbox --fund-addresses 0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
+    "deployments:optimism-goerli": "cannon inspect synthetix-omnibus --chain-id 420 --write-deployments ./deployments/optimism-goerli",
     "build": "vite build",
     "build:production": "vite build",
     "preview": "vite preview",

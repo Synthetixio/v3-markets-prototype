@@ -2,10 +2,19 @@ import { defineConfig } from "@wagmi/cli";
 import fs from "fs";
 import path from "path";
 
-const directoryPath = "deployments/synthetix-sandbox/local";
+// Call the function and log the result
+const contracts = _readDeployments(
+  `deployments/${process.env.UI_DEPLOYMENTS_NETWORK || "local"}`,
+);
+
+export default defineConfig({
+  out: "src/generated.ts",
+  contracts,
+  plugins: [],
+});
 
 // Recursively read all files in the directory and its subdirectories
-function readDeployments(directoryPath, baseDirectoryPath = directoryPath) {
+function _readDeployments(directoryPath, baseDirectoryPath = directoryPath) {
   const files = fs.readdirSync(directoryPath);
   const result: { abi: any; address: any; name: string }[] = [];
 
@@ -15,7 +24,7 @@ function readDeployments(directoryPath, baseDirectoryPath = directoryPath) {
 
     if (stats.isDirectory()) {
       // Recurse into subdirectories
-      result.push(...readDeployments(filePath, baseDirectoryPath));
+      result.push(..._readDeployments(filePath, baseDirectoryPath));
     } else if (stats.isFile()) {
       // Read contents of file
       const fileContents = fs.readFileSync(filePath).toString();
@@ -36,12 +45,3 @@ function readDeployments(directoryPath, baseDirectoryPath = directoryPath) {
 
   return result;
 }
-
-// Call the function and log the result
-const contracts = readDeployments(directoryPath);
-
-export default defineConfig({
-  out: "src/generated.ts",
-  contracts,
-  plugins: [],
-});
