@@ -9,7 +9,7 @@ import { SpotMarketForm } from "../../components/SpotMarket/SpotMarketForm";
 
 export function SpotMarket() {
   const { marketId } = useParams();
-  const id = spotMarkets[marketId?.toUpperCase() || ""].marketId;
+  const id = spotMarkets[marketId?.toUpperCase() || "ETH"].marketId;
   const { synthAddress } = useSpotMarketInfo(id);
 
   if (!id || !synthAddress) {

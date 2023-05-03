@@ -19,20 +19,20 @@ import { SpotAdmin } from "./pages/spot/SpotAdmin";
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Index />,
+    element: <SpotMarket />,
   },
-  {
-    path: "/perps/admin",
-    element: <PerpsAdmin />,
-  },
-  {
-    path: "/perps/markets/:marketId",
-    element: <PerpsMarket />,
-  },
-  {
-    path: "/perps/markets/:marketId/:accountId",
-    element: <PerpsMarket />,
-  },
+  // {
+  //   path: "/perps/admin",
+  //   element: <PerpsAdmin />,
+  // },
+  // {
+  //   path: "/perps/markets/:marketId",
+  //   element: <PerpsMarket />,
+  // },
+  // {
+  //   path: "/perps/markets/:marketId/:accountId",
+  //   element: <PerpsMarket />,
+  // },
   {
     path: "/spot/admin",
     element: <SpotAdmin />,

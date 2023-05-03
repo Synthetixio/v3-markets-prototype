@@ -1,4 +1,5 @@
 import { Box, Heading } from "@chakra-ui/react";
+import { useToken } from "wagmi";
 import {
   useSpotMarketInfo,
   useSpotMarketStat,
@@ -8,7 +9,9 @@ import { useTokenInfo } from "../../hooks/useTokenInfo";
 export function MarketDetails({ id }: { id: number }) {
   const { synthAddress, marketName } = useSpotMarketInfo(id);
   const { reportedDebt, withdrawableMarketUsd } = useSpotMarketStat(id);
-  const { symbol } = useTokenInfo(synthAddress);
+  const { data: tokenInfo } = useToken({
+    address: synthAddress as `0x${string}`,
+  });
 
   if (!id || !synthAddress) {
     return null;
@@ -37,7 +40,7 @@ export function MarketDetails({ id }: { id: number }) {
 
       <Box mb="2">
         <Heading size="xs">
-          <>{symbol} Issued</>
+          <>{tokenInfo?.symbol} Issued</>
         </Heading>
         {Number(reportedDebt).toLocaleString("en-US")}
       </Box>

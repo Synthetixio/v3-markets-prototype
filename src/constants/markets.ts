@@ -18,8 +18,3 @@ export const spotMarkets: MarketData = {
     tradingViewSymbol: "PYTH:ETHUSD",
   },
 };
-
-export enum StrategyType {
-  ONCHAIN = 0,
-  PYTH = 1,
-}

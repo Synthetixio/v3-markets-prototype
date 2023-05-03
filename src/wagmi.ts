@@ -15,10 +15,10 @@ const cannon = {
   },
   rpcUrls: {
     default: {
-      http: ["http://0.0.0.0:8545"],
+      http: ["http://localhost:8545"],
     },
     public: {
-      http: ["http://0.0.0.0:8545"],
+      http: ["http://localhost:8545"],
     },
   },
 };
@@ -39,7 +39,7 @@ const { chains, provider, webSocketProvider } = configureChains(
     jsonRpcProvider({
       rpc: (chain) => {
         if (chain.id === cannon.id) {
-          return { http: "http://0.0.0.0:8545" };
+          return { http: "http://localhost:8545" };
         }
         return { http: chain.rpcUrls.default.http[0] };
       },

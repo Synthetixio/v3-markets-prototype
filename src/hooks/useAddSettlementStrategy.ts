@@ -1,7 +1,7 @@
 import { ethers } from "ethers";
 import { parseEther } from "ethers/lib/utils.js";
 import { useContractWrite } from "wagmi";
-import { StrategyType } from "../constants/markets";
+import { StrategyType } from "../constants/order";
 import { useContract } from "./useContract";
 
 const strategy = {

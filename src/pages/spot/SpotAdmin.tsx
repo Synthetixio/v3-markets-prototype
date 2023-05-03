@@ -1,6 +1,7 @@
 import { Flex } from "@chakra-ui/react";
 import { Header } from "../../components";
 import { SpotMarketFee } from "../../components/SpotMarket/SpotMarketFee";
+import { SpotMarketSettlementStrategy } from "../../components/SpotMarket/SpotMarketSettlementStrategy";
 import { FeeType } from "../../constants/order";
 
 export function SpotAdmin() {
@@ -20,6 +21,7 @@ export function SpotAdmin() {
         <SpotMarketFee type={FeeType.FIXED} />
         <SpotMarketFee type={FeeType.UTILIZATION} />
         <SpotMarketFee type={FeeType.SKEW_SCALE} />
+        <SpotMarketSettlementStrategy />
       </Flex>
     </Flex>
   );

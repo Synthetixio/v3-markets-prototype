@@ -11,7 +11,7 @@ import {
 } from "@chakra-ui/react";
 import { formatEther, parseEther } from "ethers/lib/utils.js";
 import { useMemo, useState } from "react";
-import { useAccount, useBalance } from "wagmi";
+import { useAccount, useBalance, useToken } from "wagmi";
 import { contracts } from "../../constants/contracts";
 import { OrderType } from "../../constants/order";
 import {
@@ -25,7 +25,9 @@ import { SlippageSelector } from "../SlippageSelector";
 export function SpotMarketForm({ id }: { id: number }) {
   const { synthAddress, marketName } = useSpotMarketInfo(id);
   const { reportedDebt, withdrawableMarketUsd } = useSpotMarketStat(id);
-  const { symbol } = useTokenInfo(synthAddress);
+  const { data: tokenInfo } = useToken({
+    address: synthAddress as `0x${string}`,
+  });
   const [slippage, setSlippage] = useState(3);
   const [amount, setAmount] = useState("0");
 
