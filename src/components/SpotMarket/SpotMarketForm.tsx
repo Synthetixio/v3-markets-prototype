@@ -19,7 +19,6 @@ import {
   useSpotMarketStat,
 } from "../../hooks/spot/useSpotMarketInfo";
 import { useSpotMarketBuy } from "../../hooks/spot/useSpotMarketOrder";
-import { useTokenInfo } from "../../hooks/useTokenInfo";
 import { SlippageSelector } from "../SlippageSelector";
 
 export function SpotMarketForm({ id }: { id: number }) {

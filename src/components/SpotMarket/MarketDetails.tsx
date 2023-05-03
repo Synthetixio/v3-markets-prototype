@@ -4,7 +4,6 @@ import {
   useSpotMarketInfo,
   useSpotMarketStat,
 } from "../../hooks/spot/useSpotMarketInfo";
-import { useTokenInfo } from "../../hooks/useTokenInfo";
 
 export function MarketDetails({ id }: { id: number }) {
   const { synthAddress, marketName } = useSpotMarketInfo(id);
