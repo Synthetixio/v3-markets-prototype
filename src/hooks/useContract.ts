@@ -6,7 +6,8 @@ type ContractName =
   | keyof typeof contracts.local
   | keyof (typeof contracts)["optimism-goerli"];
 
-const NETWORK = import.meta.env.VITE_NETWORK as keyof typeof contracts;
+const NETWORK = (import.meta.env.VITE_NETWORK ||
+  "local") as keyof typeof contracts;
 
 export const useContract = (name: ContractName) => {
   if (name === "chainId") {
