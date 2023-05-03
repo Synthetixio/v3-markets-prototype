@@ -6,6 +6,8 @@ import {
   Card,
   Heading,
   CardHeader,
+  NumberInput,
+  NumberInputField,
 } from "@chakra-ui/react";
 import { parseEther } from "ethers/lib/utils.js";
 import { useMemo, useState } from "react";
@@ -15,10 +17,16 @@ import { useSetFee } from "../../hooks/spot/useSetFee";
 
 export function SpotMarketFee({ type }: { type: FeeType }) {
   const [marketId, setMarketId] = useState("");
-  const [value, setValue] = useState("0");
+  const [amount, setAmount] = useState(0);
 
-  const amount = useMemo(() => parseEther(value).div(100).toString(), [value]);
-  const { submit, isLoading } = useSetFee(marketId, amount, type);
+  const value = useMemo(() => {
+    if (type === FeeType.SKEW_SCALE) {
+      return parseEther(amount.toString()).toString();
+    }
+    return parseEther(amount.toString()).div(100).toString();
+  }, [amount]);
+
+  const { submit, isLoading } = useSetFee(marketId, value, type);
 
   const title = useMemo(() => {
     switch (type) {
@@ -28,6 +36,8 @@ export function SpotMarketFee({ type }: { type: FeeType }) {
         return "Utilization Fee";
       case FeeType.SKEW_SCALE:
         return "Skew Scale";
+      case FeeType.ASYNC_FIXED:
+        return "Async Fixed Fee";
     }
   }, [type]);
 
@@ -52,17 +62,15 @@ export function SpotMarketFee({ type }: { type: FeeType }) {
 
         <FormControl mt={3} isRequired>
           <FormLabel>{title}</FormLabel>
-
-          <Input
-            id="amount"
-            name="amount"
-            type="number"
+          <NumberInput
             variant="filled"
-            min="0"
-            value={value}
-            onChange={(e) => setValue(e.target.value)}
+            min={0}
+            value={amount}
+            onChange={(_v, valueAsNumber) => setAmount(valueAsNumber)}
             max={type === FeeType.UTILIZATION ? undefined : 100}
-          />
+          >
+            <NumberInputField />
+          </NumberInput>
         </FormControl>
 
         <Button

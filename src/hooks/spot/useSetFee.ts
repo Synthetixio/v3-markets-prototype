@@ -6,7 +6,7 @@ import { useContract } from "../useContract";
 
 export const useSetFee = (
   marketId: string | number,
-  value: number | string,
+  val: number | string,
   type: FeeType,
 ) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -21,6 +21,8 @@ export const useSetFee = (
         return "setMarketUtilizationFees";
       case FeeType.SKEW_SCALE:
         return "setMarketSkewScale";
+      case FeeType.ASYNC_FIXED:
+        return "setAsyncFixedFee";
     }
   }, []);
 
@@ -39,7 +41,7 @@ export const useSetFee = (
     setIsLoading(true);
     try {
       const txReceipt = await writeAsync({
-        recklesslySetUnpreparedArgs: [marketId, value],
+        recklesslySetUnpreparedArgs: [marketId, val],
       });
       await txReceipt.wait();
       toast({
@@ -53,7 +55,7 @@ export const useSetFee = (
     } finally {
       setIsLoading(false);
     }
-  }, [writeAsync]);
+  }, [writeAsync, val, marketId]);
 
   return {
     submit,

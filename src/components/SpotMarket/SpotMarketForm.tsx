@@ -7,9 +7,12 @@ import {
   Input,
   InputGroup,
   InputRightElement,
+  Radio,
+  RadioGroup,
+  Stack,
   VStack,
 } from "@chakra-ui/react";
-import { formatEther, parseEther } from "ethers/lib/utils.js";
+import { parseEther } from "ethers/lib/utils.js";
 import { useMemo, useState } from "react";
 import { useAccount, useBalance, useToken } from "wagmi";
 import { contracts } from "../../constants/contracts";
@@ -29,6 +32,8 @@ export function SpotMarketForm({ id }: { id: number }) {
   });
   const [slippage, setSlippage] = useState(3);
   const [amount, setAmount] = useState("0");
+  const [settlementType, setSettlementType] = useState("");
+  const [strategyType, setStrategyType] = useState("");
 
   const { address } = useAccount();
   const { data } = useBalance({
@@ -104,7 +109,32 @@ export function SpotMarketForm({ id }: { id: number }) {
           <Flex rowGap={1} direction="row" width="100%" gap="4">
             <SlippageSelector value={slippage} onChange={setSlippage} />
           </Flex>
-          <FormControl>atomic / async selector</FormControl>
+          <FormControl>
+            <RadioGroup
+              onChange={setSettlementType}
+              value={settlementType}
+              defaultValue="1"
+            >
+              <Stack spacing={5} direction="row">
+                <Radio value="1">Async</Radio>
+                <Radio value="2">Atomic</Radio>
+              </Stack>
+            </RadioGroup>
+          </FormControl>
+
+          <FormControl>Strategy Type </FormControl>
+          <FormControl>
+            <RadioGroup
+              onChange={setStrategyType}
+              value={strategyType}
+              defaultValue="1"
+            >
+              <Stack spacing={5} direction="row">
+                <Radio value="1">Pyth</Radio>
+                <Radio value="2">OnChain</Radio>
+              </Stack>
+            </RadioGroup>
+          </FormControl>
           <Button
             key="button"
             type="submit"

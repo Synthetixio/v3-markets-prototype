@@ -21,6 +21,7 @@ export function SpotAdmin() {
         <SpotMarketFee type={FeeType.FIXED} />
         <SpotMarketFee type={FeeType.UTILIZATION} />
         <SpotMarketFee type={FeeType.SKEW_SCALE} />
+        <SpotMarketFee type={FeeType.ASYNC_FIXED} />
         <SpotMarketSettlementStrategy />
       </Flex>
     </Flex>

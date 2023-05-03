@@ -9,6 +9,7 @@ export enum FeeType {
   FIXED = "FIXED",
   UTILIZATION = "UTILIZATION",
   SKEW_SCALE = "SKEW_SCALE",
+  ASYNC_FIXED = "ASYNC_FIXED",
 }
 
 export enum StrategyType {
