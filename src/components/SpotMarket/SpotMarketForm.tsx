@@ -22,6 +22,7 @@ import {
   useSpotMarketStat,
 } from "../../hooks/spot/useSpotMarketInfo";
 import { useSpotMarketBuy } from "../../hooks/spot/useSpotMarketOrder";
+import { useContract } from "../../hooks/useContract";
 import { SlippageSelector } from "../SlippageSelector";
 
 export function SpotMarketForm({ id }: { id: number }) {
@@ -36,9 +37,11 @@ export function SpotMarketForm({ id }: { id: number }) {
   const [strategyType, setStrategyType] = useState("1");
 
   const { address } = useAccount();
+
+  const USD = useContract("USD");
   const { data } = useBalance({
     address,
-    token: contracts.USD.address as `0x${string}`,
+    token: USD.address as `0x${string}`,
   });
 
   const usdAmount = useMemo(() => parseEther(amount).toString(), [amount]);

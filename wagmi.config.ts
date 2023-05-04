@@ -2,32 +2,37 @@ import { defineConfig } from "@wagmi/cli";
 import fs from "fs";
 import path from "path";
 
-const directoryPath = "./deployments";
+// Call the function and log the result
+const contracts = _readDeployments(
+  `deployments/${process.env.UI_DEPLOYMENTS_NETWORK || "local"}`,
+);
+
+export default defineConfig({
+  out: "src/generated.ts",
+  contracts,
+  plugins: [],
+});
 
 // Recursively read all files in the directory and its subdirectories
-function readDirectory(directoryPath) {
+function _readDeployments(directoryPath, baseDirectoryPath = directoryPath) {
   const files = fs.readdirSync(directoryPath);
-  let result = [];
+  const result: { abi: any; address: any; name: string }[] = [];
 
-  files.forEach((file) => {
+  for (const file of files) {
     const filePath = path.join(directoryPath, file);
     const stats = fs.statSync(filePath);
 
     if (stats.isDirectory()) {
       // Recurse into subdirectories
-      result.push(...readDirectory(filePath));
+      result.push(..._readDeployments(filePath, baseDirectoryPath));
     } else if (stats.isFile()) {
       // Read contents of file
-      const fileContents = fs.readFileSync(filePath);
+      const fileContents = fs.readFileSync(filePath).toString();
       const json = JSON.parse(fileContents);
 
-      let name = filePath;
-      if (name.startsWith("deployments")) {
-        name = name.replace("deployments", "");
-      }
-      if (name.endsWith("json")) {
-        name = name.split("json")[0];
-      }
+      let name = filePath
+        .replace(`${baseDirectoryPath}/`, "") // remove base directory path
+        .replace(/\.json$/, ""); // Remove .json extension
 
       // Add to result array
       result.push({
@@ -36,16 +41,7 @@ function readDirectory(directoryPath) {
         name,
       });
     }
-  });
+  }
 
   return result;
 }
-
-// Call the function and log the result
-const contracts = readDirectory(directoryPath);
-
-export default defineConfig({
-  out: "src/generated.ts",
-  contracts,
-  plugins: [],
-});

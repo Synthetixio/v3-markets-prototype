@@ -1,0 +1,95 @@
+{
+  "address": "0x39cD044B99681c419Da1C4F1A19e4d849f85847a",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "addr",
+          "type": "address"
+        }
+      ],
+      "name": "Unauthorized",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "oracleManagerAddress",
+          "type": "address"
+        }
+      ],
+      "name": "configureOracleManager",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "k",
+          "type": "bytes32"
+        }
+      ],
+      "name": "getConfig",
+      "outputs": [
+        {
+          "internalType": "bytes32",
+          "name": "v",
+          "type": "bytes32"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "ccipSend",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "ccipReceive",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "ccipTokenPool",
+          "type": "address"
+        }
+      ],
+      "name": "registerCcip",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "k",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "v",
+          "type": "bytes32"
+        }
+      ],
+      "name": "setConfig",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "constructorArgs": [],
+  "linkedLibraries": {},
+  "deployTxnHash": "0x2e820294aaecf9fdc9a5e6b9ed666ed2d32a31b91731351e2b5412f85bddae09",
+  "sourceName": "contracts/modules/core/UtilsModule.sol",
+  "contractName": "UtilsModule",
+  "deployedOn": "contract.UtilsModule"
+}
