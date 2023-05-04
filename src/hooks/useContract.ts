@@ -1,6 +1,7 @@
 import { ethers } from "ethers";
 import { useProvider, useSigner } from "wagmi";
 import { contracts } from "../constants/contracts";
+import IPythVerifier from "../constants/IPythVerifier.json";
 
 type ContractName =
   | keyof typeof contracts.cannon
@@ -18,14 +19,28 @@ export const useContract = (name: ContractName) => {
     throw new Error(`Invalid network name "${NETWORK}"`);
   }
 
+  const provider = useProvider();
+  const { data: signer } = useSigner();
+
   const contract = contracts[NETWORK][name];
+
+  if (NETWORK === "optimism-goerli" && name === "OracleVerifier") {
+    const feedAddress = "0xff1a0f4744e8582DF1aE09D5611b887B6a12925C";
+    return {
+      address: feedAddress as `0x${string}`,
+      abi: IPythVerifier,
+      contract: new ethers.Contract(
+        feedAddress,
+        IPythVerifier,
+        signer || provider,
+      ),
+      chainId: contracts[NETWORK].chainId,
+    };
+  }
 
   if (!contract) {
     throw new Error(`Contract "${name}" not found on network "${NETWORK}"`);
   }
-
-  const provider = useProvider();
-  const { data: signer } = useSigner();
 
   return {
     address: contract.address as `0x${string}`,
