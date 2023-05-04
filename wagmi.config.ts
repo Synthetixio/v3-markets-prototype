@@ -4,7 +4,7 @@ import path from "path";
 
 // Call the function and log the result
 const contracts = _readDeployments(
-  `deployments/${process.env.UI_DEPLOYMENTS_NETWORK || "local"}`,
+  `deployments/${process.env.VITE_NETWORK || "cannon"}`,
 );
 
 export default defineConfig({
