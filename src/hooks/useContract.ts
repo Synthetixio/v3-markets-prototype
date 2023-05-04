@@ -3,11 +3,11 @@ import { useProvider, useSigner } from "wagmi";
 import { contracts } from "../constants/contracts";
 
 type ContractName =
-  | keyof typeof contracts.local
+  | keyof typeof contracts.cannon
   | keyof (typeof contracts)["optimism-goerli"];
 
 const NETWORK = (import.meta.env.VITE_NETWORK ||
-  "local") as keyof typeof contracts;
+  "cannon") as keyof typeof contracts;
 
 export const useContract = (name: ContractName) => {
   if (name === "chainId") {
