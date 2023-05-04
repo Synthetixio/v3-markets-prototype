@@ -4,24 +4,35 @@ import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
 import { infuraProvider } from "wagmi/providers/infura";
 import { getDefaultWallets } from "@rainbow-me/rainbowkit";
 
-const cannon = {
-  id: 13370,
-  name: "Cannon",
-  network: "cannon",
-  nativeCurrency: {
-    decimals: 18,
-    name: "Ether",
-    symbol: "ETH",
-  },
-  rpcUrls: {
-    default: {
-      http: ["http://localhost:8545"],
+const networks = {
+  cannon: {
+    id: 13370,
+    name: "Cannon",
+    network: "cannon",
+    nativeCurrency: {
+      decimals: 18,
+      name: "Ether",
+      symbol: "ETH",
     },
-    public: {
-      http: ["http://localhost:8545"],
+    rpcUrls: {
+      default: {
+        http: ["http://localhost:8545"],
+      },
+      public: {
+        http: ["http://localhost:8545"],
+      },
     },
   },
+  "optimism-goerli": optimismGoerli,
 };
+
+type Network = keyof typeof networks;
+
+const VITE_NETWORK = (import.meta.env.VITE_NETWORK || "cannon") as Network;
+
+if (!networks[VITE_NETWORK]) {
+  throw new Error(`Invalid network name "${VITE_NETWORK}"`);
+}
 
 /**
  * Tell wagmi which chains you want to support
@@ -29,11 +40,7 @@ const cannon = {
  * @see https://wagmi.sh/react/providers/configuring-chains
  */
 const { chains, provider, webSocketProvider } = configureChains(
-  [
-    import.meta.env.VITE_NETWORK === "optimism-goerli"
-      ? optimismGoerli
-      : cannon,
-  ],
+  [networks[VITE_NETWORK]],
   [
     infuraProvider({ apiKey: import.meta.env.VITE_INFURA_API_KEY! }),
     /**
@@ -43,10 +50,6 @@ const { chains, provider, webSocketProvider } = configureChains(
     jsonRpcProvider({
       rpc: (chain) => {
         console.log("chain.id", chain.id);
-        if (chain.id === cannon.id) {
-          return { http: "http://localhost:8545" };
-        }
-
         return { http: chain.rpcUrls.default.http[0] };
       },
     }),

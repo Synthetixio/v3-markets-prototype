@@ -2,10 +2,10 @@ import { defineConfig } from "@wagmi/cli";
 import fs from "fs";
 import path from "path";
 
+const network = process.env.VITE_NETWORK || "cannon";
+
 // Call the function and log the result
-const contracts = _readDeployments(
-  `deployments/${process.env.VITE_NETWORK || "cannon"}`,
-);
+const contracts = _readDeployments(`deployments/${network}`);
 
 export default defineConfig({
   out: "src/generated.ts",
