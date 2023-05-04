@@ -32,8 +32,8 @@ export function SpotMarketForm({ id }: { id: number }) {
   });
   const [slippage, setSlippage] = useState(3);
   const [amount, setAmount] = useState("0");
-  const [settlementType, setSettlementType] = useState("");
-  const [strategyType, setStrategyType] = useState("");
+  const [settlementType, setSettlementType] = useState("async");
+  const [strategyType, setStrategyType] = useState("1");
 
   const { address } = useAccount();
   const { data } = useBalance({
@@ -42,10 +42,21 @@ export function SpotMarketForm({ id }: { id: number }) {
   });
 
   const usdAmount = useMemo(() => parseEther(amount).toString(), [amount]);
-  const { buy, isLoading } = useSpotMarketBuy(id, usdAmount, slippage);
+  const { buyAtomic, buyAsync, isLoading } = useSpotMarketBuy(
+    id,
+    usdAmount,
+    slippage,
+  );
 
   const [orderType, setOrderType] = useState(OrderType.BUY);
 
+  const submit = () => {
+    if (settlementType === "async") {
+      buyAsync(Number(strategyType));
+    } else if (settlementType === "atomic") {
+      buyAtomic();
+    }
+  };
   return (
     <Box borderBottom="1px solid rgba(255,255,255,0.2)" p="4">
       <div key="form" style={{ width: "100%" }}>
@@ -113,11 +124,11 @@ export function SpotMarketForm({ id }: { id: number }) {
             <RadioGroup
               onChange={setSettlementType}
               value={settlementType}
-              defaultValue="1"
+              defaultValue="async"
             >
               <Stack spacing={5} direction="row">
-                <Radio value="1">Async</Radio>
-                <Radio value="2">Atomic</Radio>
+                <Radio value="async">Async</Radio>
+                <Radio value="atomic">Atomic</Radio>
               </Stack>
             </RadioGroup>
           </FormControl>
@@ -141,7 +152,7 @@ export function SpotMarketForm({ id }: { id: number }) {
             size="lg"
             colorScheme={true ? "green" : "red"}
             width="full"
-            onClick={buy}
+            onClick={submit}
             isDisabled={Number(amount) <= 0}
             isLoading={isLoading}
           >
