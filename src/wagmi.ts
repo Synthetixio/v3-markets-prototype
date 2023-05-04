@@ -29,7 +29,11 @@ const cannon = {
  * @see https://wagmi.sh/react/providers/configuring-chains
  */
 const { chains, provider, webSocketProvider } = configureChains(
-  [cannon],
+  [
+    import.meta.env.VITE_NETWORK === "optimism-goerli"
+      ? optimismGoerli
+      : cannon,
+  ],
   [
     infuraProvider({ apiKey: import.meta.env.VITE_INFURA_API_KEY! }),
     /**
@@ -38,9 +42,11 @@ const { chains, provider, webSocketProvider } = configureChains(
      */
     jsonRpcProvider({
       rpc: (chain) => {
+        console.log("chain.id", chain.id);
         if (chain.id === cannon.id) {
           return { http: "http://localhost:8545" };
         }
+
         return { http: chain.rpcUrls.default.http[0] };
       },
     }),
