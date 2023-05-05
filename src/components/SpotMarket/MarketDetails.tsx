@@ -1,7 +1,7 @@
-import { Box, Button, Heading } from "@chakra-ui/react";
 import { formatEther, formatUnits, parseEther } from "ethers/lib/utils.js";
 import { useState } from "react";
 import { useAccount, useToken } from "wagmi";
+import { Box, Code, Heading } from "@chakra-ui/react";
 import {
   useSpotMarketInfo,
   useSpotMarketStat,
@@ -10,7 +10,7 @@ import { useApprove } from "../../hooks/useApprove";
 import { useContract } from "../../hooks/useContract";
 
 export function MarketDetails({ id }: { id: number }) {
-  const { synthAddress, marketName } = useSpotMarketInfo(id);
+  const { synthAddress } = useSpotMarketInfo(id);
   const { reportedDebt, withdrawableMarketUsd } = useSpotMarketStat(id);
   const { data: tokenInfo } = useToken({
     address: synthAddress as `0x${string}`,
@@ -61,20 +61,14 @@ export function MarketDetails({ id }: { id: number }) {
 
   return (
     <Box>
-      <Heading size="md" mb="3">
-        Market Details
-      </Heading>
-
+      {/* <Button onClick={stake}>Stake</Button> */}
       <Box mb="2">
-        <Heading size="xs">Name</Heading>
-        {marketName}
+        <Heading size="xs">Synth</Heading>
+        {tokenInfo.name} ({tokenInfo.symbol})
       </Box>
 
       <Box mb="2">
-        <Heading size="xs">Synth Address</Heading>
-        {synthAddress}
-
-        {/* <Button onClick={stake}>Stake</Button> */}
+        <Code>{synthAddress}</Code>
       </Box>
 
       <Box mb="2">
