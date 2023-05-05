@@ -74,7 +74,7 @@ export function SpotMarketForm({ id }: { id: number }) {
   return (
     <Box borderBottom="1px solid rgba(255,255,255,0.2)" p="4">
       <div key="form" style={{ width: "100%" }}>
-        <VStack spacing={6} align="flex-start" w="100%">
+        <VStack spacing={5} align="flex-start" w="100%">
           <Box w="100%">
             <FormLabel htmlFor="amount">Order Type</FormLabel>
             <Flex direction="row" width="100%" gap="4">

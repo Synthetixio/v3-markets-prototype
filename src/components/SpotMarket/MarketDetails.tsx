@@ -76,10 +76,23 @@ export function MarketDetails({ id }: { id: number }) {
       </Box>
 
       <Box mb="3">
-        <Heading size="sm">
-          <>{tokenInfo?.symbol} Issued</>
-        </Heading>
-        ${Number(reportedDebt).toLocaleString("en-US")}
+        <Heading size="sm">Total {tokenInfo?.symbol} Issued</Heading>$
+        {Number(reportedDebt).toLocaleString("en-US")}
+      </Box>
+
+      <Box mb="3">
+        <Heading size="sm">Total ETH Wrapped</Heading>
+        --
+      </Box>
+
+      <Box mb="3">
+        <Heading size="sm">Fixed Fee</Heading>
+        async%
+      </Box>
+
+      <Box mb="3">
+        <Heading size="sm">Skew Fee</Heading>
+        --%
       </Box>
     </Box>
   );
