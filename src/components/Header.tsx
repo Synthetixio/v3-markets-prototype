@@ -11,7 +11,7 @@ export function Header({ isSpot }: HeaderProps) {
   return (
     <Flex p="3" borderBottom="1px solid rgba(255,255,255,0.2)" align="center">
       <Heading size="lg" fontWeight="300" fontFamily="mono">
-        <Link to="/">Synthetix V3 Prototype</Link>
+        <Link to="/">Synthetix V3 Markets Prototype</Link>
       </Heading>
       <Box ml="auto">
         <Flex>

@@ -17,7 +17,7 @@ export function MarketDetails({ id }: { id: number }) {
   }
 
   return (
-    <Box p="4">
+    <Box>
       <Heading size="md" mb="3">
         Market Details
       </Heading>

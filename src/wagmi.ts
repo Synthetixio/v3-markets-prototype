@@ -68,7 +68,7 @@ export { chains };
  * @see https://wagmi.sh/react/connectors
  */
 const { connectors } = getDefaultWallets({
-  appName: "Synthetix Perps V3 Prototype",
+  appName: "Synthetix V3 Markets Prototype",
   chains,
 });
 
