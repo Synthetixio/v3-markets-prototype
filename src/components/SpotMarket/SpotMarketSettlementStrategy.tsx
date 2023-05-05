@@ -53,7 +53,7 @@ export function SpotMarketSettlementStrategy() {
 
     setIsLoading(true);
     try {
-      const id = await spotMarket.contract.callStatic.addSettlementStrategy(
+      const id = await spotMarket.contract.addSettlementStrategy(
         marketId,
         strategy,
       );
