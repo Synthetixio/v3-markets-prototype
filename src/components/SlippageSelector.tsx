@@ -15,7 +15,7 @@ export function SlippageSelector({
   onChange: (val: number) => void;
 }) {
   return (
-    <Box width="100%" mt="0.5">
+    <Box width="100%" top="0.5" position="relative">
       <Slider min={1} max={10} aria-label="slider-ex-6" onChange={onChange}>
         <SliderTrack>
           <SliderFilledTrack />

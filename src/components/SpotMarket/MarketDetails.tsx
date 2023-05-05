@@ -8,6 +8,7 @@ import {
   Text,
   SimpleGrid,
   GridItem,
+  Flex,
 } from "@chakra-ui/react";
 import {
   useSpotMarketInfo,
@@ -69,7 +70,7 @@ export function MarketDetails({ id }: { id: number }) {
   return (
     <Box>
       {/* <Button onClick={stake}>Stake</Button> */}
-      <Box mb="3">
+      <Box mb="4">
         <Heading size="sm">Synth</Heading>
         {tokenInfo.name}{" "}
         <Text display="inline" fontSize="sm" opacity="0.5">
@@ -77,30 +78,34 @@ export function MarketDetails({ id }: { id: number }) {
         </Text>
       </Box>
 
-      <Box mb="3">
+      <Box mb="4">
         <Heading size="sm">Synth Address</Heading>
         <Code>{synthAddress}</Code>
       </Box>
 
-      <Box mb="3">
-        <Heading size="sm">Total {tokenInfo?.symbol} Issued</Heading>$
-        {Number(reportedDebt).toLocaleString("en-US")}
-      </Box>
+      <Flex>
+        <Box w="50%" mb="4">
+          <Heading size="sm">Total {tokenInfo?.symbol} Issued</Heading>$
+          {Number(reportedDebt).toLocaleString("en-US")}
+        </Box>
 
-      <Box mb="3">
-        <Heading size="sm">Fixed Fee</Heading>
-        async%
-      </Box>
+        <Box w="50%" mb="4">
+          <Heading size="sm">Fixed Fee</Heading>
+          async%
+        </Box>
+      </Flex>
 
-      <Box mb="3">
-        <Heading size="sm">Total ETH Wrapped</Heading>
-        -- ETH
-      </Box>
+      <Flex>
+        <Box w="50%" mb="4">
+          <Heading size="sm">Total ETH Wrapped</Heading>
+          -- ETH
+        </Box>
 
-      <Box mb="3">
-        <Heading size="sm">Skew Fee</Heading>
-        --%
-      </Box>
+        <Box w="50%" mb="4">
+          <Heading size="sm">Skew Fee</Heading>
+          --%
+        </Box>
+      </Flex>
     </Box>
   );
 }

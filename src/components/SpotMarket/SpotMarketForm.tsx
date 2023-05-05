@@ -157,6 +157,12 @@ export function SpotMarketForm({ id }: { id: number }) {
                 <SlippageSelector value={slippage} onChange={setSlippage} />
               </Flex>
             )}
+            {(orderType === OrderType.WRAP ||
+              orderType === OrderType.UNWRAP) && (
+              <Flex rowGap={1} direction="row" width="100%" gap="4">
+                Fee: X%
+              </Flex>
+            )}
             <Flex>
               {(orderType === OrderType.BUY ||
                 orderType === OrderType.SELL) && (
