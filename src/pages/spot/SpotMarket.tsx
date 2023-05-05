@@ -41,11 +41,15 @@ export function SpotMarket() {
             <Box float="right">
               <ArrowUpDownIcon />
             </Box>
+            <SpotMarketForm id={id} />
+
+            <Box flex="1" overflowY="auto" p="4">
+              <MarketDetails marketId={id} />
+            </Box>
           </Box>
-          <SpotMarketForm id={id} />
 
           <Box flex="1" overflowY="auto" p="4">
-            <MarketDetails id={id} />
+            <MarketDetails marketId={id} />
           </Box>
         </Flex>
 

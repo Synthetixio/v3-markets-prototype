@@ -49,7 +49,6 @@ const { chains, provider, webSocketProvider } = configureChains(
      */
     jsonRpcProvider({
       rpc: (chain) => {
-        console.log("chain.id", chain.id);
         return { http: chain.rpcUrls.default.http[0] };
       },
     }),

@@ -16,23 +16,24 @@ import {
 } from "../../hooks/spot/useSpotMarketInfo";
 import { useApprove } from "../../hooks/useApprove";
 import { useContract } from "../../hooks/useContract";
+import { AsyncOrderModal } from "./AsyncOrderModal/AsyncOrderModal";
 
-export function MarketDetails({ id }: { id: number }) {
-  const { synthAddress } = useSpotMarketInfo(id);
-  const { reportedDebt, withdrawableMarketUsd } = useSpotMarketStat(id);
+export function MarketDetails({ marketId }: { marketId: number }) {
+  const { synthAddress } = useSpotMarketInfo(marketId);
+  const { reportedDebt, withdrawableMarketUsd } = useSpotMarketStat(marketId);
   const { data: tokenInfo } = useToken({
     address: synthAddress as `0x${string}`,
   });
-  const collateral = "0x2E5ED97596a8368EB9E44B1f3F25B2E813845303";
+  // const collateral = "0x2E5ED97596a8368EB9E44B1f3F25B2E813845303";
 
-  const core = useContract("SYNTHETIX");
-  const { address } = useAccount();
+  // const core = useContract("SYNTHETIX");
+  // const { address } = useAccount();
 
-  const { approve, allowance } = useApprove(
-    collateral,
-    parseEther("10"),
-    core.address,
-  );
+  // const { approve, allowance } = useApprove(
+  //   collateral,
+  //   parseEther("10"),
+  //   core.address,
+  // );
 
   const stake = async () => {
     // const c = (
@@ -63,18 +64,19 @@ export function MarketDetails({ id }: { id: number }) {
     // USD.contract.mint(address, 1000);
   };
 
-  if (!id || !synthAddress) {
+  if (!marketId || !synthAddress) {
     return null;
   }
 
   return (
     <Box>
       {/* <Button onClick={stake}>Stake</Button> */}
+      <AsyncOrderModal marketId={marketId} />
       <Box mb="4">
         <Heading size="sm">Synth</Heading>
-        {tokenInfo.name}{" "}
+        {tokenInfo?.name}{" "}
         <Text display="inline" fontSize="sm" opacity="0.5">
-          ({tokenInfo.symbol})
+          ({tokenInfo?.symbol})
         </Text>
       </Box>
 
