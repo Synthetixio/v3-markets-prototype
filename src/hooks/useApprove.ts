@@ -50,5 +50,6 @@ export const useApprove = (
     approve,
     refetchAllowance,
     requireApproval: !sufficientAllowance,
+    allowance,
   };
 };
