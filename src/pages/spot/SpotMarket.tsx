@@ -34,7 +34,7 @@ export function SpotMarket() {
               p="4"
             >
               <Heading display="inline-block" size="md">
-                ETH Spot Market
+                snxETH Spot Market
               </Heading>
               <Text opacity="0.5" display="inline-block" ml="1.5">
                 (ID {id})
