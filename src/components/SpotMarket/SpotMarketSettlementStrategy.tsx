@@ -8,13 +8,15 @@ import {
   CardHeader,
   useToast,
 } from "@chakra-ui/react";
-import { ethers } from "ethers";
 import { parseEther } from "ethers/lib/utils.js";
 import { useState } from "react";
 import { Form } from "react-router-dom";
 import { useContractWrite } from "wagmi";
 import { StrategyType } from "../../constants/order";
 import { useContract } from "../../hooks/useContract";
+
+const feedId =
+  "0xca80ba6dc32e08d06f1aa886011eed1d77c77be9eb761cc10d72b7d0a2fd57a6";
 
 export function SpotMarketSettlementStrategy() {
   const [marketId, setMarketId] = useState("");
@@ -38,19 +40,16 @@ export function SpotMarketSettlementStrategy() {
     const strategy = {
       strategyType: StrategyType.PYTH, // pyth
       settlementDelay: 5,
-      settlementWindowDuration: 120,
+      settlementWindowDuration: 600,
       priceVerificationContract: oracleVerifier.address,
-      feedId: ethers.utils.formatBytes32String("ETH/USD"),
-      url: "https://fakeapi.pyth.network/",
+      feedId: feedId,
+      url: "https://xc-testnet.pyth.network/api/get_vaa_ccip?data={data}",
       settlementReward: parseEther("5").toString(),
-      priceDeviationTolerance: parseEther("0.2").toString(),
+      priceDeviationTolerance: parseEther("1000").toString(),
+      disabled: false,
       minimumUsdExchangeAmount: parseEther("0.000001").toString(),
       maxRoundingLoss: parseEther("0.000001").toString(),
-      disabled: false,
     };
-
-    console.log("strategy:", strategy);
-    console.log("marketId:", marketId);
 
     setIsLoading(true);
     try {
