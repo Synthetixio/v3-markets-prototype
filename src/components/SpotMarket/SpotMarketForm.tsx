@@ -1,4 +1,6 @@
 import {
+  Alert,
+  AlertIcon,
   Box,
   Button,
   Flex,
@@ -71,10 +73,16 @@ export function SpotMarketForm({ id }: { id: number }) {
       buyAtomic();
     }
   };
+
   return (
     <Box borderBottom="1px solid rgba(255,255,255,0.2)" p="4">
       <div key="form" style={{ width: "100%" }}>
         <VStack spacing={5} align="flex-start" w="100%">
+          <Alert status="warning" fontSize="sm" minWidth="400px">
+            <AlertIcon w="4" />
+            This is an experimental prototype. Use with caution.
+          </Alert>
+
           <Box w="100%">
             <FormLabel htmlFor="amount">Order Type</FormLabel>
             <Flex direction="row" width="100%" gap="4">

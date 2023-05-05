@@ -1,7 +1,14 @@
 import { formatEther, formatUnits, parseEther } from "ethers/lib/utils.js";
 import { useState } from "react";
 import { useAccount, useToken } from "wagmi";
-import { Box, Code, Heading, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Code,
+  Heading,
+  Text,
+  SimpleGrid,
+  GridItem,
+} from "@chakra-ui/react";
 import {
   useSpotMarketInfo,
   useSpotMarketStat,
@@ -81,13 +88,13 @@ export function MarketDetails({ id }: { id: number }) {
       </Box>
 
       <Box mb="3">
-        <Heading size="sm">Total ETH Wrapped</Heading>
-        --
+        <Heading size="sm">Fixed Fee</Heading>
+        async%
       </Box>
 
       <Box mb="3">
-        <Heading size="sm">Fixed Fee</Heading>
-        async%
+        <Heading size="sm">Total ETH Wrapped</Heading>
+        -- ETH
       </Box>
 
       <Box mb="3">
