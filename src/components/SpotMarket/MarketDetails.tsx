@@ -1,7 +1,7 @@
 import { formatEther, formatUnits, parseEther } from "ethers/lib/utils.js";
 import { useState } from "react";
 import { useAccount, useToken } from "wagmi";
-import { Box, Code, Heading } from "@chakra-ui/react";
+import { Box, Code, Heading, Text } from "@chakra-ui/react";
 import {
   useSpotMarketInfo,
   useSpotMarketStat,
@@ -62,48 +62,24 @@ export function MarketDetails({ id }: { id: number }) {
   return (
     <Box>
       {/* <Button onClick={stake}>Stake</Button> */}
-      <Box mb="2">
-        <Heading size="xs">Synth</Heading>
-        {tokenInfo.name} ({tokenInfo.symbol})
+      <Box mb="3">
+        <Heading size="sm">Synth</Heading>
+        {tokenInfo.name}{" "}
+        <Text display="inline" fontSize="sm" opacity="0.5">
+          ({tokenInfo.symbol})
+        </Text>
       </Box>
 
-      <Box mb="2">
+      <Box mb="3">
+        <Heading size="sm">Synth Address</Heading>
         <Code>{synthAddress}</Code>
       </Box>
 
-      <Box mb="2">
-        <Heading size="xs">Market Price</Heading>
-        $0
-      </Box>
-
-      <Box mb="2">
-        <Heading size="xs">
+      <Box mb="3">
+        <Heading size="sm">
           <>{tokenInfo?.symbol} Issued</>
         </Heading>
-        {Number(reportedDebt).toLocaleString("en-US")}
-      </Box>
-
-      <Box mb="2">
-        <Heading size="xs">snxUSD Deposited</Heading>
-        $0
-      </Box>
-
-      <Box mb="2">
-        <Heading size="xs">Market Collateralization</Heading>
-        $0
-      </Box>
-
-      <Box mb="2">
-        <Heading size="xs">Market Credit Capacity</Heading>
-        $0
-      </Box>
-
-      <Box mb="2">
-        <Heading size="xs">Market Withdrawable Usd</Heading>
-        {Number(withdrawableMarketUsd).toLocaleString("en-US", {
-          style: "currency",
-          currency: "USD",
-        })}
+        ${Number(reportedDebt).toLocaleString("en-US")}
       </Box>
     </Box>
   );
