@@ -17,6 +17,7 @@ import {
 import { useApprove } from "../../hooks/useApprove";
 import { useContract } from "../../hooks/useContract";
 import { AsyncOrderModal } from "./AsyncOrderModal/AsyncOrderModal";
+import { useGetSettlementStrategy } from "../../hooks/spot/useGetSettlementStrategy";
 
 export function MarketDetails({ marketId }: { marketId: number }) {
   const { synthAddress } = useSpotMarketInfo(marketId);
@@ -24,6 +25,8 @@ export function MarketDetails({ marketId }: { marketId: number }) {
   const { data: tokenInfo } = useToken({
     address: synthAddress as `0x${string}`,
   });
+  const { strategy } = useGetSettlementStrategy(marketId, "0");
+  console.log({ strategy });
   // const collateral = "0x2E5ED97596a8368EB9E44B1f3F25B2E813845303";
 
   // const core = useContract("SYNTHETIX");

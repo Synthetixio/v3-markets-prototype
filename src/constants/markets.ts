@@ -13,8 +13,12 @@ export const perpsMarkets: MarketData = {
 };
 
 export const spotMarkets: MarketData = {
-  ETH: {
+  BTC: {
     marketId: 1,
+    tradingViewSymbol: "PYTH:BTCUSD",
+  },
+  ETH: {
+    marketId: 2,
     tradingViewSymbol: "PYTH:ETHUSD",
   },
 };
