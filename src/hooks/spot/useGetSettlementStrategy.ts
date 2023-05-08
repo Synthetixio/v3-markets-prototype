@@ -11,13 +11,10 @@ export const useGetSettlementStrategy = (
     address: contract.address,
     abi: contract.abi,
     functionName: "getSettlementStrategy",
-    args: [marketId, 1],
-    onError: (e) => {
-      console.log("onError", e);
-    },
+    args: [marketId, strategyId],
   });
 
   return {
-    strategy,
+    strategy: strategy as any,
   };
 };

@@ -16,3 +16,13 @@ export enum StrategyType {
   ONCHAIN = 0,
   PYTH = 1,
 }
+
+export enum TransactionType {
+  NULL,
+  BUY,
+  SELL,
+  ASYNC_BUY,
+  ASYNC_SELL,
+  WRAP,
+  UNWRAP,
+}

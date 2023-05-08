@@ -26,7 +26,6 @@ export function MarketDetails({ marketId }: { marketId: number }) {
     address: synthAddress as `0x${string}`,
   });
   const { strategy } = useGetSettlementStrategy(marketId, "0");
-  console.log({ strategy });
   // const collateral = "0x2E5ED97596a8368EB9E44B1f3F25B2E813845303";
 
   // const core = useContract("SYNTHETIX");
@@ -74,7 +73,6 @@ export function MarketDetails({ marketId }: { marketId: number }) {
   return (
     <Box>
       {/* <Button onClick={stake}>Stake</Button> */}
-      <AsyncOrderModal marketId={marketId} />
       <Box mb="4">
         <Heading size="sm">Synth</Heading>
         {tokenInfo?.name}{" "}

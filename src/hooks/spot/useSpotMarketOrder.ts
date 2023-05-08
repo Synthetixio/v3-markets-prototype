@@ -1,6 +1,7 @@
 import { BigNumber, ethers } from "ethers";
 import { useCallback, useMemo, useState } from "react";
 import { useContractWrite, useProvider } from "wagmi";
+import { addAsyncOrderId } from "../../components/SpotMarket/AsyncOrderModal/AsyncOrders";
 import { useApprove } from "../useApprove";
 import { useContract } from "../useContract";
 
@@ -56,10 +57,23 @@ export const useSpotMarketBuy = (
   }, [approve, buyTx, marketId, amount, slippage]);
 
   const buyAsync = useCallback(
-    async (strategyId: number) => {
+    async (strategyId: string) => {
       setIsLoading(true);
       try {
         await approve();
+
+        const asyncOrderClaim =
+          await spotMarket.contract.callStatic.commitOrder(
+            marketId,
+            ASYNC_BUY_TRANSACTION,
+            amount,
+            strategyId,
+            0,
+            ethers.constants.AddressZero,
+          );
+
+        console.log("id:,", asyncOrderClaim.id.toString());
+
         const txReceipt = await commitOrder({
           recklesslySetUnpreparedArgs: [
             marketId,
@@ -70,7 +84,10 @@ export const useSpotMarketBuy = (
             ethers.constants.AddressZero,
           ],
         });
+
         await txReceipt.wait();
+
+        addAsyncOrderId(Number(marketId), asyncOrderClaim.id.toString());
       } catch (error) {
         console.log("error:", error);
       } finally {
@@ -114,5 +131,6 @@ export const useSpotMarketBuy = (
     buyAsync,
     buyAtomic,
     isLoading,
+    settleAsync,
   };
 };

@@ -7,24 +7,32 @@ interface Props {
   marketId: number;
 }
 
-export const getOrderIds = (marketId: number) =>
+export const getAsyncOrderIds = (marketId: number) =>
   (JSON.parse(
     localStorage.getItem(`${marketId}-order-ids`) || "[]",
   ) as unknown as string[]) || [];
 
-export const addOrderId = (marketId: number, orderId: string) => {
-  const ids = getOrderIds(marketId);
+export const addAsyncOrderId = (marketId: number, orderId: string) => {
+  const ids = getAsyncOrderIds(marketId);
   ids.push(orderId);
   const uniqueArray = ids.filter((item, pos) => ids.indexOf(item) == pos);
   localStorage.setItem(`${marketId}-order-ids`, JSON.stringify(uniqueArray));
 };
+export const removeAsyncOrderId = (marketId: number, orderId: string) => {
+  const ids = getAsyncOrderIds(marketId);
+  const uniqueArray = ids.filter((item, pos) => ids.indexOf(item) == pos);
+  localStorage.setItem(
+    `${marketId}-order-ids`,
+    JSON.stringify(uniqueArray.filter((id) => id === orderId)),
+  );
+};
 
 export function AsyncOrders({ onClose, marketId }: Props) {
-  const [list] = useState(getOrderIds(marketId));
+  const [list] = useState(getAsyncOrderIds(marketId));
   return (
-    <Flex>
+    <Flex flexDirection="column" gap={4}>
       {list.map((id) => (
-        <AsyncOrder asyncOrderId={id} marketId={marketId} />
+        <AsyncOrder key={id} asyncOrderId={id} marketId={marketId} />
       ))}
     </Flex>
   );

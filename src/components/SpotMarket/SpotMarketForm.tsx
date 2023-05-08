@@ -24,17 +24,19 @@ import {
 import { useSpotMarketBuy } from "../../hooks/spot/useSpotMarketOrder";
 import { useContract } from "../../hooks/useContract";
 import { SlippageSelector } from "../SlippageSelector";
+import { AsyncOrderModal } from "./AsyncOrderModal/AsyncOrderModal";
 
 export function SpotMarketForm({ id }: { id: number }) {
   const { synthAddress, marketName } = useSpotMarketInfo(id);
   const { reportedDebt, withdrawableMarketUsd } = useSpotMarketStat(id);
+  const [isOpen, setIsOpen] = useState(false);
   const { data: tokenInfo } = useToken({
     address: synthAddress as `0x${string}`,
   });
   const [slippage, setSlippage] = useState(1);
   const [amount, setAmount] = useState("0");
   const [settlementType, setSettlementType] = useState("async");
-  const [strategyType, setStrategyType] = useState("1");
+  const [strategyType, setStrategyType] = useState("0");
 
   const { address } = useAccount();
 
@@ -68,122 +70,140 @@ export function SpotMarketForm({ id }: { id: number }) {
 
   const submit = () => {
     if (settlementType === "async") {
-      buyAsync(Number(strategyType));
+      buyAsync(strategyType);
     } else if (settlementType === "atomic") {
       buyAtomic();
     }
   };
 
   return (
-    <Box borderBottom="1px solid rgba(255,255,255,0.2)" p="4">
-      <div key="form" style={{ width: "100%" }}>
-        <VStack spacing={5} align="flex-start" w="100%">
-          <Alert status="warning" fontSize="sm" minWidth="400px">
-            <AlertIcon w="4" />
-            This is an experimental prototype. Use with caution.
-          </Alert>
+    <>
+      <AsyncOrderModal
+        marketId={id}
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+      />
+      <Box borderBottom="1px solid rgba(255,255,255,0.2)" p="4">
+        <div key="form" style={{ width: "100%" }}>
+          <VStack spacing={5} align="flex-start" w="100%">
+            <Alert status="warning" fontSize="sm" minWidth="400px">
+              <AlertIcon w="4" />
+              This is an experimental prototype. Use with caution.
+            </Alert>
 
-          <Box w="100%">
-            <FormLabel htmlFor="amount">Order Type</FormLabel>
-            <Flex direction="row" width="100%" gap="4">
-              <Button
-                colorScheme={orderType === OrderType.BUY ? "green" : "gray"}
-                width="100%"
-                onClick={() => setOrderType(OrderType.BUY)}
-                size="sm"
-              >
-                Buy
-              </Button>
-              <Button
-                colorScheme={orderType === OrderType.SELL ? "green" : "gray"}
-                width="100%"
-                onClick={() => setOrderType(OrderType.SELL)}
-                size="sm"
-              >
-                Sell
-              </Button>
-              <Button
-                colorScheme={orderType === OrderType.WRAP ? "green" : "gray"}
-                width="100%"
-                onClick={() => setOrderType(OrderType.WRAP)}
-                size="sm"
-              >
-                Wrap
-              </Button>
-              <Button
-                colorScheme={orderType === OrderType.UNWRAP ? "green" : "gray"}
-                width="100%"
-                onClick={() => setOrderType(OrderType.UNWRAP)}
-                size="sm"
-              >
-                Unwrap
-              </Button>
-            </Flex>
-          </Box>
-          <Box w="100%">
-            <FormControl key="amount" mb="2">
-              <FormLabel
-                display="flex"
-                justifyContent="space-between"
-                htmlFor="amount"
-              >
-                Amount
-                <Flex
-                  alignItems="center"
-                  fontWeight="normal"
-                  fontSize="sm"
-                  opacity="0.5"
+            <Button width="100%" onClick={() => setIsOpen(true)} size="sm">
+              Open Async Orders List
+            </Button>
+            <Box w="100%">
+              <FormLabel htmlFor="amount">Order Type</FormLabel>
+              <Flex direction="row" width="100%" gap="4">
+                <Button
+                  colorScheme={orderType === OrderType.BUY ? "green" : "gray"}
+                  width="100%"
+                  onClick={() => setOrderType(OrderType.BUY)}
+                  size="sm"
                 >
-                  Balance:&nbsp;
-                  {Number(data?.formatted).toLocaleString("en-US")} {inputToken}
-                </Flex>
-              </FormLabel>
-              <InputGroup>
-                <Input
-                  id="amount"
-                  name="amount"
-                  type="number"
-                  variant="filled"
-                  min="0"
-                  value={amount}
-                  onChange={(e) => setAmount(Number(e.target.value).toString())}
-                />
-                <InputRightElement width="6rem">{inputToken}</InputRightElement>
-              </InputGroup>
-            </FormControl>
-            {(orderType === OrderType.BUY || orderType === OrderType.SELL) && (
-              <Flex rowGap={1} direction="row" width="100%" gap="4">
-                <FormControl>Slippage Tolerance: {slippage}% </FormControl>
-                <SlippageSelector value={slippage} onChange={setSlippage} />
+                  Buy
+                </Button>
+                <Button
+                  colorScheme={orderType === OrderType.SELL ? "green" : "gray"}
+                  width="100%"
+                  onClick={() => setOrderType(OrderType.SELL)}
+                  size="sm"
+                >
+                  Sell
+                </Button>
+                <Button
+                  colorScheme={orderType === OrderType.WRAP ? "green" : "gray"}
+                  width="100%"
+                  onClick={() => setOrderType(OrderType.WRAP)}
+                  size="sm"
+                >
+                  Wrap
+                </Button>
+                <Button
+                  colorScheme={
+                    orderType === OrderType.UNWRAP ? "green" : "gray"
+                  }
+                  width="100%"
+                  onClick={() => setOrderType(OrderType.UNWRAP)}
+                  size="sm"
+                >
+                  Unwrap
+                </Button>
               </Flex>
-            )}
-            {(orderType === OrderType.WRAP ||
-              orderType === OrderType.UNWRAP) && (
-              <Flex rowGap={1} direction="row" width="100%" gap="4">
-                Fee: X%
-              </Flex>
-            )}
-            <Flex>
+            </Box>
+            <Box w="100%">
+              <FormControl key="amount" mb="2">
+                <FormLabel
+                  display="flex"
+                  justifyContent="space-between"
+                  htmlFor="amount"
+                >
+                  Amount
+                  <Flex
+                    alignItems="center"
+                    fontWeight="normal"
+                    fontSize="sm"
+                    opacity="0.5"
+                  >
+                    Balance:&nbsp;
+                    {Number(data?.formatted).toLocaleString("en-US")}{" "}
+                    {inputToken}
+                  </Flex>
+                </FormLabel>
+                <InputGroup>
+                  <Input
+                    id="amount"
+                    name="amount"
+                    type="number"
+                    variant="filled"
+                    min="0"
+                    value={amount}
+                    onChange={(e) =>
+                      setAmount(Number(e.target.value).toString())
+                    }
+                  />
+                  <InputRightElement width="6rem">
+                    {inputToken}
+                  </InputRightElement>
+                </InputGroup>
+              </FormControl>
               {(orderType === OrderType.BUY ||
                 orderType === OrderType.SELL) && (
-                <Text>Estimated&nbsp;</Text>
-              )}{" "}
-              Fill:&nbsp; 0 {outputToken}
-            </Flex>
-          </Box>
-          <Button
-            key="button"
-            type="submit"
-            colorScheme={true ? "green" : "red"}
-            width="full"
-            onClick={submit}
-            isDisabled={Number(amount) <= 0}
-            isLoading={isLoading}
-          >
-            Submit Order
-          </Button>
-        </VStack>
-      </div>
-    </Box>
+                <Flex rowGap={1} direction="row" width="100%" gap="4">
+                  <FormControl>Slippage Tolerance: {slippage}% </FormControl>
+                  <SlippageSelector value={slippage} onChange={setSlippage} />
+                </Flex>
+              )}
+              {(orderType === OrderType.WRAP ||
+                orderType === OrderType.UNWRAP) && (
+                <Flex rowGap={1} direction="row" width="100%" gap="4">
+                  Fee: X%
+                </Flex>
+              )}
+              <Flex>
+                {(orderType === OrderType.BUY ||
+                  orderType === OrderType.SELL) && (
+                  <Text>Estimated&nbsp;</Text>
+                )}{" "}
+                Fill:&nbsp; 0 {outputToken}
+              </Flex>
+            </Box>
+            <Button
+              key="button"
+              type="submit"
+              colorScheme={true ? "green" : "red"}
+              width="full"
+              onClick={submit}
+              isDisabled={Number(amount) <= 0}
+              isLoading={isLoading}
+            >
+              Submit Order
+            </Button>
+          </VStack>
+        </div>
+      </Box>
+    </>
   );
 }

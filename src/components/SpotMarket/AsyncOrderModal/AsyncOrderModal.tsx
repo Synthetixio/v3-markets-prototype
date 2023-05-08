@@ -11,25 +11,21 @@ import { AsyncOrders } from "./AsyncOrders";
 
 interface Props {
   marketId: number;
+  isOpen: boolean;
+  onClose: () => void;
 }
 
-export function AsyncOrderModal({ marketId }: Props) {
-  const [isOpen, setIsOpen] = useState(false);
-
+export function AsyncOrderModal({ marketId, isOpen, onClose }: Props) {
   const finalRef = useRef(null);
 
   return (
-    <Modal
-      finalFocusRef={finalRef}
-      isOpen={isOpen}
-      onClose={() => setIsOpen(false)}
-    >
+    <Modal finalFocusRef={finalRef} isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>Orders</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-          <AsyncOrders onClose={() => setIsOpen(false)} marketId={marketId} />
+          <AsyncOrders onClose={onClose} marketId={marketId} />
         </ModalBody>
       </ModalContent>
     </Modal>
