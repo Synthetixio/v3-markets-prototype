@@ -8,7 +8,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { formatUnits } from "ethers/lib/utils.js";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useContractRead } from "wagmi";
 import { TransactionType } from "../../../constants/order";
 import { useGetSettlementStrategy } from "../../../hooks/spot/useGetSettlementStrategy";
@@ -25,6 +25,7 @@ interface Props {
 export function AsyncOrder({ marketId, asyncOrderId }: Props) {
   const spotMarketProxy = useContract("SPOT_MARKET");
   const oracleVerifier = useContract("OracleVerifier");
+  const [canceling, setCanceling] = useState(false);
   const [asyncOrderClaim, setAsyncOrderClaim] = useState<any | null>(null);
 
   const { timestamp } = useGetBlock();
@@ -45,7 +46,7 @@ export function AsyncOrder({ marketId, asyncOrderId }: Props) {
   );
 
   const settle = async () => {
-    let url = "";
+    let urls = "";
     let data = " ";
     let extraData = "";
 
@@ -54,60 +55,56 @@ export function AsyncOrder({ marketId, asyncOrderId }: Props) {
         marketId,
         asyncOrderId,
       );
-    } catch (error) {
-      console.log("settleOrder error", error);
-    }
-    try {
-      const tx = await spotMarketProxy.contract.settleOrder(
-        marketId,
-        asyncOrderId,
-      );
-      await tx.wait();
-    } catch (err) {
-      const parseString = (str: string) =>
-        str.trim().replace('"', "").replace('"', "");
-      const parsedError = formatErrorMessage(err)
-        .replace("OffchainLookup(", "")
-        .replace(")", "")
-        .split(",");
-
-      url = parseString(parsedError[1]);
-      data = parseString(parsedError[2]);
-      extraData = parseString(parsedError[4].split("\n")[0]);
+    } catch (error: any) {
+      urls = error.errorArgs.urls;
+      data = error.errorArgs.callData;
+      extraData = error.errorArgs.extraData;
 
       console.log({
-        url,
+        urls,
         data,
         extraData,
       });
     }
 
     const fee = await oracleVerifier.contract.getUpdateFee(1);
-    const parsedURL = url.replace("{data}", data);
+    const parsedURL = urls[0].replace("{data}", data);
+
+    console.log("fee:", fee.toString());
 
     const response = await fetch(parsedURL).then((res) => res.json());
     console.log("response:", response);
-    await spotMarketProxy.contract.settlePythOrder(response.data, extraData, {
-      value: fee.toString(),
-    });
+    try {
+      await spotMarketProxy.contract.settlePythOrder(response.data, extraData, {
+        value: fee.toString(),
+      });
+    } catch (error) {
+      console.log("error:,", error);
+    }
   };
 
   const cancel = async () => {
     try {
+      setCanceling(true);
       const tx = await spotMarketProxy.contract.cancelOrder(
         marketId,
         asyncOrderId,
       );
       await tx.wait();
       removeAsyncOrderId(marketId, asyncOrderId);
-    } catch (error) {}
+    } catch (error) {
+      console.log("error in cancel:", error);
+    } finally {
+      setCanceling(false);
+    }
   };
+
   const ordertype = useMemo(
     () =>
       Object.values(TransactionType)[
         Number(asyncOrderClaim?.orderType.toString())
       ] || "",
-    [],
+    [asyncOrderClaim?.orderType],
   );
 
   const outsideSettlementWindow = useMemo(() => {
@@ -124,7 +121,16 @@ export function AsyncOrder({ marketId, asyncOrderId }: Props) {
     return false;
   }, [asyncOrderClaim, timestamp]);
 
-  if (!asyncOrderClaim) {
+  useEffect(() => {
+    if (asyncOrderClaim && !asyncOrderClaim.settledAt.eq(0)) {
+      removeAsyncOrderId(marketId, asyncOrderId);
+    }
+  }, [asyncOrderClaim]);
+
+  if (
+    !asyncOrderClaim ||
+    (asyncOrderClaim && !asyncOrderClaim.settledAt.eq(0))
+  ) {
     return null;
   }
 
@@ -137,7 +143,9 @@ export function AsyncOrder({ marketId, asyncOrderId }: Props) {
       borderRadius="lg"
       overflow="hidden"
     >
-      <Text>orderType : {ordertype}</Text>
+      <Text>
+        #{asyncOrderId} - Order Type: {ordertype}
+      </Text>
       <Text>
         Amount:{" "}
         {formatUnits(asyncOrderClaim.amountEscrowed.toString(), "ether")}
@@ -165,6 +173,7 @@ export function AsyncOrder({ marketId, asyncOrderId }: Props) {
           isDisabled={!outsideSettlementWindow}
           ml="2"
           onClick={cancel}
+          isLoading={canceling}
         >
           Cancel
         </Button>

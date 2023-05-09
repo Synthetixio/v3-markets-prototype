@@ -23,14 +23,14 @@ export const removeAsyncOrderId = (marketId: number, orderId: string) => {
   const uniqueArray = ids.filter((item, pos) => ids.indexOf(item) == pos);
   localStorage.setItem(
     `${marketId}-order-ids`,
-    JSON.stringify(uniqueArray.filter((id) => id === orderId)),
+    JSON.stringify(uniqueArray.filter((id) => id !== orderId)),
   );
 };
 
 export function AsyncOrders({ onClose, marketId }: Props) {
   const [list] = useState(getAsyncOrderIds(marketId));
   return (
-    <Flex flexDirection="column" gap={4}>
+    <Flex flexDirection="column" gap={4} my="2">
       {list.map((id) => (
         <AsyncOrder key={id} asyncOrderId={id} marketId={marketId} />
       ))}

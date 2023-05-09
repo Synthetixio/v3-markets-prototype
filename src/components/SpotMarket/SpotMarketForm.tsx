@@ -15,8 +15,8 @@ import {
 import { parseEther } from "ethers/lib/utils.js";
 import { useMemo, useState } from "react";
 import { useAccount, useBalance, useToken } from "wagmi";
-import { contracts } from "../../constants/contracts";
 import { OrderType } from "../../constants/order";
+import { useGetSettlementStrategy } from "../../hooks/spot/useGetSettlementStrategy";
 import {
   useSpotMarketInfo,
   useSpotMarketStat,
@@ -36,8 +36,9 @@ export function SpotMarketForm({ id }: { id: number }) {
   const [slippage, setSlippage] = useState(1);
   const [amount, setAmount] = useState("0");
   const [settlementType, setSettlementType] = useState("async");
-  const [strategyType, setStrategyType] = useState("0");
+  const [strategyType, setStrategyType] = useState("2");
 
+  const { strategy } = useGetSettlementStrategy(id, "2");
   const { address } = useAccount();
 
   const USD = useContract("USD");
