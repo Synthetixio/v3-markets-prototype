@@ -1,5 +1,5 @@
 {
-  "address": "0x6F25D9c2B1cd8F2abe4a1209BcF7A966b47Ed88C",
+  "address": "0x056E8C8B0DB1E185972DD5cEA887207B9194594F",
   "abi": [
     {
       "inputs": [
@@ -766,7 +766,7 @@
   ],
   "constructorArgs": [],
   "linkedLibraries": {},
-  "deployTxnHash": "0x03c5038c63b5d3cacf44b1fa9f93dab4e38b021465332a8c594c95a44c794a54",
+  "deployTxnHash": "0x947e41873df57ca1f0e87b437bf796a752fa2bf3e462ee501f49b45545b7f5a5",
   "sourceName": "contracts/modules/AtomicOrderModule.sol",
   "contractName": "AtomicOrderModule",
   "deployedOn": "contract.AtomicOrderModule"

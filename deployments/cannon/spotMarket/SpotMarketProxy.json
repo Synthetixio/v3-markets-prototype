@@ -3033,6 +3033,164 @@
           "internalType": "uint128",
           "name": "synthMarketId",
           "type": "uint128"
+        }
+      ],
+      "name": "getCollateralLeverage",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "collateralLeverage",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint128",
+          "name": "synthMarketId",
+          "type": "uint128"
+        },
+        {
+          "internalType": "address",
+          "name": "transactor",
+          "type": "address"
+        }
+      ],
+      "name": "getCustomTransactorFees",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "fixedFeeAmount",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint128",
+          "name": "synthMarketId",
+          "type": "uint128"
+        }
+      ],
+      "name": "getFeeCollector",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "feeCollector",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint128",
+          "name": "synthMarketId",
+          "type": "uint128"
+        }
+      ],
+      "name": "getMarketFees",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "atomicFixedFee",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "asyncFixedFee",
+          "type": "uint256"
+        },
+        {
+          "internalType": "int256",
+          "name": "wrapFee",
+          "type": "int256"
+        },
+        {
+          "internalType": "int256",
+          "name": "unwrapFee",
+          "type": "int256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint128",
+          "name": "synthMarketId",
+          "type": "uint128"
+        }
+      ],
+      "name": "getMarketSkewScale",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "skewScale",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint128",
+          "name": "synthMarketId",
+          "type": "uint128"
+        }
+      ],
+      "name": "getMarketUtilizationFees",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "utilizationFeeRate",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint128",
+          "name": "synthMarketId",
+          "type": "uint128"
+        },
+        {
+          "internalType": "address",
+          "name": "referrer",
+          "type": "address"
+        }
+      ],
+      "name": "getReferrerShare",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "sharePercentage",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint128",
+          "name": "synthMarketId",
+          "type": "uint128"
         },
         {
           "internalType": "uint256",

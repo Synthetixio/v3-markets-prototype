@@ -1,5 +1,5 @@
 {
-  "address": "0x9d3a66B8ADC9010eE62C74fF5ce62E263e081320",
+  "address": "0x91752B65232fD32f9982273974c6aE0789e95697",
   "abi": [
     {
       "inputs": [
@@ -2001,6 +2001,37 @@
         {
           "indexed": false,
           "internalType": "uint256",
+          "name": "feeAmount",
+          "type": "uint256"
+        }
+      ],
+      "name": "IssuanceFeePaid",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint128",
+          "name": "accountId",
+          "type": "uint128"
+        },
+        {
+          "indexed": true,
+          "internalType": "uint128",
+          "name": "poolId",
+          "type": "uint128"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "collateralType",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
           "name": "amount",
           "type": "uint256"
         },
@@ -2743,6 +2774,25 @@
         }
       ],
       "name": "MarketRegistered",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint128",
+          "name": "marketId",
+          "type": "uint128"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "feeAmount",
+          "type": "uint256"
+        }
+      ],
+      "name": "MarketSystemFeePaid",
       "type": "event"
     },
     {
@@ -4531,7 +4581,7 @@
     }
   ],
   "deployedOn": "router.CoreRouter",
-  "deployTxnHash": "0x3b7ec16f88c393450a4c04dadb284f3ee65c25db09b8a66b5701e8807c854514",
+  "deployTxnHash": "0x3b72afd4409d13e3bf526dd2e877cc7f6a9364477f645cbdc39dfbabaafa8d1a",
   "contractName": "CoreRouter",
   "sourceName": "CoreRouter.sol"
 }

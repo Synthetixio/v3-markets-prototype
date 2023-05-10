@@ -209,7 +209,7 @@
     "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266"
   ],
   "linkedLibraries": {},
-  "deployTxnHash": "0xa59f27c01e6f1af909a03559766c82f28518c808f6f34609540a2d9f9400d999",
+  "deployTxnHash": "0x8d183102767ea6ee23a917735d4bb1e332b1310ff93269dbd6ca2815f2102218",
   "sourceName": "contracts/Proxy.sol",
   "contractName": "Proxy",
   "deployedOn": "contract.InitialCoreProxy"

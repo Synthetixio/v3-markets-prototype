@@ -1,5 +1,5 @@
 {
-  "address": "0x7a726a60502e03B8F41ecF622404305Bc73e596f",
+  "address": "0x1CD17c0acF7f48f3D6416b542E8f623b47e013ab",
   "abi": [
     {
       "inputs": [
@@ -189,6 +189,37 @@
         {
           "indexed": false,
           "internalType": "uint256",
+          "name": "feeAmount",
+          "type": "uint256"
+        }
+      ],
+      "name": "IssuanceFeePaid",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint128",
+          "name": "accountId",
+          "type": "uint128"
+        },
+        {
+          "indexed": true,
+          "internalType": "uint128",
+          "name": "poolId",
+          "type": "uint128"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "collateralType",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
           "name": "amount",
           "type": "uint256"
         },
@@ -298,7 +329,7 @@
   ],
   "constructorArgs": [],
   "linkedLibraries": {},
-  "deployTxnHash": "0xbd512614a613293a033603806f4663d7304717caa9746d3d6d649edaefe36c99",
+  "deployTxnHash": "0x72d30bbb29caa5b6305fd912426bbb48224f8b7fe6e77237ae578627d5bd85c9",
   "sourceName": "contracts/modules/core/IssueUSDModule.sol",
   "contractName": "IssueUSDModule",
   "deployedOn": "contract.IssueUSDModule"

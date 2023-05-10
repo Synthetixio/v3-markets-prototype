@@ -4581,7 +4581,7 @@
     }
   ],
   "deployedOn": "router.CoreRouter",
-  "deployTxnHash": "0x179b28a98a18c77881c83c05f838280d6329e4c8006f19799a40678a9f6a8881",
+  "deployTxnHash": "0x3b72afd4409d13e3bf526dd2e877cc7f6a9364477f645cbdc39dfbabaafa8d1a",
   "contractName": "CoreRouter",
   "sourceName": "CoreRouter.sol"
 }

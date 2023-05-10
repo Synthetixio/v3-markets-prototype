@@ -353,7 +353,7 @@
   ],
   "constructorArgs": [],
   "linkedLibraries": {},
-  "deployTxnHash": "0x6c4a94be43cf22efb416f48e5bcf9fff7f59dbf29080d71f875e15c3020288f3",
+  "deployTxnHash": "0xb08d9dc9ea1677680cc1dea64955d9517953224c3651d739cb945ebcc8546676",
   "sourceName": "contracts/modules/PerpsMarketFactoryModule.sol",
   "contractName": "PerpsMarketFactoryModule",
   "deployedOn": "contract.PerpsMarketFactoryModule"

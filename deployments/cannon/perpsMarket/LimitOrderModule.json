@@ -3,7 +3,7 @@
   "abi": [],
   "constructorArgs": [],
   "linkedLibraries": {},
-  "deployTxnHash": "0x9ea8636e093d46a680e8302ecf0e144b372b66eaeaa4ddc8fd3e323384fac727",
+  "deployTxnHash": "0x45ddd7f6ecef06bebbeb14fdb61c4b3a8a19a1618fdc3c560129054a20a0ca6e",
   "sourceName": "contracts/modules/LimitOrderModule.sol",
   "contractName": "LimitOrderModule",
   "deployedOn": "contract.LimitOrderModule"

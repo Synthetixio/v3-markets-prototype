@@ -1,5 +1,5 @@
 {
-  "address": "0xCAA259A502b35e578F3Ee0651a72c57CF5c22198",
+  "address": "0x3C5834914e8132F27D6C14441EC9f45670665621",
   "abi": [
     {
       "inputs": [
@@ -326,7 +326,7 @@
   ],
   "constructorArgs": [],
   "linkedLibraries": {},
-  "deployTxnHash": "0x44128737a0d461b74e7accb349fecc3fee90d2f54f978a436c65836030f39815",
+  "deployTxnHash": "0xde19d276a1c3c93ff41a719b92f255b014434b2485b5d6700cc2db24755112a6",
   "sourceName": "contracts/modules/AsyncOrderSettlementModule.sol",
   "contractName": "AsyncOrderSettlementModule",
   "deployedOn": "contract.AsyncOrderSettlementModule"

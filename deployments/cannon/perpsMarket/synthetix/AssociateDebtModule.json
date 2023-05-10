@@ -202,7 +202,7 @@
   ],
   "constructorArgs": [],
   "linkedLibraries": {},
-  "deployTxnHash": "0x19c5401170368abcbe9c7796eb3f69027b92e69a0f3c04bfb9258ead9506fce1",
+  "deployTxnHash": "0x6db1bc0f12f84f2eb7ea15889d606f1771afef12dc2aeea94a48ba7b53935f02",
   "sourceName": "contracts/modules/core/AssociateDebtModule.sol",
   "contractName": "AssociateDebtModule",
   "deployedOn": "contract.AssociateDebtModule"

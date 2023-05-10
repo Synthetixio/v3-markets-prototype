@@ -1,4 +1,3 @@
-import { BigNumber } from "ethers";
 import { formatEther } from "ethers/lib/utils.js";
 import { useContractRead } from "wagmi";
 import { useContract } from "../useContract";
@@ -22,9 +21,27 @@ export const useSpotMarketInfo = (marketId: string | number) => {
     enabled: !!marketId,
   });
 
+  const { data: marketFees } = useContractRead({
+    address: spotMarketProxy.address,
+    abi: spotMarketProxy.abi,
+    functionName: "getMarketFees",
+    args: [marketId],
+    enabled: !!marketId,
+  });
+
+  const { data: marketSkewScale } = useContractRead({
+    address: spotMarketProxy.address,
+    abi: spotMarketProxy.abi,
+    functionName: "getMarketSkewScale",
+    args: [marketId],
+    enabled: !!marketId,
+  });
+
   return {
     synthAddress: synthAddress as string,
     marketName: marketName as string,
+    asyncFixedFee: formatEther(marketFees?.asyncFixedFee || "0"),
+    marketSkewScale: formatEther(marketSkewScale?.toString() || "0"),
   };
 };
 
@@ -39,18 +56,16 @@ export const useSpotMarketStat = (marketId: string | number) => {
     args: [marketId],
     enabled: !!marketId,
   });
-  const { data: withdrawableMarketUsd } = useContractRead({
+  const { data: wrappedAmount } = useContractRead({
     address: synthetixProxy.address,
     abi: synthetixProxy.abi,
-    functionName: "getWithdrawableMarketUsd",
-    args: [marketId],
+    functionName: "getMarketCollateralAmount",
+    args: [marketId, "0x4200000000000000000000000000000000000006"],
     enabled: !!marketId,
   });
 
   return {
     reportedDebt: formatEther(reportedDebt?.toString() || "0"),
-    withdrawableMarketUsd: formatEther(
-      withdrawableMarketUsd?.toString() || "0",
-    ),
+    wrappedAmount: formatEther(wrappedAmount?.toString() || "0"),
   };
 };

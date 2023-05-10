@@ -1,5 +1,5 @@
 {
-  "address": "0x8E66469c2c4645Cd92D3Ea1286fe166A8CE06235",
+  "address": "0x0c92146fF95429d174C37B6c1D8Ec6f724768FE2",
   "abi": [
     {
       "inputs": [
@@ -3033,6 +3033,164 @@
           "internalType": "uint128",
           "name": "synthMarketId",
           "type": "uint128"
+        }
+      ],
+      "name": "getCollateralLeverage",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "collateralLeverage",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint128",
+          "name": "synthMarketId",
+          "type": "uint128"
+        },
+        {
+          "internalType": "address",
+          "name": "transactor",
+          "type": "address"
+        }
+      ],
+      "name": "getCustomTransactorFees",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "fixedFeeAmount",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint128",
+          "name": "synthMarketId",
+          "type": "uint128"
+        }
+      ],
+      "name": "getFeeCollector",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "feeCollector",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint128",
+          "name": "synthMarketId",
+          "type": "uint128"
+        }
+      ],
+      "name": "getMarketFees",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "atomicFixedFee",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "asyncFixedFee",
+          "type": "uint256"
+        },
+        {
+          "internalType": "int256",
+          "name": "wrapFee",
+          "type": "int256"
+        },
+        {
+          "internalType": "int256",
+          "name": "unwrapFee",
+          "type": "int256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint128",
+          "name": "synthMarketId",
+          "type": "uint128"
+        }
+      ],
+      "name": "getMarketSkewScale",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "skewScale",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint128",
+          "name": "synthMarketId",
+          "type": "uint128"
+        }
+      ],
+      "name": "getMarketUtilizationFees",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "utilizationFeeRate",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint128",
+          "name": "synthMarketId",
+          "type": "uint128"
+        },
+        {
+          "internalType": "address",
+          "name": "referrer",
+          "type": "address"
+        }
+      ],
+      "name": "getReferrerShare",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "sharePercentage",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint128",
+          "name": "synthMarketId",
+          "type": "uint128"
         },
         {
           "internalType": "uint256",
@@ -3501,7 +3659,7 @@
     }
   ],
   "deployedOn": "router.SpotMarketRouter",
-  "deployTxnHash": "0x87c6bc63e21080abf46770d7ddc1a8b37cef43e0dac638506d156789bc5d09a3",
+  "deployTxnHash": "0x38b0c6953e6eaf14a31f62e578787dc20757068acc852ed66d4f7d7d79d5ed8a",
   "contractName": "SpotMarketRouter",
   "sourceName": "SpotMarketRouter.sol"
 }
