@@ -1,5 +1,5 @@
 {
-  "address": "0x5674daADa38E19f3fA1a63a71916E1fcCa0c490f",
+  "address": "0x1ab2E77CE3E632C72D1aC7fC6f5176E031573977",
   "abi": [
     {
       "inputs": [
@@ -239,6 +239,164 @@
           "internalType": "uint128",
           "name": "synthMarketId",
           "type": "uint128"
+        }
+      ],
+      "name": "getCollateralLeverage",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "collateralLeverage",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint128",
+          "name": "synthMarketId",
+          "type": "uint128"
+        },
+        {
+          "internalType": "address",
+          "name": "transactor",
+          "type": "address"
+        }
+      ],
+      "name": "getCustomTransactorFees",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "fixedFeeAmount",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint128",
+          "name": "synthMarketId",
+          "type": "uint128"
+        }
+      ],
+      "name": "getFeeCollector",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "feeCollector",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint128",
+          "name": "synthMarketId",
+          "type": "uint128"
+        }
+      ],
+      "name": "getMarketFees",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "atomicFixedFee",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "asyncFixedFee",
+          "type": "uint256"
+        },
+        {
+          "internalType": "int256",
+          "name": "wrapFee",
+          "type": "int256"
+        },
+        {
+          "internalType": "int256",
+          "name": "unwrapFee",
+          "type": "int256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint128",
+          "name": "synthMarketId",
+          "type": "uint128"
+        }
+      ],
+      "name": "getMarketSkewScale",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "skewScale",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint128",
+          "name": "synthMarketId",
+          "type": "uint128"
+        }
+      ],
+      "name": "getMarketUtilizationFees",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "utilizationFeeRate",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint128",
+          "name": "synthMarketId",
+          "type": "uint128"
+        },
+        {
+          "internalType": "address",
+          "name": "referrer",
+          "type": "address"
+        }
+      ],
+      "name": "getReferrerShare",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "sharePercentage",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint128",
+          "name": "synthMarketId",
+          "type": "uint128"
         },
         {
           "internalType": "uint256",
@@ -413,7 +571,7 @@
   ],
   "constructorArgs": [],
   "linkedLibraries": {},
-  "deployTxnHash": "0x7b69f79f81c81077bae31bd823a41aacd37907ed6ed28dbebc5f77729167dfef",
+  "deployTxnHash": "0xd47fb4585bc71c80c94f20dfd058a91b485ac103bf4efefbf9bf9c12603051cd",
   "sourceName": "contracts/modules/MarketConfigurationModule.sol",
   "contractName": "MarketConfigurationModule",
   "deployedOn": "contract.MarketConfigurationModule"
