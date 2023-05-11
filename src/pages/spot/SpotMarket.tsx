@@ -39,7 +39,7 @@ export function SpotMarket() {
             <Text opacity="0.5" display="inline-block" ml="1.5">
               (ID {id})
             </Text>
-            <Box float="right">
+            <Box float="right" display="none">
               <ArrowUpDownIcon />
             </Box>
           </Box>

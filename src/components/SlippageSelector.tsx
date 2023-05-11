@@ -15,13 +15,15 @@ export function SlippageSelector({
   onChange: (val: number) => void;
 }) {
   return (
-    <Box width="100%" top="0.5" position="relative">
-      <Slider min={1} max={10} aria-label="slider-ex-6" onChange={onChange}>
-        <SliderTrack>
-          <SliderFilledTrack />
-        </SliderTrack>
-        <SliderThumb />
-      </Slider>
+    <Box position="relative" w="100%">
+      <Box width="100%" top="0.25" position="absolute">
+        <Slider min={1} max={10} aria-label="slider-ex-6" onChange={onChange}>
+          <SliderTrack>
+            <SliderFilledTrack />
+          </SliderTrack>
+          <SliderThumb />
+        </Slider>
+      </Box>
     </Box>
   );
 }

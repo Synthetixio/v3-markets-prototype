@@ -59,42 +59,53 @@ export function MarketDetails({ marketId }: { marketId: number }) {
   return (
     <Box>
       {/* <Button onClick={stake}>Stake</Button> */}
-      <Box mb="4">
-        <Heading size="sm">Synth</Heading>
+      <Box mb="3">
+        <Heading size="xs">Synth</Heading>
         {tokenInfo?.name}{" "}
         <Text display="inline" fontSize="sm" opacity="0.5">
           ({tokenInfo?.symbol})
         </Text>
       </Box>
 
-      <Box mb="4">
-        <Heading size="sm">Synth Address</Heading>
+      <Box mb="3">
+        <Heading size="xs">Synth Address</Heading>
         <Code>{synthAddress}</Code>
       </Box>
 
       <Flex>
-        <Box w="50%" mb="4">
-          <Heading size="sm">Total {tokenInfo?.symbol} Issued</Heading>$
+        <Box w="50%" mb="3">
+          <Heading size="xs">Total {tokenInfo?.symbol} Issued</Heading>$
           {Number(reportedDebt).toLocaleString("en-US", {
             maximumFractionDigits: 10,
           })}
         </Box>
 
-        <Box w="50%" mb="4">
-          <Heading size="sm">Fixed Fee</Heading>
+        <Box w="50%" mb="3">
+          <Heading size="xs">Fixed Fee</Heading>
           {asyncFixedFee}%
         </Box>
       </Flex>
 
       <Flex>
-        <Box w="50%" mb="4">
-          <Heading size="sm">Total ETH Wrapped</Heading>
+        <Box w="50%" mb="3">
+          <Heading size="xs">Total ETH Wrapped</Heading>
           {wrappedAmount} ETH
         </Box>
 
-        <Box w="50%" mb="4">
-          <Heading size="sm">Skew Scale</Heading>
+        <Box w="50%" mb="3">
+          <Heading size="xs">Skew Scale</Heading>
           {marketSkewScale} ETH
+        </Box>
+      </Flex>
+      <Flex>
+        <Box w="50%">
+          <Heading size="xs">Wrap Fee</Heading>
+          {wrapFee}%
+        </Box>
+
+        <Box w="50%">
+          <Heading size="xs">Unwrap Fee</Heading>
+          {unwrapFee}%
         </Box>
       </Flex>
     </Box>

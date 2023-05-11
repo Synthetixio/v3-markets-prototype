@@ -6,12 +6,12 @@ import {
   Flex,
   FormControl,
   FormLabel,
-  Input,
   InputGroup,
   InputRightElement,
   NumberInput,
   NumberInputField,
   Text,
+  Link,
   VStack,
 } from "@chakra-ui/react";
 import { formatEther, parseEther } from "ethers/lib/utils.js";
@@ -24,6 +24,7 @@ import { useSpotMarketOrder } from "../../hooks/spot/useSpotMarketOrder";
 import { useContract } from "../../hooks/useContract";
 import { SlippageSelector } from "../SlippageSelector";
 import { AsyncOrderModal } from "./AsyncOrderModal/AsyncOrderModal";
+import { getAsyncOrderIds } from "./AsyncOrderModal/AsyncOrders";
 
 export function SpotMarketForm({ id }: { id: number }) {
   const { synthAddress, unwrapFee, wrapFee } = useSpotMarketInfo(id);
@@ -47,6 +48,7 @@ export function SpotMarketForm({ id }: { id: number }) {
     address: wrapCollateralType as `0x${string}`,
     enabled: !!wrapCollateralType,
   });
+  const hasAsyncOrders = !!getAsyncOrderIds(id).length;
 
   const USD = useContract("USD");
   const { data: USDBalance, refetch: refetchUSD } = useBalance({
@@ -148,15 +150,16 @@ export function SpotMarketForm({ id }: { id: number }) {
       />
       <Box borderBottom="1px solid rgba(255,255,255,0.2)" p="4">
         <div key="form" style={{ width: "100%" }}>
-          <VStack spacing={5} align="flex-start" w="100%">
+          <VStack spacing={4} align="flex-start" w="100%">
             <Alert status="warning" fontSize="sm" minWidth="400px">
               <AlertIcon w="4" />
-              This is an experimental prototype. Use with caution.
+              <Box>
+                This is an experimental prototype.{" "}
+                <Text fontWeight="semibold" display="inline">
+                  Use with caution.
+                </Text>
+              </Box>
             </Alert>
-
-            <Button width="100%" onClick={() => setIsOpen(true)} size="sm">
-              Open Async Orders List
-            </Button>
             <Box w="100%">
               <FormLabel htmlFor="amount">Order Type</FormLabel>
               <Flex direction="row" width="100%" gap="4">
@@ -251,7 +254,12 @@ export function SpotMarketForm({ id }: { id: number }) {
               {(orderType === TransactionType.ASYNC_BUY ||
                 orderType === TransactionType.ASYNC_SELL) && (
                 <Flex rowGap={1} direction="row" width="100%" gap="4">
-                  <FormControl>Slippage Tolerance: {slippage}% </FormControl>
+                  <FormControl fontSize="sm">
+                    <Text fontWeight="semibold" display="inline">
+                      Slippage Tolerance:
+                    </Text>{" "}
+                    {slippage}%{" "}
+                  </FormControl>
                   <SlippageSelector value={slippage} onChange={setSlippage} />
                 </Flex>
               )}
@@ -267,25 +275,48 @@ export function SpotMarketForm({ id }: { id: number }) {
                   Fee: {unwrapFee}%
                 </Flex>
               )}
-              <Flex>
-                {(orderType === TransactionType.ASYNC_BUY ||
-                  orderType === TransactionType.ASYNC_SELL) && (
-                  <Text>Estimated&nbsp;</Text>
-                )}{" "}
-                Fill:&nbsp; 0 {outputToken}
+              <Flex fontSize="sm">
+                <Text fontWeight="semibold" display="inline">
+                  {(orderType === TransactionType.ASYNC_BUY ||
+                    orderType === TransactionType.ASYNC_SELL) && (
+                    <Text display="inline">Estimated</Text>
+                  )}{" "}
+                  Fill:
+                </Text>
+                &nbsp;
+                <Text display="inline">0&nbsp;{outputToken}</Text>
               </Flex>
             </Box>
-            <Button
-              key="button"
-              type="submit"
-              colorScheme={true ? "green" : "red"}
-              width="full"
-              onClick={submit}
-              isDisabled={!address || Number(amount) <= 0}
-              isLoading={isLoading}
-            >
-              {address ? "Submit Order" : "Connect your wallet"}
-            </Button>
+            <Box w="100%">
+              <Button
+                key="button"
+                type="submit"
+                colorScheme={address ? "green" : "gray"}
+                width="full"
+                onClick={submit}
+                isDisabled={!address || Number(amount) <= 0}
+                isLoading={isLoading}
+              >
+                {address ? "Submit Order" : "Connect your wallet"}
+              </Button>
+              {hasAsyncOrders ? (
+                <Text
+                  color="blue.200"
+                  w="100%"
+                  fontSize="sm"
+                  mt="1"
+                  textAlign="center"
+                >
+                  <Link onClick={() => setIsOpen(true)}>
+                    View Pending Orders
+                  </Link>
+                </Text>
+              ) : (
+                <Text fontSize="sm" mt="1" textAlign="center" opacity="0.5">
+                  No pending orders
+                </Text>
+              )}
+            </Box>
           </VStack>
         </div>
       </Box>
