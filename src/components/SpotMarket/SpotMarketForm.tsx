@@ -279,17 +279,6 @@ export function SpotMarketForm({ id }: { id: number }) {
                   &nbsp;{unwrapFee}%
                 </Box>
               )}
-              <Flex fontSize="sm">
-                <Text fontWeight="semibold" display="inline">
-                  {(orderType === TransactionType.ASYNC_BUY ||
-                    orderType === TransactionType.ASYNC_SELL) && (
-                    <Text display="inline">Estimated</Text>
-                  )}{" "}
-                  Fill:
-                </Text>
-                &nbsp;
-                <Text display="inline">0&nbsp;{outputToken}</Text>
-              </Flex>
             </Box>
             <Box w="100%">
               <Button
