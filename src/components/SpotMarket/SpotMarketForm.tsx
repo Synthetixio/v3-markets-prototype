@@ -220,7 +220,9 @@ export function SpotMarketForm({ id }: { id: number }) {
                       opacity="0.5"
                     >
                       Balance:&nbsp;
-                      {Number(balance?.formatted).toLocaleString("en-US")}{" "}
+                      {Number(balance?.formatted).toLocaleString("en-US", {
+                        maximumFractionDigits: 10,
+                      })}{" "}
                       {inputToken}
                     </Flex>
                   )}

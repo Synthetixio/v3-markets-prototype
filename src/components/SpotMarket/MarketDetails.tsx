@@ -75,7 +75,9 @@ export function MarketDetails({ marketId }: { marketId: number }) {
       <Flex>
         <Box w="50%" mb="4">
           <Heading size="sm">Total {tokenInfo?.symbol} Issued</Heading>$
-          {Number(reportedDebt).toLocaleString("en-US")}
+          {Number(reportedDebt).toLocaleString("en-US", {
+            maximumFractionDigits: 10,
+          })}
         </Box>
 
         <Box w="50%" mb="4">
