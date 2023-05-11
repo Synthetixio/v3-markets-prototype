@@ -28,11 +28,16 @@ export const removeAsyncOrderId = (marketId: number, orderId: string) => {
 };
 
 export function AsyncOrders({ onClose, marketId }: Props) {
-  const [list] = useState(getAsyncOrderIds(marketId));
+  const [list, setList] = useState(getAsyncOrderIds(marketId).reverse());
   return (
-    <Flex flexDirection="column" gap={4} my="2">
+    <Flex justifyContent="center" flexWrap="wrap" gap={4} mb="4" w="full">
       {list.map((id) => (
-        <AsyncOrder key={id} asyncOrderId={id} marketId={marketId} />
+        <AsyncOrder
+          key={id}
+          asyncOrderId={id}
+          marketId={marketId}
+          update={() => setList(getAsyncOrderIds(marketId).reverse())}
+        />
       ))}
     </Flex>
   );

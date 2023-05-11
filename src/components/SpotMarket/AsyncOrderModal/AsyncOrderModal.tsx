@@ -19,10 +19,15 @@ export function AsyncOrderModal({ marketId, isOpen, onClose }: Props) {
   const finalRef = useRef(null);
 
   return (
-    <Modal finalFocusRef={finalRef} isOpen={isOpen} onClose={onClose}>
+    <Modal
+      size="4xl"
+      finalFocusRef={finalRef}
+      isOpen={isOpen}
+      onClose={onClose}
+    >
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Orders</ModalHeader>
+        <ModalHeader>Async Orders</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
           <AsyncOrders onClose={onClose} marketId={marketId} />

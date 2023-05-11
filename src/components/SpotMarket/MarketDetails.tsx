@@ -20,7 +20,7 @@ import { AsyncOrderModal } from "./AsyncOrderModal/AsyncOrderModal";
 import { useGetSettlementStrategy } from "../../hooks/spot/useGetSettlementStrategy";
 
 export function MarketDetails({ marketId }: { marketId: number }) {
-  const { synthAddress, asyncFixedFee, marketSkewScale } =
+  const { synthAddress, asyncFixedFee, marketSkewScale, unwrapFee, wrapFee } =
     useSpotMarketInfo(marketId);
   const { reportedDebt, wrappedAmount } = useSpotMarketStat(marketId);
   const { data: tokenInfo } = useToken({
@@ -107,6 +107,17 @@ export function MarketDetails({ marketId }: { marketId: number }) {
         <Box w="50%" mb="4">
           <Heading size="sm">Skew Scale</Heading>
           {marketSkewScale} ETH
+        </Box>
+      </Flex>
+      <Flex>
+        <Box w="50%" mb="4">
+          <Heading size="sm">Wrap Fee</Heading>
+          {wrapFee}%
+        </Box>
+
+        <Box w="50%" mb="4">
+          <Heading size="sm">Unwrap Fee</Heading>
+          {unwrapFee}%
         </Box>
       </Flex>
     </Box>

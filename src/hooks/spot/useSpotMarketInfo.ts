@@ -40,7 +40,9 @@ export const useSpotMarketInfo = (marketId: string | number) => {
   return {
     synthAddress: synthAddress as string,
     marketName: marketName as string,
-    asyncFixedFee: formatEther(marketFees?.asyncFixedFee || "0"),
+    asyncFixedFee: formatEther(marketFees?.asyncFixedFee.mul(100) || "0"),
+    wrapFee: formatEther(marketFees?.wrapFee.mul(100) || "0"),
+    unwrapFee: formatEther(marketFees?.unwrapFee.mul(100) || "0"),
     marketSkewScale: formatEther(marketSkewScale?.toString() || "0"),
   };
 };

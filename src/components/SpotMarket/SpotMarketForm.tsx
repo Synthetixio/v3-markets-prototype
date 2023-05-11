@@ -9,71 +9,100 @@ import {
   Input,
   InputGroup,
   InputRightElement,
+  NumberInput,
+  NumberInputField,
   Text,
   VStack,
 } from "@chakra-ui/react";
 import { parseEther } from "ethers/lib/utils.js";
 import { useMemo, useState } from "react";
 import { useAccount, useBalance, useToken } from "wagmi";
-import { OrderType } from "../../constants/order";
-import { useGetSettlementStrategy } from "../../hooks/spot/useGetSettlementStrategy";
-import {
-  useSpotMarketInfo,
-  useSpotMarketStat,
-} from "../../hooks/spot/useSpotMarketInfo";
-import { useSpotMarketBuy } from "../../hooks/spot/useSpotMarketOrder";
+import { TransactionType } from "../../constants/order";
+import { useSpotMarketInfo } from "../../hooks/spot/useSpotMarketInfo";
+import { useSpotMarketOrder } from "../../hooks/spot/useSpotMarketOrder";
 import { useContract } from "../../hooks/useContract";
 import { SlippageSelector } from "../SlippageSelector";
 import { AsyncOrderModal } from "./AsyncOrderModal/AsyncOrderModal";
 
 export function SpotMarketForm({ id }: { id: number }) {
   const { synthAddress, marketName } = useSpotMarketInfo(id);
-  const { reportedDebt, withdrawableMarketUsd } = useSpotMarketStat(id);
   const [isOpen, setIsOpen] = useState(false);
-  const { data: tokenInfo } = useToken({
+  const { data: synthInfo } = useToken({
     address: synthAddress as `0x${string}`,
   });
   const [slippage, setSlippage] = useState(1);
   const [amount, setAmount] = useState("0");
-  const [settlementType, setSettlementType] = useState("async");
+  // const [settlementType, setSettlementType] = useState("async");
   const [strategyType, setStrategyType] = useState("2");
 
-  const { strategy } = useGetSettlementStrategy(id, "2");
   const { address } = useAccount();
 
   const USD = useContract("USD");
-  const { data } = useBalance({
+  const { data: USDBalance } = useBalance({
     address,
     token: USD.address as `0x${string}`,
+    watch: true,
+  });
+  const { data: synthBalance } = useBalance({
+    address,
+    token: synthAddress as `0x${string}`,
+    watch: true,
   });
 
-  const usdAmount = useMemo(() => parseEther(amount).toString(), [amount]);
-  const { buyAtomic, buyAsync, isLoading } = useSpotMarketBuy(
+  const [orderType, setOrderType] = useState(TransactionType.ASYNC_BUY);
+
+  const usdAmount = useMemo(
+    () => parseEther(amount || "0").toString(),
+    [amount],
+  );
+  const { sellAsync, buyAsync, isLoading } = useSpotMarketOrder(
     id,
     usdAmount,
+    synthAddress,
+    orderType,
     slippage,
   );
 
-  const [orderType, setOrderType] = useState(OrderType.BUY);
+  const balance = useMemo(() => {
+    if (orderType === TransactionType.ASYNC_BUY) {
+      return USDBalance;
+    } else if (orderType === TransactionType.ASYNC_SELL) {
+      return synthBalance;
+    } else if (orderType === TransactionType.UNWRAP) {
+      return synthBalance;
+    } else if (orderType === TransactionType.WRAP) {
+      return synthBalance;
+    }
+  }, [orderType, synthBalance, USDBalance]);
 
-  let inputToken = "snxUSD";
-  let outputToken = "snxETH";
-  if (orderType === OrderType.SELL) {
-    inputToken = "snxETH";
-    outputToken = "snxUSD";
-  } else if (orderType === OrderType.UNWRAP) {
-    inputToken = "snxETH";
-    outputToken = "ETH";
-  } else if (orderType === OrderType.WRAP) {
-    inputToken = "ETH";
-    outputToken = "snxETH";
-  }
+  const { inputToken, outputToken } = useMemo(() => {
+    let inputToken = "snxUSD";
+    let outputToken = synthInfo?.symbol || "";
+    if (orderType === TransactionType.ASYNC_SELL) {
+      inputToken = synthInfo?.symbol || "";
+      outputToken = "snxUSD";
+    } else if (orderType === TransactionType.UNWRAP) {
+      inputToken = synthInfo?.symbol || "";
+      outputToken = "ETH";
+    } else if (orderType === TransactionType.WRAP) {
+      inputToken = "ETH";
+      outputToken = synthInfo?.symbol || "";
+    }
+    return {
+      inputToken,
+      outputToken,
+    };
+  }, [synthInfo?.symbol, orderType]);
 
   const submit = () => {
-    if (settlementType === "async") {
+    if (orderType === TransactionType.ASYNC_BUY) {
       buyAsync(strategyType);
-    } else if (settlementType === "atomic") {
-      buyAtomic();
+    } else if (orderType === TransactionType.ASYNC_SELL) {
+      sellAsync(strategyType);
+    } else if (orderType === TransactionType.UNWRAP) {
+      buyAsync(strategyType);
+    } else if (orderType === TransactionType.WRAP) {
+      buyAsync(strategyType);
     }
   };
 
@@ -99,36 +128,44 @@ export function SpotMarketForm({ id }: { id: number }) {
               <FormLabel htmlFor="amount">Order Type</FormLabel>
               <Flex direction="row" width="100%" gap="4">
                 <Button
-                  colorScheme={orderType === OrderType.BUY ? "green" : "gray"}
+                  colorScheme={
+                    orderType === TransactionType.ASYNC_BUY ? "green" : "gray"
+                  }
                   width="100%"
-                  onClick={() => setOrderType(OrderType.BUY)}
+                  onClick={() => setOrderType(TransactionType.ASYNC_BUY)}
                   size="sm"
                 >
                   Buy
                 </Button>
                 <Button
-                  colorScheme={orderType === OrderType.SELL ? "green" : "gray"}
+                  colorScheme={
+                    orderType === TransactionType.ASYNC_SELL ? "green" : "gray"
+                  }
                   width="100%"
-                  onClick={() => setOrderType(OrderType.SELL)}
+                  onClick={() => setOrderType(TransactionType.ASYNC_SELL)}
                   size="sm"
                 >
                   Sell
                 </Button>
                 <Button
-                  colorScheme={orderType === OrderType.WRAP ? "green" : "gray"}
+                  colorScheme={
+                    orderType === TransactionType.WRAP ? "green" : "gray"
+                  }
                   width="100%"
-                  onClick={() => setOrderType(OrderType.WRAP)}
+                  onClick={() => setOrderType(TransactionType.WRAP)}
                   size="sm"
+                  isDisabled={id !== 2}
                 >
                   Wrap
                 </Button>
                 <Button
                   colorScheme={
-                    orderType === OrderType.UNWRAP ? "green" : "gray"
+                    orderType === TransactionType.UNWRAP ? "green" : "gray"
                   }
                   width="100%"
-                  onClick={() => setOrderType(OrderType.UNWRAP)}
+                  onClick={() => setOrderType(TransactionType.UNWRAP)}
                   size="sm"
+                  isDisabled={id !== 2}
                 >
                   Unwrap
                 </Button>
@@ -142,50 +179,56 @@ export function SpotMarketForm({ id }: { id: number }) {
                   htmlFor="amount"
                 >
                   Amount
-                  <Flex
-                    alignItems="center"
-                    fontWeight="normal"
-                    fontSize="sm"
-                    opacity="0.5"
-                  >
-                    Balance:&nbsp;
-                    {Number(data?.formatted).toLocaleString("en-US")}{" "}
-                    {inputToken}
-                  </Flex>
+                  {!!address && (
+                    <Flex
+                      alignItems="center"
+                      fontWeight="normal"
+                      fontSize="sm"
+                      opacity="0.5"
+                    >
+                      Balance:&nbsp;
+                      {Number(balance?.formatted).toLocaleString("en-US")}{" "}
+                      {inputToken}
+                    </Flex>
+                  )}
                 </FormLabel>
+
                 <InputGroup>
-                  <Input
+                  <NumberInput
+                    width="full"
                     id="amount"
                     name="amount"
-                    type="number"
                     variant="filled"
-                    min="0"
+                    min={0}
                     value={amount}
-                    onChange={(e) =>
-                      setAmount(Number(e.target.value).toString())
-                    }
-                  />
-                  <InputRightElement width="6rem">
-                    {inputToken}
-                  </InputRightElement>
+                    onChange={(_v, valueAsNumber) => {
+                      setAmount(isNaN(valueAsNumber) ? "" : _v);
+                    }}
+                    precision={18}
+                  >
+                    <NumberInputField />
+                    <InputRightElement width="6rem">
+                      {inputToken}
+                    </InputRightElement>
+                  </NumberInput>
                 </InputGroup>
               </FormControl>
-              {(orderType === OrderType.BUY ||
-                orderType === OrderType.SELL) && (
+              {(orderType === TransactionType.ASYNC_BUY ||
+                orderType === TransactionType.ASYNC_SELL) && (
                 <Flex rowGap={1} direction="row" width="100%" gap="4">
                   <FormControl>Slippage Tolerance: {slippage}% </FormControl>
                   <SlippageSelector value={slippage} onChange={setSlippage} />
                 </Flex>
               )}
-              {(orderType === OrderType.WRAP ||
-                orderType === OrderType.UNWRAP) && (
+              {(orderType === TransactionType.WRAP ||
+                orderType === TransactionType.UNWRAP) && (
                 <Flex rowGap={1} direction="row" width="100%" gap="4">
                   Fee: X%
                 </Flex>
               )}
               <Flex>
-                {(orderType === OrderType.BUY ||
-                  orderType === OrderType.SELL) && (
+                {(orderType === TransactionType.ASYNC_BUY ||
+                  orderType === TransactionType.ASYNC_SELL) && (
                   <Text>Estimated&nbsp;</Text>
                 )}{" "}
                 Fill:&nbsp; 0 {outputToken}
@@ -197,10 +240,10 @@ export function SpotMarketForm({ id }: { id: number }) {
               colorScheme={true ? "green" : "red"}
               width="full"
               onClick={submit}
-              isDisabled={Number(amount) <= 0}
+              isDisabled={!address || Number(amount) <= 0}
               isLoading={isLoading}
             >
-              Submit Order
+              {address ? "Submit Order" : "Connect your wallet"}
             </Button>
           </VStack>
         </div>

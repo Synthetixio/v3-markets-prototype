@@ -10,7 +10,8 @@ import { ArrowUpDownIcon } from "@chakra-ui/icons";
 
 export function SpotMarket() {
   const { marketId } = useParams();
-  const id = spotMarkets[marketId?.toUpperCase() || "ETH"].marketId;
+  const market = spotMarkets[marketId?.toUpperCase() || "ETH"];
+  const id = market?.marketId;
   const { synthAddress } = useSpotMarketInfo(id);
 
   if (!id || !synthAddress) {
@@ -33,7 +34,7 @@ export function SpotMarket() {
             p="4"
           >
             <Heading display="inline-block" size="md">
-              snxETH Spot Market
+              {market.synth} Spot Market
             </Heading>
             <Text opacity="0.5" display="inline-block" ml="1.5">
               (ID {id})
