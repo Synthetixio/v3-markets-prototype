@@ -264,16 +264,20 @@ export function SpotMarketForm({ id }: { id: number }) {
                 </Flex>
               )}
               {orderType === TransactionType.WRAP && (
-                <Flex rowGap={1} direction="row" width="100%" gap="4">
-                  Fee: {wrapFee}% <br />
-                  Max Wrappable Amount {formatEther(maxWrappableAmount)}{" "}
-                  {inputToken}
-                </Flex>
+                <Box fontSize="sm">
+                  <Text fontWeight="semibold" display="inline">
+                    Fee:
+                  </Text>
+                  &nbsp;{wrapFee}%
+                </Box>
               )}
               {orderType === TransactionType.UNWRAP && (
-                <Flex rowGap={1} direction="row" width="100%" gap="4">
-                  Fee: {unwrapFee}%
-                </Flex>
+                <Box fontSize="sm">
+                  <Text fontWeight="semibold" display="inline">
+                    Fee:
+                  </Text>
+                  &nbsp;{unwrapFee}%
+                </Box>
               )}
               <Flex fontSize="sm">
                 <Text fontWeight="semibold" display="inline">
