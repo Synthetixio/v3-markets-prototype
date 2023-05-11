@@ -1,6 +1,6 @@
 import { BigNumber, ethers } from "ethers";
 import { useCallback, useMemo, useState } from "react";
-import { useContractWrite, useProvider } from "wagmi";
+import { useContractWrite } from "wagmi";
 import { addAsyncOrderId } from "../../components/SpotMarket/AsyncOrderModal/AsyncOrders";
 import { TransactionType } from "../../constants/order";
 import { useApprove } from "../useApprove";
@@ -11,7 +11,9 @@ export const useSpotMarketOrder = (
   amount: string,
   synthAddress: string,
   orderType: TransactionType,
+  wrapCollateralType: string,
   slippage: number,
+  onSuccess: () => void,
 ) => {
   const [isLoading, setIsLoading] = useState(false);
 
@@ -20,11 +22,20 @@ export const useSpotMarketOrder = (
   // const oracleVerifier = useContract("OracleVerifier");
   // const provider = useProvider();
 
-  const { approve } = useApprove(
-    orderType === TransactionType.ASYNC_BUY ? usd.address : synthAddress,
-    amount,
-    spotMarket.address,
-  );
+  const approvalAddress = useMemo(() => {
+    if (orderType === TransactionType.ASYNC_BUY) {
+      return usd.address;
+    } else if (orderType === TransactionType.ASYNC_SELL) {
+      return synthAddress;
+    } else if (orderType === TransactionType.UNWRAP) {
+      return synthAddress;
+    } else if (orderType === TransactionType.WRAP) {
+      return wrapCollateralType;
+    }
+    return "";
+  }, [orderType, wrapCollateralType, synthAddress]);
+
+  const { approve } = useApprove(approvalAddress, amount, spotMarket.address);
 
   const { writeAsync: buyTx } = useContractWrite({
     mode: "recklesslyUnprepared",
@@ -56,6 +67,7 @@ export const useSpotMarketOrder = (
         ],
       });
       await txReceipt.wait();
+      onSuccess();
     } catch (error) {
       console.log("error:", error);
     } finally {
@@ -95,6 +107,7 @@ export const useSpotMarketOrder = (
         await txReceipt.wait();
 
         addAsyncOrderId(Number(marketId), asyncOrderClaim.id.toString());
+        onSuccess();
       } catch (error) {
         console.log("error:", error);
       } finally {
@@ -136,6 +149,7 @@ export const useSpotMarketOrder = (
         await txReceipt.wait();
 
         addAsyncOrderId(Number(marketId), asyncOrderClaim.id.toString());
+        onSuccess();
       } catch (error) {
         console.log("error:", error);
       } finally {
@@ -144,6 +158,34 @@ export const useSpotMarketOrder = (
     },
     [approve, commitOrder, marketId, amount, slippage],
   );
+
+  const wrap = useCallback(async () => {
+    setIsLoading(true);
+    try {
+      await approve();
+      const tx = await spotMarket.contract.wrap(marketId, amount, 0);
+      await tx.wait();
+      onSuccess();
+    } catch (error) {
+      console.log("error:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [marketId, amount]);
+
+  const unwrap = useCallback(async () => {
+    setIsLoading(true);
+    try {
+      await approve();
+      const tx = await spotMarket.contract.unwrap(marketId, amount, 0);
+      await tx.wait();
+      onSuccess();
+    } catch (error) {
+      console.log("error:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [marketId, amount]);
 
   // const settleAsync = useCallback(async () => {
   //   setIsLoading(true);
@@ -177,6 +219,8 @@ export const useSpotMarketOrder = (
     buyAsync,
     sellAsync,
     buyAtomic,
+    wrap,
+    unwrap,
     isLoading,
   };
 };

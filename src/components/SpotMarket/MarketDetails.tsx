@@ -1,23 +1,9 @@
-import { formatEther, formatUnits, parseEther } from "ethers/lib/utils.js";
-import { useState } from "react";
-import { useAccount, useToken } from "wagmi";
-import {
-  Box,
-  Code,
-  Heading,
-  Text,
-  SimpleGrid,
-  GridItem,
-  Flex,
-} from "@chakra-ui/react";
+import { useToken } from "wagmi";
+import { Box, Code, Heading, Text, Flex } from "@chakra-ui/react";
 import {
   useSpotMarketInfo,
   useSpotMarketStat,
 } from "../../hooks/spot/useSpotMarketInfo";
-import { useApprove } from "../../hooks/useApprove";
-import { useContract } from "../../hooks/useContract";
-import { AsyncOrderModal } from "./AsyncOrderModal/AsyncOrderModal";
-import { useGetSettlementStrategy } from "../../hooks/spot/useGetSettlementStrategy";
 
 export function MarketDetails({ marketId }: { marketId: number }) {
   const { synthAddress, asyncFixedFee, marketSkewScale, unwrapFee, wrapFee } =
@@ -107,17 +93,6 @@ export function MarketDetails({ marketId }: { marketId: number }) {
         <Box w="50%" mb="4">
           <Heading size="sm">Skew Scale</Heading>
           {marketSkewScale} ETH
-        </Box>
-      </Flex>
-      <Flex>
-        <Box w="50%" mb="4">
-          <Heading size="sm">Wrap Fee</Heading>
-          {wrapFee}%
-        </Box>
-
-        <Box w="50%" mb="4">
-          <Heading size="sm">Unwrap Fee</Heading>
-          {unwrapFee}%
         </Box>
       </Flex>
     </Box>

@@ -39,7 +39,7 @@ if (!networks[VITE_NETWORK]) {
  * To add a new chain simply import it and add it here
  * @see https://wagmi.sh/react/providers/configuring-chains
  */
-const { chains, provider, webSocketProvider } = configureChains(
+const { chains, provider } = configureChains(
   [networks[VITE_NETWORK]],
   [
     infuraProvider({ apiKey: import.meta.env.VITE_INFURA_API_KEY! }),
@@ -79,5 +79,4 @@ export const client = createClient({
   autoConnect: true,
   connectors: connectors,
   provider,
-  webSocketProvider,
 });

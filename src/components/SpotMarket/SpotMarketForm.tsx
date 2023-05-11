@@ -14,10 +14,11 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import { parseEther } from "ethers/lib/utils.js";
-import { useMemo, useState } from "react";
+import { formatEther, parseEther } from "ethers/lib/utils.js";
+import { useEffect, useMemo, useState } from "react";
 import { useAccount, useBalance, useToken } from "wagmi";
 import { TransactionType } from "../../constants/order";
+import { useGetMarketWrapCollateral } from "../../hooks/spot/useGetMarketWrapCollateral";
 import { useSpotMarketInfo } from "../../hooks/spot/useSpotMarketInfo";
 import { useSpotMarketOrder } from "../../hooks/spot/useSpotMarketOrder";
 import { useContract } from "../../hooks/useContract";
@@ -25,11 +26,12 @@ import { SlippageSelector } from "../SlippageSelector";
 import { AsyncOrderModal } from "./AsyncOrderModal/AsyncOrderModal";
 
 export function SpotMarketForm({ id }: { id: number }) {
-  const { synthAddress, marketName } = useSpotMarketInfo(id);
+  const { synthAddress, unwrapFee, wrapFee } = useSpotMarketInfo(id);
   const [isOpen, setIsOpen] = useState(false);
-  const { data: synthInfo } = useToken({
-    address: synthAddress as `0x${string}`,
-  });
+
+  const { wrapCollateralType, maxWrappableAmount, refetch } =
+    useGetMarketWrapCollateral(id);
+
   const [slippage, setSlippage] = useState(1);
   const [amount, setAmount] = useState("0");
   // const [settlementType, setSettlementType] = useState("async");
@@ -37,17 +39,41 @@ export function SpotMarketForm({ id }: { id: number }) {
 
   const { address } = useAccount();
 
+  const { data: synthInfo } = useToken({
+    address: synthAddress as `0x${string}`,
+    enabled: !!synthAddress,
+  });
+  const { data: wrapCollateralInfo } = useToken({
+    address: wrapCollateralType as `0x${string}`,
+    enabled: !!wrapCollateralType,
+  });
+
   const USD = useContract("USD");
-  const { data: USDBalance } = useBalance({
+  const { data: USDBalance, refetch: refetchUSD } = useBalance({
     address,
     token: USD.address as `0x${string}`,
     watch: true,
   });
-  const { data: synthBalance } = useBalance({
+  const { data: synthBalance, refetch: refetcSynth } = useBalance({
     address,
     token: synthAddress as `0x${string}`,
     watch: true,
+    enabled: !!synthAddress,
   });
+  const { data: wrapCollateralBalance, refetch: refetchWrapCollateral } =
+    useBalance({
+      address,
+      token: wrapCollateralType as `0x${string}`,
+      watch: true,
+      enabled: !!wrapCollateralType,
+    });
+
+  const onSuccess = () => {
+    refetchUSD();
+    refetcSynth();
+    refetchWrapCollateral();
+    refetch();
+  };
 
   const [orderType, setOrderType] = useState(TransactionType.ASYNC_BUY);
 
@@ -55,12 +81,19 @@ export function SpotMarketForm({ id }: { id: number }) {
     () => parseEther(amount || "0").toString(),
     [amount],
   );
-  const { sellAsync, buyAsync, isLoading } = useSpotMarketOrder(
+
+  useEffect(() => {
+    setAmount("0");
+  }, [orderType]);
+
+  const { sellAsync, buyAsync, wrap, unwrap, isLoading } = useSpotMarketOrder(
     id,
     usdAmount,
     synthAddress,
     orderType,
+    wrapCollateralType,
     slippage,
+    onSuccess,
   );
 
   const balance = useMemo(() => {
@@ -71,7 +104,7 @@ export function SpotMarketForm({ id }: { id: number }) {
     } else if (orderType === TransactionType.UNWRAP) {
       return synthBalance;
     } else if (orderType === TransactionType.WRAP) {
-      return synthBalance;
+      return wrapCollateralBalance;
     }
   }, [orderType, synthBalance, USDBalance]);
 
@@ -83,9 +116,9 @@ export function SpotMarketForm({ id }: { id: number }) {
       outputToken = "snxUSD";
     } else if (orderType === TransactionType.UNWRAP) {
       inputToken = synthInfo?.symbol || "";
-      outputToken = "ETH";
+      outputToken = wrapCollateralInfo?.symbol || "";
     } else if (orderType === TransactionType.WRAP) {
-      inputToken = "ETH";
+      inputToken = wrapCollateralInfo?.symbol || "";
       outputToken = synthInfo?.symbol || "";
     }
     return {
@@ -100,9 +133,9 @@ export function SpotMarketForm({ id }: { id: number }) {
     } else if (orderType === TransactionType.ASYNC_SELL) {
       sellAsync(strategyType);
     } else if (orderType === TransactionType.UNWRAP) {
-      buyAsync(strategyType);
+      unwrap();
     } else if (orderType === TransactionType.WRAP) {
-      buyAsync(strategyType);
+      wrap();
     }
   };
 
@@ -154,7 +187,7 @@ export function SpotMarketForm({ id }: { id: number }) {
                   width="100%"
                   onClick={() => setOrderType(TransactionType.WRAP)}
                   size="sm"
-                  isDisabled={id !== 2}
+                  isDisabled={!wrapCollateralType}
                 >
                   Wrap
                 </Button>
@@ -165,7 +198,7 @@ export function SpotMarketForm({ id }: { id: number }) {
                   width="100%"
                   onClick={() => setOrderType(TransactionType.UNWRAP)}
                   size="sm"
-                  isDisabled={id !== 2}
+                  isDisabled={!wrapCollateralType}
                 >
                   Unwrap
                 </Button>
@@ -220,10 +253,16 @@ export function SpotMarketForm({ id }: { id: number }) {
                   <SlippageSelector value={slippage} onChange={setSlippage} />
                 </Flex>
               )}
-              {(orderType === TransactionType.WRAP ||
-                orderType === TransactionType.UNWRAP) && (
+              {orderType === TransactionType.WRAP && (
                 <Flex rowGap={1} direction="row" width="100%" gap="4">
-                  Fee: X%
+                  Fee: {wrapFee}% <br />
+                  Max Wrappable Amount {formatEther(maxWrappableAmount)}{" "}
+                  {inputToken}
+                </Flex>
+              )}
+              {orderType === TransactionType.UNWRAP && (
+                <Flex rowGap={1} direction="row" width="100%" gap="4">
+                  Fee: {unwrapFee}%
                 </Flex>
               )}
               <Flex>
