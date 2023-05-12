@@ -53,6 +53,7 @@ export function AsyncOrder({ marketId, asyncOrderId, update }: Props) {
         asyncOrderId,
       );
     } catch (error: any) {
+      console.log("error:", typeof error, JSON.stringify(error))
       urls = error.errorArgs.urls;
       data = error.errorArgs.callData;
       extraData = error.errorArgs.extraData;
@@ -69,11 +70,10 @@ export function AsyncOrder({ marketId, asyncOrderId, update }: Props) {
 
     const response = await fetch(parsedURL)
       .then((res) => res.json())
-      .catch(() => {
-        setSettling(false);
-      });
+      .catch(() => {});
 
     if (!response) {
+      setSettling(false);
       return;
     }
 

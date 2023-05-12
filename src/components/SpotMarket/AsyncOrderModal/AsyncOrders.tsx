@@ -18,6 +18,7 @@ export const addAsyncOrderId = (marketId: number, orderId: string) => {
   const uniqueArray = ids.filter((item, pos) => ids.indexOf(item) == pos);
   localStorage.setItem(`${marketId}-order-ids`, JSON.stringify(uniqueArray));
 };
+
 export const removeAsyncOrderId = (marketId: number, orderId: string) => {
   const ids = getAsyncOrderIds(marketId);
   const uniqueArray = ids.filter((item, pos) => ids.indexOf(item) == pos);

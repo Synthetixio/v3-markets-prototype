@@ -1,7 +1,7 @@
 import { configureChains, createClient } from "wagmi";
 import { optimism, optimismGoerli } from "wagmi/chains";
-import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
 import { infuraProvider } from "wagmi/providers/infura";
+import { publicProvider } from "wagmi/providers/public";
 import { getDefaultWallets } from "@rainbow-me/rainbowkit";
 
 const networks = {
@@ -43,15 +43,7 @@ const { chains, provider } = configureChains(
   [networks[VITE_NETWORK]],
   [
     infuraProvider({ apiKey: import.meta.env.VITE_INFURA_API_KEY! }),
-    /**
-     * Tells wagmi to use the default RPC URL for each chain
-     * for some dapps the higher rate limits of Alchemy may be required
-     */
-    jsonRpcProvider({
-      rpc: (chain) => {
-        return { http: chain.rpcUrls.default.http[0] };
-      },
-    }),
+    publicProvider(),
   ],
 );
 
@@ -77,6 +69,6 @@ const { connectors } = getDefaultWallets({
  */
 export const client = createClient({
   autoConnect: true,
-  connectors: connectors,
+  connectors,
   provider,
 });

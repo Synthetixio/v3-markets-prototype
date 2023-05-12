@@ -23,7 +23,7 @@
     "@eth-optimism/sdk": "0.0.0-20230301065104",
     "@openzeppelin/contracts": "4.7.3",
     "@openzeppelin/contracts-upgradeable": "4.7.3",
-    "@rainbow-me/rainbowkit": "^0.11.0",
+    "@rainbow-me/rainbowkit": "^1.0.0",
     "@usecannon/cli": "^2.4.10",
     "@wagmi/cli": "^0.1.15",
     "buffer": "^6.0.3",
@@ -39,7 +39,8 @@
     "react-ts-tradingview-widgets": "^1.0.14",
     "sort-by": "^1.2.0",
     "util": "^0.12.4",
-    "wagmi": "^0.12.12"
+    "viem": "^0.3.22",
+    "wagmi": "^1.0.0"
   },
   "devDependencies": {
     "@types/react": "^18.0.9",
