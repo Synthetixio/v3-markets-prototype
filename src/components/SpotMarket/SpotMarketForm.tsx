@@ -19,20 +19,22 @@ import { useEffect, useMemo, useState } from "react";
 import { useAccount, useBalance, useToken } from "wagmi";
 import { TransactionType } from "../../constants/order";
 import { useGetMarketWrapCollateral } from "../../hooks/spot/useGetMarketWrapCollateral";
+import { useGetSettledOrders } from "../../hooks/spot/useGetSettledOrders";
 import { useSpotMarketInfo } from "../../hooks/spot/useSpotMarketInfo";
 import { useSpotMarketOrder } from "../../hooks/spot/useSpotMarketOrder";
 import { useContract } from "../../hooks/useContract";
 import { SlippageSelector } from "../SlippageSelector";
 import { AsyncOrderModal } from "./AsyncOrderModal/AsyncOrderModal";
 import { getAsyncOrderIds } from "./AsyncOrderModal/AsyncOrders";
+import { SettledOrderModal } from "./SettledOrderModal/SettledOrderModal";
 
 export function SpotMarketForm({ id }: { id: number }) {
   const { synthAddress, unwrapFee, wrapFee } = useSpotMarketInfo(id);
   const [isOpen, setIsOpen] = useState(false);
+  const [orderHistory, setOrderHistory] = useState(false);
 
   const { wrapCollateralType, maxWrappableAmount, refetch } =
     useGetMarketWrapCollateral(id);
-
   const [slippage, setSlippage] = useState(1);
   const [amount, setAmount] = useState("0");
   // const [settlementType, setSettlementType] = useState("async");
@@ -147,6 +149,11 @@ export function SpotMarketForm({ id }: { id: number }) {
         marketId={id}
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
+      />
+      <SettledOrderModal
+        marketId={id}
+        isOpen={orderHistory}
+        onClose={() => setOrderHistory(false)}
       />
       <Box borderBottom="1px solid rgba(255,255,255,0.2)" p="4">
         <div key="form" style={{ width: "100%" }}>
@@ -309,6 +316,18 @@ export function SpotMarketForm({ id }: { id: number }) {
                   No pending orders
                 </Text>
               )}
+
+              <Text
+                color="blue.200"
+                w="100%"
+                fontSize="sm"
+                mt="1"
+                textAlign="center"
+              >
+                <Link onClick={() => setOrderHistory(true)}>
+                  View Settled Orders
+                </Link>
+              </Text>
             </Box>
           </VStack>
         </div>

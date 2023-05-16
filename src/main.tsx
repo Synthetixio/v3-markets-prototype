@@ -6,15 +6,27 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import { WagmiConfig } from "wagmi";
 
-import { PerpsMarket } from "./pages/perps/PerpsMarket";
+// import { PerpsMarket } from "./pages/perps/PerpsMarket";
 import { chains, client } from "./wagmi";
 
 import theme from "./theme";
 import { ChakraProvider, ColorModeScript } from "@chakra-ui/react";
-import { Index } from "./pages/Index";
-import { PerpsAdmin } from "./pages/perps/PerpsAdmin";
+// import { Index } from "./pages/Index";
+// import { PerpsAdmin } from "./pages/perps/PerpsAdmin";
 import { SpotMarket } from "./pages/spot/SpotMarket";
 import { SpotAdmin } from "./pages/spot/SpotAdmin";
+
+import {
+  ApolloClient,
+  InMemoryCache,
+  ApolloProvider,
+  gql,
+} from "@apollo/client";
+
+const apolloClient = new ApolloClient({
+  uri: "https://api.thegraph.com/subgraphs/name/rickk137/v3-markets-graph",
+  cache: new InMemoryCache(),
+});
 
 const router = createBrowserRouter([
   {
@@ -53,18 +65,20 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <ChakraProvider theme={theme}>
       <ColorModeScript initialColorMode={theme.config.initialColorMode} />
-      <WagmiConfig client={client}>
-        <RainbowKitProvider
-          chains={chains}
-          theme={darkTheme({
-            accentColor: "#00a4c4",
-            accentColorForeground: "#ffffff",
-            borderRadius: "small",
-          })}
-        >
-          <RouterProvider router={router} />
-        </RainbowKitProvider>
-      </WagmiConfig>
+      <ApolloProvider client={apolloClient}>
+        <WagmiConfig client={client}>
+          <RainbowKitProvider
+            chains={chains}
+            theme={darkTheme({
+              accentColor: "#00a4c4",
+              accentColorForeground: "#ffffff",
+              borderRadius: "small",
+            })}
+          >
+            <RouterProvider router={router} />
+          </RainbowKitProvider>
+        </WagmiConfig>
+      </ApolloProvider>
     </ChakraProvider>
   </React.StrictMode>,
 );

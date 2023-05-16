@@ -13,6 +13,7 @@
     "wagmi": "wagmi generate"
   },
   "dependencies": {
+    "@apollo/client": "^3.7.14",
     "@chakra-ui/icons": "^2.0.17",
     "@chakra-ui/react": "^2.5.1",
     "@emotion/react": "^11.10.6",
@@ -30,6 +31,7 @@
     "dayjs": "^1.11.7",
     "ethers": "^5.7.2",
     "framer-motion": "^10.0.1",
+    "graphql": "^16.6.0",
     "localforage": "^1.10.0",
     "match-sorter": "^6.3.1",
     "process": "^0.11.10",
