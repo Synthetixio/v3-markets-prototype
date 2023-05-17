@@ -20,7 +20,7 @@ export function SettledOrderModal({ marketId, isOpen, onClose }: Props) {
 
   return (
     <Modal
-      size="2xl"
+      size="5xl"
       finalFocusRef={finalRef}
       isOpen={isOpen}
       onClose={onClose}
@@ -30,7 +30,7 @@ export function SettledOrderModal({ marketId, isOpen, onClose }: Props) {
         <ModalHeader>Settled Orders</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-          <SettledOrders onClose={onClose} marketId={marketId} />
+          <SettledOrders marketId={marketId} />
         </ModalBody>
       </ModalContent>
     </Modal>
