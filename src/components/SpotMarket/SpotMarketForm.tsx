@@ -22,9 +22,11 @@ import { useGetMarketWrapCollateral } from "../../hooks/spot/useGetMarketWrapCol
 import { useSpotMarketInfo } from "../../hooks/spot/useSpotMarketInfo";
 import { useSpotMarketOrder } from "../../hooks/spot/useSpotMarketOrder";
 import { useContract } from "../../hooks/useContract";
+import { Amount } from "../Amount";
 import { SlippageSelector } from "../SlippageSelector";
 import { AsyncOrderModal } from "./AsyncOrderModal/AsyncOrderModal";
 import { getAsyncOrderIds } from "./AsyncOrderModal/AsyncOrders";
+import { wei } from "@synthetixio/wei";
 
 export function SpotMarketForm({ id }: { id: number }) {
   const { synthAddress, unwrapFee, wrapFee } = useSpotMarketInfo(id);
@@ -222,10 +224,10 @@ export function SpotMarketForm({ id }: { id: number }) {
                       opacity="0.5"
                     >
                       Balance:&nbsp;
-                      {Number(balance?.formatted).toLocaleString("en-US", {
-                        maximumFractionDigits: 10,
-                      })}{" "}
-                      {inputToken}
+                      <Amount
+                        value={wei(balance?.formatted)}
+                        suffix={inputToken}
+                      />
                     </Flex>
                   )}
                 </FormLabel>
