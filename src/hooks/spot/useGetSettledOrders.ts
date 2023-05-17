@@ -3,7 +3,7 @@ import { useQuery, gql } from "@apollo/client";
 
 const GET_SETTLED_ORDERS = gql`
   query GetSettledOrders {
-    settledOrders {
+    settledOrders(orderBy: "id", orderDirection: "desc") {
       id
       settler
       finalOrderAmount
