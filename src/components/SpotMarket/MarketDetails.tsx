@@ -1,9 +1,11 @@
 import { useToken } from "wagmi";
-import { Box, Code, Heading, Text, Flex } from "@chakra-ui/react";
+import { Box, Code, Heading, Text, Flex, Link } from "@chakra-ui/react";
 import {
   useSpotMarketInfo,
   useSpotMarketStat,
 } from "../../hooks/spot/useSpotMarketInfo";
+import { SettledOrderModal } from "./SettledOrderModal/SettledOrderModal";
+import { useState } from "react";
 
 export function MarketDetails({ marketId }: { marketId: number }) {
   const { synthAddress, asyncFixedFee, marketSkewScale, unwrapFee, wrapFee } =
@@ -55,17 +57,34 @@ export function MarketDetails({ marketId }: { marketId: number }) {
   if (!marketId || !synthAddress) {
     return null;
   }
+  const [orderHistory, setOrderHistory] = useState(false);
 
   return (
     <Box>
       {/* <Button onClick={stake}>Stake</Button> */}
-      <Box mb="3">
-        <Heading size="xs">Synth</Heading>
-        {tokenInfo?.name}{" "}
-        <Text display="inline" fontSize="sm" opacity="0.5">
-          ({tokenInfo?.symbol})
-        </Text>
-      </Box>
+      <SettledOrderModal
+        marketId={marketId}
+        isOpen={orderHistory}
+        onClose={() => setOrderHistory(false)}
+      />
+
+      <Flex>
+        <Box w="50%" mb="3">
+          <Heading size="xs">Synth</Heading>
+          {tokenInfo?.name}{" "}
+          <Text display="inline" fontSize="sm" opacity="0.5">
+            ({tokenInfo?.symbol})
+          </Text>
+        </Box>
+        <Box w="50%" mb="3">
+          <Heading size="xs">Orders</Heading>
+          <Text display="inline" fontSize="sm">
+            <Link color="blue.200" onClick={() => setOrderHistory(true)}>
+              View Settled Orders
+            </Link>
+          </Text>
+        </Box>
+      </Flex>
 
       <Box mb="3">
         <Heading size="xs">Synth Address</Heading>

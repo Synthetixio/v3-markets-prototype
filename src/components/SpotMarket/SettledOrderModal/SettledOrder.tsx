@@ -1,4 +1,4 @@
-import { Box, Divider, Text } from "@chakra-ui/react";
+import { Box, Divider, Td, Text, Tr } from "@chakra-ui/react";
 import { formatUnits } from "ethers/lib/utils.js";
 import { useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -58,47 +58,41 @@ export function SettledOrderRow({ marketId, order }: Props) {
   }, [market, orderType]);
 
   return (
-    <Box w="full" p="6" borderWidth="1px" borderRadius="lg" overflow="hidden">
-      <Text>
-        #{order.asyncOrderId} - {orderType}
-      </Text>
-      <Divider my={3} />
-
-      <Text>Collected Fees: {order.collectedFees}</Text>
-
-      <Text>
-        Final Order Amount: {formatUnits(order.finalOrderAmount, "ether")}{" "}
-      </Text>
-
-      <Text>Fixed Fees: {formatUnits(order.fixedFees, "ether")}</Text>
-      <Text>Skew Fees: {formatUnits(order.skewFees, "ether")}</Text>
-      <Text>Wrapper Fees: {formatUnits(order.wrapperFees, "ether")}</Text>
-
-      <Text>
-        Utilization Fees: {formatUnits(order.utilizationFees, "ether")}
-      </Text>
-
-      <Text>Settler: {order.settler}</Text>
-
-      {asyncOrderClaim && (
-        <>
-          <Divider my={3} />
-          <Text>
-            Order Amount:{" "}
-            {formatUnits(asyncOrderClaim.amountEscrowed.toString(), "ether")}{" "}
-            {inputToken}
-          </Text>
-          <Text>
-            Settlement Strategy ID:{" "}
-            {asyncOrderClaim.settlementStrategyId.toString()}
-          </Text>
-
-          <Text>
-            Settlement Time:{" "}
-            {fromNow(asyncOrderClaim.settledAt.toNumber() * 1000)}
-          </Text>
-        </>
-      )}
-    </Box>
+    <>
+      <Tr>
+        <Td>
+          #{order.asyncOrderId} - {orderType}
+        </Td>
+        <Td>{formatUnits(order.finalOrderAmount, "ether")} </Td>
+        <Td>{order.collectedFees}</Td>
+        <Td>{formatUnits(order.fixedFees, "ether")}</Td>
+        <Td>{formatUnits(order.skewFees, "ether")}</Td>
+        <Td>{formatUnits(order.wrapperFees, "ether")}</Td>
+        <Td>{formatUnits(order.utilizationFees, "ether")}</Td>
+        <Td>
+          <Text>Settler: {order.settler}</Text>
+          {asyncOrderClaim && (
+            <>
+              <Text>
+                Order Amount:{" "}
+                {formatUnits(
+                  asyncOrderClaim.amountEscrowed.toString(),
+                  "ether",
+                )}{" "}
+                {inputToken}
+              </Text>
+              <Text>
+                Settlement Strategy ID:{" "}
+                {asyncOrderClaim.settlementStrategyId.toString()}
+              </Text>
+              <Text>
+                Settlement Time:{" "}
+                {fromNow(asyncOrderClaim.settledAt.toNumber() * 1000)}
+              </Text>
+            </>
+          )}
+        </Td>
+      </Tr>
+    </>
   );
 }
