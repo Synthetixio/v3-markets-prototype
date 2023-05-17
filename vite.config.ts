@@ -10,7 +10,7 @@ export default defineConfig({
    * @see https://vitejs.dev/config/shared-options.html#define
    */
   define: {
-    global: "globalThis",
+    globalThis: "window",
   },
   resolve: {
     /**
