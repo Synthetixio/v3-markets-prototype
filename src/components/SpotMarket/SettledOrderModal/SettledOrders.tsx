@@ -1,5 +1,6 @@
 import {
   Box,
+  Checkbox,
   Flex,
   Tab,
   Table,
@@ -23,23 +24,19 @@ interface Props {
 }
 
 export function SettledOrders({ marketId }: Props) {
-  const { orders } = useGetOrders(marketId);
+  const [showAll, setShowAll] = useState(true);
+  const { orders } = useGetOrders(marketId, showAll);
   const { address } = useAccount();
   const [orderStatus, setOrderStatus] = useState(OrderStatus.Settled);
 
   const settledOrders = useMemo(
-    () =>
-      orders.filter(
-        (order) =>
-          order.status === orderStatus &&
-          order.owner?.toLowerCase() === address?.toLowerCase(),
-      ),
+    () => orders.filter((order) => order.status === orderStatus),
     [orders, address, orderStatus],
   );
 
   return (
     <Box>
-      <Tabs>
+      <Tabs position="relative">
         <TabList>
           <Tab onClick={() => setOrderStatus(OrderStatus.Settled)}>
             {OrderStatus.Settled}
@@ -51,6 +48,15 @@ export function SettledOrders({ marketId }: Props) {
             {OrderStatus.Commited}
           </Tab>
         </TabList>
+        <Checkbox
+          onChange={(e) => setShowAll(!e.target.checked)}
+          checked={!showAll}
+          position="absolute"
+          right="0"
+          top="0"
+        >
+          My Orders
+        </Checkbox>
       </Tabs>
       <TableContainer py={4}>
         <Table size="sm">

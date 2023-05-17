@@ -70,7 +70,8 @@ export function SettledOrderRow({ marketId, order }: Props) {
               Settlement Time: {fromNow(Number(order.settledAt) * 1000)}
             </Text>
           )}
-          <Text>Settler: {order.settler || "0"}</Text>
+          <Text my={2}>Settler: {order.settler || ""}</Text>
+          <Text>Owner: {order.owner || ""}</Text>
         </Td>
       </Tr>
     </>

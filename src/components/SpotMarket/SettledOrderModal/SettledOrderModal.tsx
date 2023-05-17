@@ -27,9 +27,8 @@ export function SettledOrderModal({ marketId, isOpen, onClose }: Props) {
     >
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Settled Orders</ModalHeader>
         <ModalCloseButton />
-        <ModalBody>
+        <ModalBody my={6} mx={2}>
           <SettledOrders marketId={marketId} />
         </ModalBody>
       </ModalContent>

@@ -7,7 +7,7 @@ const GET_ORDERS = gql`
     orders(
       orderBy: "id"
       orderDirection: "desc"
-      where: { owner: $owner, marketId: $marketId }
+      where: { owner_contains: $owner, marketId: $marketId }
     ) {
       id
       marketId
@@ -63,12 +63,13 @@ export enum OrderStatus {
   Settled = "Settled",
 }
 
-export const useGetOrders = (marketId: number) => {
+export const useGetOrders = (marketId: number, showAll: boolean) => {
   const { address } = useAccount();
+
   const { loading, error, data, refetch } = useQuery(GET_ORDERS, {
     variables: {
       marketId: marketId.toString(),
-      owner: address?.toLowerCase(),
+      owner: showAll ? "" : address?.toLowerCase(),
     },
   });
 
@@ -77,7 +78,7 @@ export const useGetOrders = (marketId: number) => {
       return [];
     }
     return data.orders as Order[];
-  }, [data]);
+  }, [data, showAll]);
 
   return {
     orders,
