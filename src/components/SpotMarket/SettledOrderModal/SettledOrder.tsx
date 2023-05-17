@@ -61,13 +61,16 @@ export function SettledOrderRow({ marketId, order }: Props) {
     <>
       <Tr>
         <Td>
-          #{order.asyncOrderId} - {orderType}
+          #{order.asyncOrderId} ({orderType == "ASYNC_BUY" ? "Buy" : "Sell"})
         </Td>
-        <Td>{formatUnits(order.finalOrderAmount, "ether")} </Td>
-        <Td>{order.collectedFees}</Td>
-        <Td>{formatUnits(order.fixedFees, "ether")}</Td>
-        <Td>{formatUnits(order.skewFees, "ether")}</Td>
-        <Td>{formatUnits(order.wrapperFees, "ether")}</Td>
+        <Td>
+          {formatUnits(order.finalOrderAmount, "ether")}{" "}
+          {orderType == "ASYNC_BUY" ? "snxETH" : "snxUSD"}
+        </Td>
+        <Td>{formatUnits(order.fixedFees, "ether")} snxUSD</Td>
+        <Td>{formatUnits(order.skewFees, "ether")} snxUSD</Td>
+        <Td>{formatUnits(order.wrapperFees, "ether")} snxUSD</Td>
+        <Td>{formatUnits(order.collectedFees, "ether")} snxUSD</Td>
         <Td>{formatUnits(order.utilizationFees, "ether")}</Td>
         <Td>
           <Text>Settler: {order.settler}</Text>

@@ -24,12 +24,12 @@ export function SettledOrders({ onClose, marketId }: Props) {
         <Thead>
           <Tr>
             <Th>Order</Th>
-            <Th>Fill (after fees)</Th>
-            <Th>Total Collected Fees</Th>
+            <Th>Amount (after fees)</Th>
             <Th>Fixed Fees</Th>
             <Th>Skew Fees</Th>
             <Th>Wrapper Fees</Th>
             <Th>Utilization Fees</Th>
+            <Th>Externally Collected Fees</Th>
             <Th>Settlement Info</Th>
           </Tr>
         </Thead>
