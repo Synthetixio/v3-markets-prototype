@@ -9,7 +9,7 @@
     "source.fixAll": true
   },
   "files.eol": "\n",
-  "[typescript]": {
+  "[typescript][typescriptreact]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "files.trimTrailingWhitespace": true,

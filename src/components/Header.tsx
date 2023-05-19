@@ -1,7 +1,9 @@
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { Heading, Flex, Box } from "@chakra-ui/react";
+import { Heading, Flex, Box, Tag, Button } from "@chakra-ui/react";
 import { AccountSwitcher } from "./Header/index";
 import { Link } from "react-router-dom";
+import { ExternalLinkIcon } from "@chakra-ui/icons";
+import { perpsMarkets, spotMarkets } from "../constants/markets";
 
 interface HeaderProps {
   isSpot?: boolean;
@@ -10,9 +12,45 @@ interface HeaderProps {
 export function Header({ isSpot }: HeaderProps) {
   return (
     <Flex p="3" borderBottom="1px solid rgba(255,255,255,0.2)" align="center">
-      <Heading size="lg" fontWeight="300" fontFamily="mono">
-        <Link to="/">Synthetix V3 Markets Prototype</Link>
-      </Heading>
+      <Box>
+        <Heading size="md" fontWeight="bold" fontFamily="mono">
+          <Link to="/">Synthetix Markets v3</Link>{" "}
+          <Tag
+            variant="solid"
+            colorScheme="yellow"
+            fontSize=".6em"
+            minH="auto"
+            py="0.5"
+            fontWeight="bold"
+            backgroundColor="rgba(214, 158, 46, .95)"
+            transform="translateY(.3em)"
+          >
+            prototype
+          </Tag>
+        </Heading>
+      </Box>
+      <Box ml="4">
+        <Link to={`/spot/markets/${spotMarkets.ETH.marketId}`}>
+          <Button variant="ghost" opacity={isSpot ? "1" : ".5"}>
+            Spot
+          </Button>
+        </Link>
+        <Link to={`/perps/markets/${perpsMarkets.ETH.marketId}`}>
+          <Button variant="ghost" opacity={!isSpot ? "1" : ".5"}>
+            Perps
+          </Button>
+        </Link>
+        <Link to="https://v3.synthetix.io/">
+          <Button variant="ghost" opacity=".5" rightIcon={<ExternalLinkIcon />}>
+            LP
+          </Button>
+        </Link>
+        <Link to="https://synthetix-1.gitbook.io/v3/">
+          <Button variant="ghost" opacity=".5" rightIcon={<ExternalLinkIcon />}>
+            Docs
+          </Button>
+        </Link>
+      </Box>
       <Box ml="auto">
         <Flex>
           {!isSpot && <AccountSwitcher />}
