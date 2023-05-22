@@ -5,7 +5,7 @@ import { useAccount } from "wagmi";
 const GET_ORDERS = gql`
   query GetOrders($owner: String, $marketId: String) {
     orders(
-      orderBy: "id"
+      orderBy: "timestamp"
       orderDirection: "desc"
       where: { owner_contains: $owner, marketId: $marketId }
     ) {
@@ -14,7 +14,6 @@ const GET_ORDERS = gql`
       amountProvided
       asyncOrderId
       orderType
-      sender
       referrer
       finalOrderAmount
       collectedFees
@@ -30,6 +29,8 @@ const GET_ORDERS = gql`
       settlementTime
       minimumSettlementAmount
       settledAt
+      block
+      timestamp
     }
   }
 `;
@@ -55,6 +56,8 @@ export interface Order {
   settlementTime: string;
   minimumSettlementAmount: string;
   settledAt: string;
+  block: string;
+  timestamp: string;
 }
 
 export enum OrderStatus {
@@ -71,6 +74,7 @@ export const useGetOrders = (marketId: number, showAll: boolean) => {
       marketId: marketId.toString(),
       owner: showAll ? "" : address?.toLowerCase(),
     },
+    notifyOnNetworkStatusChange: true,
   });
 
   const orders = useMemo(() => {

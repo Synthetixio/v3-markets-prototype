@@ -3,19 +3,24 @@ import {
   ModalOverlay,
   ModalContent,
   ModalCloseButton,
-  ModalHeader,
   ModalBody,
 } from "@chakra-ui/react";
 import { useRef } from "react";
-import { SettledOrders } from "./SettledOrders";
+import { AsyncOrders } from "./AsyncOrders";
 
 interface Props {
   marketId: number;
   isOpen: boolean;
   onClose: () => void;
+  defaultIndex?: number;
 }
 
-export function SettledOrderModal({ marketId, isOpen, onClose }: Props) {
+export function AsyncOrderModal({
+  marketId,
+  isOpen,
+  onClose,
+  defaultIndex,
+}: Props) {
   const finalRef = useRef(null);
 
   return (
@@ -29,7 +34,7 @@ export function SettledOrderModal({ marketId, isOpen, onClose }: Props) {
       <ModalContent>
         <ModalCloseButton />
         <ModalBody my={6} mx={2}>
-          <SettledOrders marketId={marketId} />
+          <AsyncOrders marketId={marketId} defaultIndex={defaultIndex} />
         </ModalBody>
       </ModalContent>
     </Modal>

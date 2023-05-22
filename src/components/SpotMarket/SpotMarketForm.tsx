@@ -13,6 +13,7 @@ import {
   Text,
   Link,
   VStack,
+  useToast,
 } from "@chakra-ui/react";
 import { parseEther } from "ethers/lib/utils.js";
 import { useEffect, useMemo, useState } from "react";
@@ -24,15 +25,15 @@ import { useSpotMarketOrder } from "../../hooks/spot/useSpotMarketOrder";
 import { useContract } from "../../hooks/useContract";
 import { Amount } from "../Amount";
 import { SlippageSelector } from "../SlippageSelector";
-import { AsyncOrderModal } from "./AsyncOrderModal/AsyncOrderModal";
-import { getAsyncOrderIds } from "./AsyncOrderModal/AsyncOrders";
 import { wei } from "@synthetixio/wei";
+import { OrderStatus, useGetOrders } from "../../hooks/spot/useGetOrders";
+import { AsyncOrderModal } from "./Orders/AsyncOrderModal";
 
 export function SpotMarketForm({ id }: { id: number }) {
   const { synthAddress, unwrapFee, wrapFee } = useSpotMarketInfo(id);
   const [isOpen, setIsOpen] = useState(false);
 
-  const { wrapCollateralType, maxWrappableAmount, refetch } =
+  const { wrapCollateralType, refetch: refetchCollateralInfo } =
     useGetMarketWrapCollateral(id);
   const [slippage, setSlippage] = useState(1);
   const [amount, setAmount] = useState("0");
@@ -49,7 +50,12 @@ export function SpotMarketForm({ id }: { id: number }) {
     address: wrapCollateralType as `0x${string}`,
     enabled: !!wrapCollateralType,
   });
-  const hasAsyncOrders = !!getAsyncOrderIds(id).length;
+  const { orders } = useGetOrders(id, false);
+  const hasAsyncOrders = useMemo(
+    () =>
+      !!orders.filter((order) => order.status === OrderStatus.Commited).length,
+    [orders],
+  );
 
   const USD = useContract("USD");
   const { data: USDBalance, refetch: refetchUSD } = useBalance({
@@ -71,11 +77,21 @@ export function SpotMarketForm({ id }: { id: number }) {
       enabled: !!wrapCollateralType,
     });
 
+  const toast = useToast({
+    isClosable: true,
+    duration: 9000,
+  });
+
   const onSuccess = () => {
+    toast({
+      title: "Successfully done",
+      status: "success",
+    });
+
     refetchUSD();
     refetcSynth();
     refetchWrapCollateral();
-    refetch();
+    refetchCollateralInfo();
   };
 
   const [orderType, setOrderType] = useState(TransactionType.ASYNC_BUY);
@@ -146,6 +162,7 @@ export function SpotMarketForm({ id }: { id: number }) {
     <>
       <AsyncOrderModal
         marketId={id}
+        defaultIndex={2}
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
       />
@@ -225,7 +242,7 @@ export function SpotMarketForm({ id }: { id: number }) {
                     >
                       Balance:&nbsp;
                       <Amount
-                        value={wei(balance?.formatted)}
+                        value={wei(balance?.formatted || "0")}
                         suffix={inputToken}
                       />
                     </Flex>

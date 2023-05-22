@@ -106,7 +106,6 @@ export const useSpotMarketOrder = (
 
         await txReceipt.wait();
 
-        addAsyncOrderId(Number(marketId), asyncOrderClaim.id.toString());
         onSuccess();
       } catch (error) {
         console.log("error:", error);
@@ -148,7 +147,6 @@ export const useSpotMarketOrder = (
 
         await txReceipt.wait();
 
-        addAsyncOrderId(Number(marketId), asyncOrderClaim.id.toString());
         onSuccess();
       } catch (error) {
         console.log("error:", error);

@@ -4,8 +4,8 @@ import {
   useSpotMarketInfo,
   useSpotMarketStat,
 } from "../../hooks/spot/useSpotMarketInfo";
-import { SettledOrderModal } from "./SettledOrderModal/SettledOrderModal";
 import { useState } from "react";
+import { AsyncOrderModal } from "./Orders/AsyncOrderModal";
 
 export function MarketDetails({ marketId }: { marketId: number }) {
   const { synthAddress, asyncFixedFee, marketSkewScale, unwrapFee, wrapFee } =
@@ -62,9 +62,10 @@ export function MarketDetails({ marketId }: { marketId: number }) {
   return (
     <Box>
       {/* <Button onClick={stake}>Stake</Button> */}
-      <SettledOrderModal
+      <AsyncOrderModal
         marketId={marketId}
         isOpen={orderHistory}
+        defaultIndex={0}
         onClose={() => setOrderHistory(false)}
       />
 
