@@ -14,18 +14,18 @@ export function Header({ isSpot }: HeaderProps) {
     <Flex p="3" borderBottom="1px solid rgba(255,255,255,0.2)" align="center">
       <Box>
         <Heading size="md" fontWeight="bold" fontFamily="mono">
-          <Link to="/">Synthetix Markets v3</Link>{" "}
+          <Link to="/">Synthetix V3 Markets</Link>{" "}
           <Tag
             variant="solid"
-            colorScheme="yellow"
+            colorScheme="red"
             fontSize=".6em"
             minH="auto"
             py="0.5"
+            px="1.5"
             fontWeight="bold"
-            backgroundColor="rgba(214, 158, 46, .95)"
             transform="translateY(.3em)"
           >
-            prototype
+            PROTOTYPE
           </Tag>
         </Heading>
       </Box>
@@ -45,7 +45,7 @@ export function Header({ isSpot }: HeaderProps) {
             LP
           </Button>
         </Link>
-        <Link to="https://synthetix-1.gitbook.io/v3/">
+        <Link to="https://docs.synthetix.io/v/v3/">
           <Button variant="ghost" opacity=".5" rightIcon={<ExternalLinkIcon />}>
             Docs
           </Button>
