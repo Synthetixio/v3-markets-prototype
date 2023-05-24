@@ -15,30 +15,86 @@ import {
   ModalBody,
   Text,
 } from "@chakra-ui/react";
+import { useState } from "react";
+import { useParams, useSearchParams } from "react-router-dom";
+import { perpsMarkets } from "../../constants/markets";
+import { useSpotMarketInfo } from "../../hooks/spot/useSpotMarketInfo";
 import { Collateral } from "./Collateral";
+import { DepositCollateral } from "./DepositCollateral";
+import { WithdrawCollateral } from "./WithdrawCollateral";
 
 export function AccountOverview() {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [openDeposit, setOpenDeposit] = useState(false);
+  const [openWithdraw, setOpenWithdraw] = useState(false);
+
+  const { marketId } = useParams();
+  const market = perpsMarkets[marketId?.toUpperCase() || "ETH"];
+
+  const [searchParams] = useSearchParams();
+  const selectedAccountId = searchParams.get("accountId");
+
+  const { synthAddress } = useSpotMarketInfo(market?.marketId);
 
   return (
     <Box p="4" borderBottom="1px solid rgba(255,255,255,0.2)">
       <Flex align="center" mb="3">
         <Heading size="sm">Account Overview</Heading>
-        <Button onClick={onOpen} ml="auto" size="xs" colorScheme="cyan">
-          Deposit / Withdraw
+        <Button
+          onClick={() => setOpenDeposit(true)}
+          size="xs"
+          colorScheme="cyan"
+        >
+          Deposit
         </Button>
-
-        <Modal isOpen={isOpen} onClose={onClose} size="lg">
-          <ModalOverlay />
-          <ModalContent>
-            <ModalHeader>Manage Collateral</ModalHeader>
-            <ModalCloseButton />
-            <ModalBody>
-              <Collateral />
-            </ModalBody>
-          </ModalContent>
-        </Modal>
+        <Button
+          onClick={() => setOpenWithdraw(true)}
+          size="xs"
+          ml="2"
+          colorScheme="cyan"
+        >
+          Withdraw
+        </Button>
       </Flex>
+
+      <Modal
+        isOpen={openDeposit}
+        onClose={() => setOpenDeposit(false)}
+        size="lg"
+      >
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Deposit Collateral</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            {selectedAccountId && synthAddress && (
+              <DepositCollateral
+                synth={synthAddress}
+                accountId={selectedAccountId}
+              />
+            )}
+          </ModalBody>
+        </ModalContent>
+      </Modal>
+
+      <Modal
+        isOpen={openWithdraw}
+        onClose={() => setOpenWithdraw(false)}
+        size="lg"
+      >
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Withdraw Collateral</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            {selectedAccountId && synthAddress && (
+              <WithdrawCollateral
+                synth={synthAddress}
+                accountId={selectedAccountId}
+              />
+            )}
+          </ModalBody>
+        </ModalContent>
+      </Modal>
 
       {/* Need the before/after component */}
       <Box mb="1">

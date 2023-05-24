@@ -38,12 +38,12 @@ export const useApprove = (
   }, [allowance, amount]);
 
   const approve = useCallback(async () => {
-    if (!sufficientAllowance) {
+    if (!sufficientAllowance && !!contractAddress) {
       const txReceipt = await writeAsync();
       await txReceipt.wait();
       refetchAllowance();
     }
-  }, [amount, refetchAllowance, spender, sufficientAllowance, writeAsync]);
+  }, [refetchAllowance, sufficientAllowance, writeAsync, contractAddress]);
 
   return {
     isLoading,

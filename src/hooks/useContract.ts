@@ -24,20 +24,6 @@ export const useContract = (name: ContractName) => {
 
   const contract = contracts[NETWORK][name];
 
-  if (NETWORK === "optimism-goerli" && name === "OracleVerifier") {
-    const feedAddress = "0xff1a0f4744e8582DF1aE09D5611b887B6a12925C";
-    return {
-      address: feedAddress as `0x${string}`,
-      abi: IPythVerifier,
-      contract: new ethers.Contract(
-        feedAddress,
-        IPythVerifier,
-        signer || provider,
-      ),
-      chainId: contracts[NETWORK].chainId,
-    };
-  }
-
   if (!contract) {
     throw new Error(`Contract "${name}" not found on network "${NETWORK}"`);
   }

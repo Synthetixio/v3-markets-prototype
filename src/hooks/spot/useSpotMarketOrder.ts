@@ -1,7 +1,6 @@
 import { BigNumber, ethers } from "ethers";
 import { useCallback, useMemo, useState } from "react";
 import { useContractWrite } from "wagmi";
-import { addAsyncOrderId } from "../../components/SpotMarket/AsyncOrderModal/AsyncOrders";
 import { TransactionType } from "../../constants/order";
 import { useApprove } from "../useApprove";
 import { useContract } from "../useContract";

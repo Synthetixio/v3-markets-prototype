@@ -10,6 +10,7 @@ export const perpsMarkets: MarketData = {
   ETH: {
     marketId: 2,
     tradingViewSymbol: "PYTH:ETHUSD",
+    synth: "snxETH",
   },
 };
 
