@@ -5,6 +5,7 @@ import { ChevronDownIcon } from "@chakra-ui/icons";
 import { useSearchParams } from "react-router-dom";
 import { useCreateAccount } from "../../hooks/useCreateAccount";
 import { useGetAccounts } from "../../hooks/useGetAccounts";
+import { useEffect } from "react";
 
 export function AccountSwitcher() {
   const { isConnected } = useAccount();
@@ -17,6 +18,13 @@ export function AccountSwitcher() {
     setSelectedAccountId({ accountId });
     refetch();
   });
+
+  useEffect(() => {
+    if (!selectedAccountId && accountIds.length > 0) {
+      setSelectedAccountId({ accountId: accountIds[0]?.toString() || "" });
+      refetch();
+    }
+  }, [selectedAccountId, accountIds]);
 
   if (!isConnected) {
     return null;

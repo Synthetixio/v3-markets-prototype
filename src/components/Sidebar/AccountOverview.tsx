@@ -37,20 +37,21 @@ export function AccountOverview() {
 
   return (
     <Box p="4" borderBottom="1px solid rgba(255,255,255,0.2)">
-      <Flex align="center" mb="3">
+      <Flex align="center" mb="3" gap="2">
         <Heading size="sm">Account Overview</Heading>
         <Button
           onClick={() => setOpenDeposit(true)}
           size="xs"
           colorScheme="cyan"
+          isDisabled={!selectedAccountId}
         >
           Deposit
         </Button>
         <Button
           onClick={() => setOpenWithdraw(true)}
           size="xs"
-          ml="2"
           colorScheme="cyan"
+          isDisabled={!selectedAccountId}
         >
           Withdraw
         </Button>
