@@ -3,7 +3,7 @@ import { useContract } from "./useContract";
 
 export const useGetAccounts = () => {
   const { address, isConnected } = useAccount();
-  const accountProxy = useContract("ACCOUNT_PROXY");
+  const accountProxy = useContract("PERPS_ACCOUNT_PROXY");
 
   const {
     data: acccountCount,

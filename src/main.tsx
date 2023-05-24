@@ -22,6 +22,7 @@ import {
   ApolloProvider,
   gql,
 } from "@apollo/client";
+import { PerpsMarket } from "./pages/perps/PerpsMarket";
 
 const apolloClient = new ApolloClient({
   uri: "https://api.thegraph.com/subgraphs/name/rickk137/v3-markets-graph",
@@ -37,10 +38,10 @@ const router = createBrowserRouter([
   //   path: "/perps/admin",
   //   element: <PerpsAdmin />,
   // },
-  // {
-  //   path: "/perps/markets/:marketId",
-  //   element: <PerpsMarket />,
-  // },
+  {
+    path: "/perps/markets/:marketId",
+    element: <PerpsMarket />,
+  },
   // {
   //   path: "/perps/markets/:marketId/:accountId",
   //   element: <PerpsMarket />,

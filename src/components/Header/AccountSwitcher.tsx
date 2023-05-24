@@ -9,7 +9,6 @@ import { useGetAccounts } from "../../hooks/useGetAccounts";
 export function AccountSwitcher() {
   const { isConnected } = useAccount();
 
-  const accountIdsData = [""];
   const [searchParams, setSelectedAccountId] = useSearchParams();
   const selectedAccountId = searchParams.get("accountId");
 
@@ -23,7 +22,7 @@ export function AccountSwitcher() {
     return null;
   }
 
-  return accountIdsData?.length || selectedAccountId ? (
+  return accountIds?.length || selectedAccountId ? (
     <Menu>
       <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
         <>Account #{selectedAccountId}</>
@@ -36,12 +35,10 @@ export function AccountSwitcher() {
               setSelectedAccountId({ accountId: accountId as string })
             }
           >
-            <>Account #{accountId?.toString()}</>
+            <>Account #{(accountId as string)?.toString()}</>
           </MenuItem>
         ))}
-        <MenuItem key={accountIdsData?.length} onClick={() => createAccount()}>
-          Create New Account
-        </MenuItem>
+        <MenuItem onClick={() => createAccount()}>Create New Account</MenuItem>
       </MenuList>
     </Menu>
   ) : (

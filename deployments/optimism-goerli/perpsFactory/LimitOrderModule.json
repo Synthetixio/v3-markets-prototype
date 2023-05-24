@@ -1,0 +1,10 @@
+{
+  "address": "0xB0A8Baa72a4de5bccAF925822C51B2f87E6218d2",
+  "abi": [],
+  "constructorArgs": [],
+  "linkedLibraries": {},
+  "deployTxnHash": "0xd16b8d96d36cef6665d346b7f5994ea6e2230b09a4d81056afe4a5fa9f836291",
+  "sourceName": "contracts/modules/LimitOrderModule.sol",
+  "contractName": "LimitOrderModule",
+  "deployedOn": "contract.LimitOrderModule"
+}

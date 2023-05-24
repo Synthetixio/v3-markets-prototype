@@ -1,3 +1,3 @@
 export { Header } from "./Header";
-export { Market } from "./Market";
+export { PerpsMarketInfo } from "./PerpsMarketInfo";
 export { Sidebar } from "./Sidebar";
