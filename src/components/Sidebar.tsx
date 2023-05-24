@@ -1,4 +1,5 @@
 import { Flex, Box } from "@chakra-ui/react";
+import { MarketSwitcher } from "./Market/index";
 import { AccountOverview, CurrentPosition, OrderForm } from "./Sidebar/index";
 
 export function Sidebar() {
@@ -10,6 +11,7 @@ export function Sidebar() {
     >
       <Flex flexDirection="column" height="100%">
         <Box>
+          <MarketSwitcher />
           <AccountOverview />
           <CurrentPosition />
         </Box>

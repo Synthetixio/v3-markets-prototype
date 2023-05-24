@@ -1,14 +1,10 @@
-import { Box, Flex } from "@chakra-ui/react";
-import { PriceChart, Stats, MarketSwitcher } from "./Market/index";
+import { Flex } from "@chakra-ui/react";
+import { PriceChart } from "./Market/index";
 
 export function PerpsMarketInfo() {
   return (
     <Flex direction="column" height="100%" width="100%">
       <Flex flexDirection="column" height="100%">
-        <Flex>
-          <MarketSwitcher />
-          <Stats />
-        </Flex>
         <PriceChart />
       </Flex>
     </Flex>
