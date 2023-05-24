@@ -73,13 +73,13 @@ export function MarketDetails({ marketId }: { marketId: number }) {
         <Box w="50%" mb="3">
           <Heading size="xs">Synth</Heading>
           {tokenInfo?.name}{" "}
-          <Text display="inline" fontSize="sm" opacity="0.5">
+          <Text display="inline" fontSize="xs" opacity="0.5">
             ({tokenInfo?.symbol})
           </Text>
         </Box>
         <Box w="50%" mb="3">
           <Heading size="xs">Orders</Heading>
-          <Text display="inline" fontSize="sm">
+          <Text display="inline">
             <Link color="blue.200" onClick={() => setOrderHistory(true)}>
               View Settled Orders
             </Link>
