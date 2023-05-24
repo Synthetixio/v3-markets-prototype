@@ -30,17 +30,17 @@ export function Header({ isSpot }: HeaderProps) {
         </Heading>
       </Box>
       <Box ml="4">
-        <Link to={`/spot/markets/${spotMarkets.ETH.marketId}`}>
+        <Link to="/spot/markets/ETH">
           <Button variant="ghost" opacity={isSpot ? "1" : ".5"}>
             Spot
           </Button>
         </Link>
-        <Link to={`/perps/markets/${perpsMarkets.ETH.marketId}`}>
+        <Link to="/perps/markets/ETH">
           <Button variant="ghost" opacity={!isSpot ? "1" : ".5"}>
             Perps
           </Button>
         </Link>
-        <Link to="https://v3.synthetix.io/">
+        <Link target="_blank" to="https://v3.synthetix.io/">
           <Button variant="ghost" opacity=".5" rightIcon={<ExternalLinkIcon />}>
             LP
           </Button>
