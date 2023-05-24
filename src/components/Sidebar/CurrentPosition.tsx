@@ -12,12 +12,11 @@ import {
 export function CurrentPosition() {
   return (
     <Box p="4" borderBottom="1px solid rgba(255,255,255,0.2)">
-      <Alert status="error" fontSize="sm" w="100%" mb="2">
+      <Alert status="error" fontSize="sm" w="100%" mb="4">
         <AlertIcon w="4" />
         <Box>
-          This is an experimental prototype.{" "}
-          <Text fontWeight="semibold" display="inline">
-            Currently under construction.
+          <Text fontWeight="bold" display="inline">
+            This UI is under construction.
           </Text>
         </Box>
       </Alert>
