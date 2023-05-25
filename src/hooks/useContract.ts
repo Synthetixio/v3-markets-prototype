@@ -24,7 +24,7 @@ export const useContract = (name: ContractName) => {
   const provider = useProvider();
   const { data: signer } = useSigner();
 
-  const contract = contracts[chain?.network || ""][name];
+  const contract = contracts[chain?.network || "optimism"][name];
 
   if (!contract) {
     throw new Error(`Contract "${name}" not found on network "${NETWORK}"`);
