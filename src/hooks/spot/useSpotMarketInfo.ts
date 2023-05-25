@@ -1,8 +1,8 @@
 import { formatEther } from "ethers/lib/utils.js";
-import { useContractRead } from "wagmi";
+import { useContractRead, useNetwork } from "wagmi";
 import { useContract } from "../useContract";
 
-export const useSpotMarketInfo = (marketId: string | number) => {
+export const useSpotMarketInfo = (marketId: string | number | undefined) => {
   const spotMarketProxy = useContract("SPOT_MARKET");
 
   const { data: synthAddress } = useContractRead({

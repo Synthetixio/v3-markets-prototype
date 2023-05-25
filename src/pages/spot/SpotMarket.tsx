@@ -2,19 +2,16 @@ import { Box, Flex, Heading, Text } from "@chakra-ui/react";
 import { Header } from "../../components";
 import { AdvancedRealTimeChart } from "react-ts-tradingview-widgets";
 import { useSpotMarketInfo } from "../../hooks/spot/useSpotMarketInfo";
-import { useParams } from "react-router-dom";
-import { spotMarkets } from "../../constants/markets";
 import { MarketDetails } from "../../components/SpotMarket/MarketDetails";
 import { SpotMarketForm } from "../../components/SpotMarket/SpotMarketForm";
 import { ArrowUpDownIcon } from "@chakra-ui/icons";
+import { useMarketId } from "../../hooks/useMarketId";
 
 export function SpotMarket() {
-  const { marketId } = useParams();
-  const market = spotMarkets[marketId?.toUpperCase() || "ETH"];
-  const id = market?.marketId;
-  const { synthAddress } = useSpotMarketInfo(id);
+  const market = useMarketId();
+  const { synthAddress } = useSpotMarketInfo(market?.marketId);
 
-  if (!id || !synthAddress) {
+  if (!market) {
     return null;
   }
 
@@ -37,15 +34,15 @@ export function SpotMarket() {
               {market.synth} Spot Market
             </Heading>
             <Text opacity="0.5" display="inline-block" ml="1.5">
-              (ID {id})
+              (ID {market.marketId})
             </Text>
             <Box float="right" display="none">
               <ArrowUpDownIcon />
             </Box>
           </Box>
-          <SpotMarketForm id={id} />
+          <SpotMarketForm id={market.marketId} />
           <Box flex="1" overflowY="auto" p="4">
-            <MarketDetails marketId={id} />
+            <MarketDetails marketId={market.marketId} />
           </Box>
         </Flex>
 

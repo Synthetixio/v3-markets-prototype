@@ -28,7 +28,7 @@ export function AccountOverview() {
   const [openWithdraw, setOpenWithdraw] = useState(false);
 
   const { marketId } = useParams();
-  const market = perpsMarkets[marketId?.toUpperCase() || "ETH"];
+  const market = perpsMarkets[420][marketId?.toUpperCase() || "ETH"];
 
   const [searchParams] = useSearchParams();
   const selectedAccountId = searchParams.get("accountId");

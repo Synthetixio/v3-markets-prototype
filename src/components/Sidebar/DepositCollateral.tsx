@@ -26,7 +26,7 @@ export function DepositCollateral({
 }) {
   const { address } = useAccount();
   const { marketId } = useParams();
-  const market = perpsMarkets[marketId?.toUpperCase() || "ETH"];
+  const market = perpsMarkets[420][marketId?.toUpperCase() || "ETH"];
   const [amount, setAmount] = useState("0");
 
   const { data: synthBalance, refetch: refetcSynth } = useBalance({

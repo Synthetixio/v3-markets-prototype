@@ -15,6 +15,9 @@ const networks = {
       symbol: "ETH",
     },
     rpcUrls: {
+      alchemy: {
+        http: ["http://localhost:8545"],
+      },
       default: {
         http: ["http://localhost:8545"],
       },
@@ -24,6 +27,7 @@ const networks = {
     },
   },
   "optimism-goerli": optimismGoerli,
+  optimism,
 };
 
 type Network = keyof typeof networks;
@@ -34,26 +38,32 @@ if (!networks[VITE_NETWORK]) {
   throw new Error(`Invalid network name "${VITE_NETWORK}"`);
 }
 
+const networkList = Object.entries(networks)
+  .map(([_key, value]) => value)
+  .filter((network) => {
+    return VITE_NETWORK === "cannon" || network.id !== 13370;
+  });
+
 /**
  * Tell wagmi which chains you want to support
  * To add a new chain simply import it and add it here
  * @see https://wagmi.sh/react/providers/configuring-chains
  */
-const { chains, provider } = configureChains(
-  [networks[VITE_NETWORK]],
-  [
-    infuraProvider({ apiKey: import.meta.env.VITE_INFURA_API_KEY! }),
-    /**
-     * Tells wagmi to use the default RPC URL for each chain
-     * for some dapps the higher rate limits of Alchemy may be required
-     */
-    jsonRpcProvider({
-      rpc: (chain) => {
-        return { http: chain.rpcUrls.default.http[0] };
-      },
-    }),
-  ],
-);
+const { chains, provider } = configureChains(networkList, [
+  infuraProvider({ apiKey: import.meta.env.VITE_INFURA_API_KEY! }),
+  /**
+   * Tells wagmi to use the default RPC URL for each chain
+   * for some dapps the higher rate limits of Alchemy may be required
+   */
+  jsonRpcProvider({
+    rpc: (chain) => {
+      console.log({
+        chain: chain.rpcUrls,
+      });
+      return { http: chain.rpcUrls.alchemy.http[0] };
+    },
+  }),
+]);
 
 /**
  * Export chains to be used by rainbowkit

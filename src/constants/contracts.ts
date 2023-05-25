@@ -11,9 +11,25 @@ import OptimismGoerliSpotMarketProxy from "../../deployments/optimism-goerli/spo
 import OptimismGoerliPerpsAccountProxy from "../../deployments/optimism-goerli/perpsFactory/AccountProxy.json";
 import OptimismGoerliUSDProxy from "../../deployments/optimism-goerli/system/USDProxy.json";
 
+import OptimismCoreProxy from "../../deployments/optimism/system/CoreProxy.json";
+import OptimismSpotMarketProxy from "../../deployments/optimism/spotFactory/SpotMarketProxy.json";
+import OptimismUSDProxy from "../../deployments/optimism/system/USDProxy.json";
+
 import IPythVerifier from "../constants/IPythVerifier.json";
 
-export const contracts = {
+interface Contracts {
+  [key: string]: {
+    chainId: number;
+    SYNTHETIX: any;
+    PERPS_MARKET: any;
+    SPOT_MARKET: any;
+    PERPS_ACCOUNT_PROXY: any;
+    USD: any;
+    OracleVerifier: any;
+  };
+}
+
+export const contracts: Contracts = {
   cannon: {
     chainId: 13370,
     SYNTHETIX: CannonCoreProxy,
@@ -30,6 +46,18 @@ export const contracts = {
     SPOT_MARKET: OptimismGoerliSpotMarketProxy,
     PERPS_ACCOUNT_PROXY: OptimismGoerliPerpsAccountProxy,
     USD: OptimismGoerliUSDProxy,
+    OracleVerifier: {
+      address: "0xff1a0f4744e8582DF1aE09D5611b887B6a12925C",
+      abi: IPythVerifier,
+    },
+  },
+  ["optimism"]: {
+    chainId: 1,
+    SYNTHETIX: OptimismCoreProxy,
+    PERPS_MARKET: null,
+    SPOT_MARKET: OptimismSpotMarketProxy,
+    PERPS_ACCOUNT_PROXY: null,
+    USD: OptimismUSDProxy,
     OracleVerifier: {
       address: "0xff1a0f4744e8582DF1aE09D5611b887B6a12925C",
       abi: IPythVerifier,

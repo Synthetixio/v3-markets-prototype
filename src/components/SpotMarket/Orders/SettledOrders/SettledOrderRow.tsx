@@ -7,6 +7,7 @@ import { useParams } from "react-router-dom";
 import { spotMarkets } from "../../../../constants/markets";
 import { TransactionType } from "../../../../constants/order";
 import { Order } from "../../../../hooks/spot/useGetOrders";
+import { useMarketId } from "../../../../hooks/useMarketId";
 import { prettyString } from "../../../../utils/format";
 import { Amount } from "../../../Amount";
 
@@ -15,25 +16,24 @@ interface Props {
   order: Order;
 }
 
-export function SettledOrderRow({ marketId, order }: Props) {
+export function SettledOrderRow({ order }: Props) {
   const orderType = useMemo(
     () => Number(order.orderType.toString()),
     [order.orderType],
   );
 
-  const { marketId: marketSymbol } = useParams();
-  const market = spotMarkets[marketSymbol?.toUpperCase() || "ETH"];
+  const market = useMarketId();
 
   const { inputToken, outputToken } = useMemo(() => {
     let inputToken = "";
-    let outputToken = market.synth || "";
+    let outputToken = market?.synth || "";
 
     if (orderType === TransactionType.ASYNC_SELL) {
-      inputToken = market.synth || "";
+      inputToken = market?.synth || "";
       outputToken = "snxUSD";
     } else if (orderType === TransactionType.ASYNC_BUY) {
       inputToken = "snxUSD";
-      outputToken = market.synth || "";
+      outputToken = market?.synth || "";
     }
     return {
       inputToken,

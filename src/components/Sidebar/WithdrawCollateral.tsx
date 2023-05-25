@@ -9,23 +9,20 @@ import {
   NumberInputField,
   useToast,
 } from "@chakra-ui/react";
-import { wei } from "@synthetixio/wei";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-import { useAccount, useBalance, useContractRead } from "wagmi";
+import { useAccount, useContractRead } from "wagmi";
 import { perpsMarkets } from "../../constants/markets";
 import { useModifyCollateral } from "../../hooks/perps/useModifyCollateral";
 import { useContract } from "../../hooks/useContract";
-import { Amount } from "../Amount";
 
 export function WithdrawCollateral({ accountId }: { accountId: string }) {
   const { address } = useAccount();
   const { marketId } = useParams();
   const perpsMarket = useContract("PERPS_MARKET");
-  const market = perpsMarkets[marketId?.toUpperCase() || "ETH"];
+  const market = perpsMarkets[420][marketId?.toUpperCase() || "ETH"];
   const [amount, setAmount] = useState("0");
 
-  console.log({ accountId });
   const {
     data: collateralValue,
     isLoading: collateralValueLoading,

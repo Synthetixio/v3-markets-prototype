@@ -11,6 +11,7 @@ import { prettyString } from "../../../../utils/format";
 import { Amount } from "../../../Amount";
 import { useGetSettlementStrategy } from "../../../../hooks/spot/useGetSettlementStrategy";
 import { useContract } from "../../../../hooks/useContract";
+import { useMarketId } from "../../../../hooks/useMarketId";
 
 interface Props {
   marketId: number;
@@ -34,19 +35,18 @@ export function CommitedOrderRow({ marketId, order, block }: Props) {
     isClosable: true,
     duration: 9000,
   });
-  const { marketId: marketSymbol } = useParams();
-  const market = spotMarkets[marketSymbol?.toUpperCase() || "ETH"];
+  const market = useMarketId();
 
   const { inputToken } = useMemo(() => {
     let inputToken = "";
-    let outputToken = market.synth || "";
+    let outputToken = market?.synth || "";
 
     if (orderType === TransactionType.ASYNC_SELL) {
-      inputToken = market.synth || "";
+      inputToken = market?.synth || "";
       outputToken = "snxUSD";
     } else if (orderType === TransactionType.ASYNC_BUY) {
       inputToken = "snxUSD";
-      outputToken = market.synth || "";
+      outputToken = market?.synth || "";
     }
     return {
       inputToken,
