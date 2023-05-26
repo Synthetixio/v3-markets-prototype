@@ -38,7 +38,7 @@ if (!networks[VITE_NETWORK]) {
   throw new Error(`Invalid network name "${VITE_NETWORK}"`);
 }
 
-const networkList = Object.entries(networks)
+export const networkList = Object.entries(networks)
   .map(([_key, value]) => value)
   .filter((network) => {
     return VITE_NETWORK === "cannon" || network.id !== 13370;
@@ -57,10 +57,7 @@ const { chains, provider } = configureChains(networkList, [
    */
   jsonRpcProvider({
     rpc: (chain) => {
-      console.log({
-        chain: chain.rpcUrls,
-      });
-      return { http: chain.rpcUrls.alchemy.http[0] };
+      return { http: chain.rpcUrls.default.http[0] };
     },
   }),
 ]);

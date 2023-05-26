@@ -1,12 +1,12 @@
 import { useParams } from "react-router-dom";
-import { useNetwork } from "wagmi";
 import { spotMarkets } from "../constants/markets";
+import { useDefaultNetwork } from "./useDefaultNetwork";
 
 export const useMarketId = () => {
   const { marketId: marketSymbol } = useParams();
-  const { chain } = useNetwork();
+  const network = useDefaultNetwork();
+  const markets = spotMarkets[network.id];
 
-  const markets = spotMarkets[chain?.id || 420];
   if (!markets) {
     return null;
   }

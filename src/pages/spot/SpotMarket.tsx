@@ -1,7 +1,6 @@
 import { Box, Flex, Heading, Text } from "@chakra-ui/react";
 import { Header } from "../../components";
 import { AdvancedRealTimeChart } from "react-ts-tradingview-widgets";
-import { useSpotMarketInfo } from "../../hooks/spot/useSpotMarketInfo";
 import { MarketDetails } from "../../components/SpotMarket/MarketDetails";
 import { SpotMarketForm } from "../../components/SpotMarket/SpotMarketForm";
 import { ArrowUpDownIcon } from "@chakra-ui/icons";
@@ -9,7 +8,6 @@ import { useMarketId } from "../../hooks/useMarketId";
 
 export function SpotMarket() {
   const market = useMarketId();
-  const { synthAddress } = useSpotMarketInfo(market?.marketId);
 
   if (!market) {
     return null;

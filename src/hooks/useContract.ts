@@ -1,7 +1,7 @@
 import { ethers } from "ethers";
-import { useNetwork, useProvider, useSigner } from "wagmi";
+import { useProvider, useSigner } from "wagmi";
 import { contracts } from "../constants/contracts";
-import IPythVerifier from "../constants/IPythVerifier.json";
+import { useDefaultNetwork } from "./useDefaultNetwork";
 
 type ContractName =
   | keyof typeof contracts.cannon
@@ -11,7 +11,7 @@ const NETWORK = (import.meta.env.VITE_NETWORK ||
   "cannon") as keyof typeof contracts;
 
 export const useContract = (name: ContractName) => {
-  const { chain } = useNetwork();
+  const network = useDefaultNetwork();
 
   if (name === "chainId") {
     throw new Error('Cannot use "chainId" as a contract name');
@@ -24,7 +24,7 @@ export const useContract = (name: ContractName) => {
   const provider = useProvider();
   const { data: signer } = useSigner();
 
-  const contract = contracts[chain?.network || "optimism"][name];
+  const contract = contracts[network.network][name];
 
   if (!contract) {
     throw new Error(`Contract "${name}" not found on network "${NETWORK}"`);
