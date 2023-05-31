@@ -5,10 +5,16 @@ export enum FeeType {
   ASYNC_FIXED = "ASYNC_FIXED",
 }
 
-export enum StrategyType {
-  ONCHAIN = 0,
-  PYTH = 1,
-}
+export const StrategyType = {
+  420: {
+    ONCHAIN: 2,
+    PYTH: 1,
+  },
+  10: {
+    ONCHAIN: 0,
+    PYTH: 1,
+  },
+} as const;
 
 export enum TransactionType {
   NULL,

@@ -12,13 +12,14 @@ import { parseEther } from "ethers/lib/utils.js";
 import { useState } from "react";
 import { Form } from "react-router-dom";
 import { useContractWrite } from "wagmi";
-import { StrategyType } from "../../constants/order";
 import { useContract } from "../../hooks/useContract";
+import { useStrategyType } from "../../hooks/useStrategyType";
 
 const feedId =
   "0xca80ba6dc32e08d06f1aa886011eed1d77c77be9eb761cc10d72b7d0a2fd57a6";
 
 export function SpotMarketSettlementStrategy() {
+  const StrategyType = useStrategyType();
   const [marketId, setMarketId] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 

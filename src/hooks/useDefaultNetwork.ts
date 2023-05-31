@@ -12,3 +12,9 @@ export const useDefaultNetwork = () => {
 
   return network || optimismGoerli;
 };
+
+export const useChainId = () => {
+  const network = useDefaultNetwork();
+  if (!network) throw new Error("Network not found");
+  return network.id;
+};

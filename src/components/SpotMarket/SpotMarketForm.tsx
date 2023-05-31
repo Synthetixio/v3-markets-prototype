@@ -18,7 +18,7 @@ import {
 import { parseEther } from "ethers/lib/utils.js";
 import { useEffect, useMemo, useState } from "react";
 import { useAccount, useBalance, useToken } from "wagmi";
-import { StrategyType, TransactionType } from "../../constants/order";
+import { TransactionType } from "../../constants/order";
 import { useGetMarketWrapCollateral } from "../../hooks/spot/useGetMarketWrapCollateral";
 import { useSpotMarketInfo } from "../../hooks/spot/useSpotMarketInfo";
 import { useSpotMarketOrder } from "../../hooks/spot/useSpotMarketOrder";
@@ -28,6 +28,7 @@ import { SlippageSelector } from "../SlippageSelector";
 import { wei } from "@synthetixio/wei";
 import { OrderStatus, useGetOrders } from "../../hooks/spot/useGetOrders";
 import { AsyncOrderModal } from "./Orders/AsyncOrderModal";
+import { useStrategyType } from "../../hooks/useStrategyType";
 
 export function SpotMarketForm({ id }: { id: number }) {
   const { synthAddress, unwrapFee, wrapFee } = useSpotMarketInfo(id);
@@ -38,6 +39,7 @@ export function SpotMarketForm({ id }: { id: number }) {
   const [slippage, setSlippage] = useState(1);
   const [amount, setAmount] = useState("0");
   // const [settlementType, setSettlementType] = useState("async");
+  const StrategyType = useStrategyType();
   const [strategyType, setStrategyType] = useState(StrategyType.ONCHAIN);
 
   const { address } = useAccount();
