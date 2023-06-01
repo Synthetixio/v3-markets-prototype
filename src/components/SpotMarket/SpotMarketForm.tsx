@@ -263,7 +263,6 @@ export function SpotMarketForm({ id }: { id: number }) {
                     onChange={(_v, valueAsNumber) => {
                       setAmount(isNaN(valueAsNumber) ? "" : _v);
                     }}
-                    precision={18}
                   >
                     <NumberInputField />
                     <InputRightElement width="6rem">

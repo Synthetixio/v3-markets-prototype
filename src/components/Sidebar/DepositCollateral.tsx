@@ -99,7 +99,6 @@ export function DepositCollateral({
               setAmount(isNaN(valueAsNumber) ? "" : _v);
             }}
             max={Number(synthBalance?.formatted)}
-            precision={18}
           >
             <NumberInputField />
             <InputRightElement width="6rem">{market.synth}</InputRightElement>
