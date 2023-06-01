@@ -244,6 +244,7 @@ export function SpotMarketForm({ id }: { id: number }) {
                     >
                       Balance:&nbsp;
                       <Amount
+                        onClick={(preciseValue) => setAmount(preciseValue)}
                         value={wei(balance?.formatted || "0")}
                         suffix={inputToken}
                       />
