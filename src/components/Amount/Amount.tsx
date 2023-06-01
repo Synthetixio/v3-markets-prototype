@@ -1,4 +1,4 @@
-import { Tooltip } from "@chakra-ui/react";
+import { Text, Tooltip } from "@chakra-ui/react";
 import { useMemo } from "react";
 import { Wei, wei } from "@synthetixio/wei";
 import { currency } from "../../utils/currency";
@@ -7,10 +7,12 @@ export function Amount({
   value,
   prefix = "",
   suffix = "",
+  onClick = () => {},
 }: {
   prefix?: string;
   value?: Wei;
   suffix?: string;
+  onClick?: (preciseValue: string) => void;
 }) {
   const { formattedValue, preciseValue } = useMemo(() => {
     if (!value) {
@@ -35,11 +37,22 @@ export function Amount({
       }
       isDisabled={formattedValue === preciseValue}
     >
-      <span>
-        {prefix}&nbsp;
+      <Text
+        _hover={
+          onClick
+            ? {
+                cursor: "pointer",
+                color: "cyan",
+                textDecoration: "underline",
+              }
+            : {}
+        }
+        onClick={() => onClick(preciseValue)}
+      >
+        {prefix ? `${prefix} ` : ""}
         {formattedValue}&nbsp;
         {suffix}
-      </span>
+      </Text>
     </Tooltip>
   );
 }
