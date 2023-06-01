@@ -10,11 +10,11 @@ export const useGetAccounts = () => {
     isLoading: acccountCountisLoading,
     refetch,
   } = useContractRead({
-    address: accountProxy.address,
-    abi: accountProxy.abi,
+    address: accountProxy?.address,
+    abi: accountProxy?.abi,
     functionName: "balanceOf",
     args: [address || "0x"],
-    enabled: isConnected && !!address,
+    enabled: isConnected && !!address && !!accountProxy,
   });
 
   const { data: accountIds, isLoading: accountIdsIsLoading } = useContractReads(
@@ -25,8 +25,8 @@ export const useGetAccounts = () => {
           ? Array.from(Array(Number(acccountCount?.toString())).keys())?.map(
               (index) => {
                 return {
-                  address: accountProxy.address,
-                  abi: accountProxy.abi,
+                  address: accountProxy?.address,
+                  abi: accountProxy?.abi,
                   functionName: "tokenOfOwnerByIndex",
                   args: [address, index],
                 };

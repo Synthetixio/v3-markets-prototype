@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import { useQuery, gql } from "@apollo/client";
+import { useChainId } from "../useDefaultNetwork";
 
 const GET_SETTLED_ORDERS = gql`
   query GetSettledOrders {
@@ -30,7 +31,10 @@ export interface SettledOrder {
   wrapperFees: string;
 }
 export const useGetSettledOrders = () => {
-  const { loading, error, data, refetch } = useQuery(GET_SETTLED_ORDERS);
+  const chain = useChainId();
+  const { loading, error, data, refetch } = useQuery(GET_SETTLED_ORDERS, {
+    context: { clientName: chain === 10 ? "optimism" : "optimismGoerli" },
+  });
 
   const settledOrders = useMemo(() => {
     if (!data) {

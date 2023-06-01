@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { useQuery, gql } from "@apollo/client";
 import { useAccount } from "wagmi";
+import { useChainId } from "../useDefaultNetwork";
 
 const GET_ORDERS = gql`
   query GetOrders($owner: String, $marketId: String) {
@@ -69,12 +70,14 @@ export enum OrderStatus {
 export const useGetOrders = (marketId: number, showAll: boolean) => {
   const { address } = useAccount();
 
+  const chain = useChainId();
   const { loading, error, data, refetch } = useQuery(GET_ORDERS, {
     variables: {
       marketId: marketId.toString(),
       owner: showAll ? "" : address?.toLowerCase(),
     },
     notifyOnNetworkStatusChange: true,
+    context: { clientName: chain === 10 ? "optimism" : "optimismGoerli" },
   });
 
   const orders = useMemo(() => {

@@ -16,18 +16,9 @@ import { ChakraProvider, ColorModeScript } from "@chakra-ui/react";
 import { SpotMarket } from "./pages/spot/SpotMarket";
 import { SpotAdmin } from "./pages/spot/SpotAdmin";
 
-import {
-  ApolloClient,
-  InMemoryCache,
-  ApolloProvider,
-  gql,
-} from "@apollo/client";
+import { ApolloProvider } from "@apollo/client";
 import { PerpsMarket } from "./pages/perps/PerpsMarket";
-
-const apolloClient = new ApolloClient({
-  uri: "https://api.thegraph.com/subgraphs/name/rickk137/v3-markets-graph",
-  cache: new InMemoryCache(),
-});
+import { apolloClient } from "./apolo";
 
 const router = createBrowserRouter([
   {
