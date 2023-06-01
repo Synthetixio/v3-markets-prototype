@@ -99,7 +99,6 @@ export function WithdrawCollateral({ accountId }: { accountId: string }) {
               setAmount(isNaN(valueAsNumber) ? "" : _v);
             }}
             // max={Number(synthBalance?.formatted)}
-            precision={18}
           >
             <NumberInputField />
             <InputRightElement width="6rem">{market.synth}</InputRightElement>
