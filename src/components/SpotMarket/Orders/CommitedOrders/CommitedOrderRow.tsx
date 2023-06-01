@@ -89,6 +89,11 @@ export function CommitedOrderRow({ marketId, order, block }: Props) {
       extraData = error.errorArgs.extraData;
     }
 
+    if (!urls || !data || !extraData) {
+      setSettling(false);
+      return;
+    }
+
     const fee = await oracleVerifier.contract.getUpdateFee(1);
     const parsedURL = urls[0].replace("{data}", data);
 
