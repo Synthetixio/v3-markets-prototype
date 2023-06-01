@@ -84,6 +84,7 @@ export function CommitedOrderRow({ marketId, order, block }: Props) {
         order.asyncOrderId,
       );
     } catch (error: any) {
+      console.log("settleOrder error", error);
       urls = error.errorArgs.urls;
       data = error.errorArgs.callData;
       extraData = error.errorArgs.extraData;
