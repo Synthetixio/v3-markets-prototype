@@ -30,6 +30,7 @@ const GET_ORDERS = gql`
       settlementTime
       minimumSettlementAmount
       settledAt
+      price
       block
       timestamp
     }
@@ -57,6 +58,7 @@ export interface Order {
   settlementTime: string;
   minimumSettlementAmount: string;
   settledAt: string;
+  price: string;
   block: string;
   timestamp: string;
 }

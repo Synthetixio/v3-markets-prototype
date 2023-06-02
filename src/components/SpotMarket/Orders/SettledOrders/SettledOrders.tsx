@@ -40,6 +40,7 @@ export function SettledOrders({ marketId, loading, orders }: Props) {
               <Th>Skew Fees</Th>
               <Th>Utilization Fees</Th>
               <Th>Externally Collected Fees</Th>
+              <Th>Price</Th>
               <Th>Settled At</Th>
               <Th>Settlement Info</Th>
             </Tr>

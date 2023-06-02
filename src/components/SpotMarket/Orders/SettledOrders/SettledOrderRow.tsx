@@ -81,6 +81,12 @@ export function SettledOrderRow({ order }: Props) {
         <Td>
           {dayjs(Number(order.settledAt) * 1000).format("YYYY/MM/DD - HH:mm")}
         </Td>
+        <Td>
+          <Amount
+            value={new Wei(formatUnits(order.price || "0", "ether"))}
+            suffix="snxUSD"
+          />
+        </Td>
 
         <Td>
           <Text>
