@@ -1,6 +1,10 @@
 import { Button, Flex, Td, Text, Toast, Tr, useToast } from "@chakra-ui/react";
 import Wei from "@synthetixio/wei";
-import { formatUnits } from "ethers/lib/utils.js";
+import {
+  defaultAbiCoder,
+  formatUnits,
+  solidityPack,
+} from "ethers/lib/utils.js";
 import { useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import { spotMarkets } from "../../../../constants/markets";
@@ -72,23 +76,52 @@ export function CommitedOrderRow({ marketId, order, block }: Props) {
     return false;
   }, [order, strategy, block]);
 
+  const settleOrderLocal = () => {
+    const extraData = defaultAbiCoder.encode(
+      ["uint128", "uint128"],
+      [order.marketId, order.asyncOrderId],
+    );
+
+    let settlementTimeBytes = defaultAbiCoder.encode(
+      ["uint256"],
+      [order.settlementTime],
+    );
+    settlementTimeBytes = settlementTimeBytes.substring(
+      settlementTimeBytes.length - 8,
+      settlementTimeBytes.length,
+    );
+    settlementTimeBytes = "00000000" + settlementTimeBytes;
+
+    const data =
+      defaultAbiCoder.encode(["bytes32"], [strategy?.feedId]) +
+      settlementTimeBytes;
+
+    return {
+      urls: [strategy?.url!],
+      data,
+      extraData,
+    };
+  };
+
   const settle = async () => {
-    let urls = "";
-    let data = " ";
-    let extraData = "";
     setSettling(true);
 
-    try {
-      await spotMarketProxy.contract.callStatic.settleOrder(
-        marketId,
-        order.asyncOrderId,
-      );
-    } catch (error: any) {
-      console.log("settleOrder error", error);
-      urls = error.errorArgs.urls;
-      data = error.errorArgs.callData;
-      extraData = error.errorArgs.extraData;
-    }
+    // let urls = [];
+    // let data = "";
+    // let extraData = "";
+    // try {
+    //   await spotMarketProxy.contract.callStatic.settleOrder(
+    //     marketId,
+    //     order.asyncOrderId,
+    //   );
+    // } catch (error: any) {
+    //   console.log("settleOrder error", error);
+    //   urls = error.errorArgs.urls;
+    //   data = error.errorArgs.callData;
+    //   extraData = error.errorArgs.extraData;
+    // }
+
+    const { urls, data, extraData } = settleOrderLocal();
 
     if (!urls || !data || !extraData) {
       setSettling(false);
