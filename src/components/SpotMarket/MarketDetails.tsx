@@ -14,6 +14,8 @@ export function MarketDetails({ marketId }: { marketId: number }) {
   const { data: tokenInfo } = useToken({
     address: synthAddress as `0x${string}`,
   });
+  const [orderHistory, setOrderHistory] = useState(false);
+
   // const collateral = "0x2E5ED97596a8368EB9E44B1f3F25B2E813845303";
 
   // const core = useContract("SYNTHETIX");
@@ -57,7 +59,6 @@ export function MarketDetails({ marketId }: { marketId: number }) {
   if (!marketId || !synthAddress) {
     return null;
   }
-  const [orderHistory, setOrderHistory] = useState(false);
 
   return (
     <Box>
