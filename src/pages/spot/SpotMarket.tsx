@@ -31,9 +31,6 @@ export function SpotMarket() {
             <Heading display="inline-block" size="md">
               {market.synth} Spot Market
             </Heading>
-            <Text opacity="0.5" display="inline-block" ml="1.5">
-              (ID {market.marketId})
-            </Text>
             <Box float="right" display="none">
               <ArrowUpDownIcon />
             </Box>

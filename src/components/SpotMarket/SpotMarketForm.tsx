@@ -86,7 +86,9 @@ export function SpotMarketForm({ id }: { id: number }) {
 
   const onSuccess = () => {
     toast({
-      title: "Successfully done",
+      title: "Order Submitted",
+      description:
+        "Refresh in approximately 10 seconds and click View Pending Orders to settle your order if necessary.",
       status: "success",
     });
 
