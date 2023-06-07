@@ -16,16 +16,18 @@ export const useTransact = () => {
     ) => {
       setIsLoading(true);
       try {
-        const feeData = await provider.getFeeData();
+        // const feeData = await provider.getFeeData();
 
         const data = contract.interface.encodeFunctionData(fn, args);
         const tx = await signer?.sendTransaction({
           to: contract.address,
           data,
           value,
+          /*
           maxFeePerGas: feeData.maxFeePerGas || undefined,
           maxPriorityFeePerGas: feeData.maxPriorityFeePerGas || undefined,
           type: 2,
+          */
         });
 
         await tx?.wait();

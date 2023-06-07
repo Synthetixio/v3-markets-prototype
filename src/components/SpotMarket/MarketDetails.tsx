@@ -82,7 +82,7 @@ export function MarketDetails({ marketId }: { marketId: number }) {
           <Heading size="xs">Orders</Heading>
           <Text display="inline">
             <Link color="blue.200" onClick={() => setOrderHistory(true)}>
-              View Settled Orders
+              View Orders
             </Link>
           </Text>
         </Box>

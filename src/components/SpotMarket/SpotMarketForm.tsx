@@ -88,7 +88,7 @@ export function SpotMarketForm({ id }: { id: number }) {
     toast({
       title: "Order Submitted",
       description:
-        "Refresh in approximately 10 seconds and click View Pending Orders to settle your order if necessary.",
+        "Refresh in approximately 10 seconds and click View Orders to settle your order if necessary.",
       status: "success",
     });
 
