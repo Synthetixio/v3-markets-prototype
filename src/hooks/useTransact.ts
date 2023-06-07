@@ -17,12 +17,20 @@ export const useTransact = () => {
       setIsLoading(true);
       try {
         // const feeData = await provider.getFeeData();
-
         const data = contract.interface.encodeFunctionData(fn, args);
+
+        const gas = await signer?.estimateGas({
+          to: contract.address,
+          data,
+          value,
+        });
+        const gasLimit = (Number(gas) * 1.2).toFixed(0);
+
         const tx = await signer?.sendTransaction({
           to: contract.address,
           data,
           value,
+          gasLimit,
           /*
           maxFeePerGas: feeData.maxFeePerGas || undefined,
           maxPriorityFeePerGas: feeData.maxPriorityFeePerGas || undefined,
