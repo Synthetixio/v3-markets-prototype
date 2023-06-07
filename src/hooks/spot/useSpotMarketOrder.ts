@@ -1,9 +1,10 @@
 import { BigNumber, ethers } from "ethers";
 import { useCallback, useMemo, useState } from "react";
-import { useContractWrite } from "wagmi";
+import { useAccount, useContractWrite, useProvider, useSigner } from "wagmi";
 import { TransactionType } from "../../constants/order";
 import { useApprove } from "../useApprove";
 import { useContract } from "../useContract";
+import { useTransact } from "../useTransact";
 
 export const useSpotMarketOrder = (
   marketId: string | number,
@@ -15,11 +16,10 @@ export const useSpotMarketOrder = (
   onSuccess: () => void,
 ) => {
   const [isLoading, setIsLoading] = useState(false);
-
   const usd = useContract("USD");
   const spotMarket = useContract("SPOT_MARKET");
   // const oracleVerifier = useContract("OracleVerifier");
-  // const provider = useProvider();
+  const { transact } = useTransact();
 
   const approvalAddress = useMemo(() => {
     if (orderType === TransactionType.ASYNC_BUY) {
@@ -43,29 +43,22 @@ export const useSpotMarketOrder = (
     functionName: "buy",
   });
 
-  const { writeAsync: commitOrder } = useContractWrite({
-    mode: "recklesslyUnprepared",
-    address: spotMarket.address,
-    abi: spotMarket.abi,
-    functionName: "commitOrder",
-  });
-
   const buyAtomic = useCallback(async () => {
     setIsLoading(true);
     try {
       await approve();
-      const txReceipt = await buyTx({
-        recklesslySetUnpreparedArgs: [
-          marketId,
-          amount,
-          BigNumber.from(amount || 0)
-            .mul(100 - slippage)
-            .div(100)
-            .toString(),
-          ethers.constants.AddressZero,
-        ],
-      });
-      await txReceipt.wait();
+
+      await transact(spotMarket.contract, "buy", [
+        marketId,
+        amount,
+        BigNumber.from(amount || 0)
+          .mul(100 - slippage)
+          .div(100)
+          .toString(),
+        ethers.constants.AddressZero,
+        0,
+        ethers.constants.AddressZero,
+      ]);
       onSuccess();
     } catch (error) {
       console.log("error:", error);
@@ -90,20 +83,16 @@ export const useSpotMarketOrder = (
             ethers.constants.AddressZero,
           );
 
-        console.log("id:,", asyncOrderClaim.id.toString());
+        console.log("id:", asyncOrderClaim.id.toString());
 
-        const txReceipt = await commitOrder({
-          recklesslySetUnpreparedArgs: [
-            marketId,
-            TransactionType.ASYNC_BUY,
-            amount,
-            strategyId,
-            0,
-            ethers.constants.AddressZero,
-          ],
-        });
-
-        await txReceipt.wait();
+        await transact(spotMarket.contract, "commitOrder", [
+          marketId,
+          TransactionType.ASYNC_BUY,
+          amount,
+          strategyId,
+          0,
+          ethers.constants.AddressZero,
+        ]);
 
         onSuccess();
       } catch (error) {
@@ -112,7 +101,7 @@ export const useSpotMarketOrder = (
         setIsLoading(false);
       }
     },
-    [approve, commitOrder, marketId, amount, slippage],
+    [approve, marketId, amount, slippage, transact],
   );
 
   const sellAsync = useCallback(
@@ -131,20 +120,16 @@ export const useSpotMarketOrder = (
             ethers.constants.AddressZero,
           );
 
-        console.log("id:,", asyncOrderClaim.id.toString());
+        console.log("id:", asyncOrderClaim.id.toString());
 
-        const txReceipt = await commitOrder({
-          recklesslySetUnpreparedArgs: [
-            marketId,
-            TransactionType.ASYNC_SELL,
-            amount,
-            strategyId,
-            0,
-            ethers.constants.AddressZero,
-          ],
-        });
-
-        await txReceipt.wait();
+        await transact(spotMarket.contract, "commitOrder", [
+          marketId,
+          TransactionType.ASYNC_SELL,
+          amount,
+          strategyId,
+          0,
+          ethers.constants.AddressZero,
+        ]);
 
         onSuccess();
       } catch (error) {
@@ -153,36 +138,34 @@ export const useSpotMarketOrder = (
         setIsLoading(false);
       }
     },
-    [approve, commitOrder, marketId, amount, slippage],
+    [approve, marketId, amount, slippage, transact],
   );
 
   const wrap = useCallback(async () => {
     setIsLoading(true);
     try {
       await approve();
-      const tx = await spotMarket.contract.wrap(marketId, amount, 0);
-      await tx.wait();
+      await transact(spotMarket.contract, "wrap", [marketId, amount, 0]);
       onSuccess();
     } catch (error) {
       console.log("error:", error);
     } finally {
       setIsLoading(false);
     }
-  }, [marketId, amount]);
+  }, [marketId, amount, transact]);
 
   const unwrap = useCallback(async () => {
     setIsLoading(true);
     try {
       await approve();
-      const tx = await spotMarket.contract.unwrap(marketId, amount, 0);
-      await tx.wait();
+      await transact(spotMarket.contract, "unwrap", [marketId, amount, 0]);
       onSuccess();
     } catch (error) {
       console.log("error:", error);
     } finally {
       setIsLoading(false);
     }
-  }, [marketId, amount]);
+  }, [marketId, amount, transact]);
 
   // const settleAsync = useCallback(async () => {
   //   setIsLoading(true);

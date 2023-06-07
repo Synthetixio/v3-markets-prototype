@@ -16,6 +16,7 @@ import { Amount } from "../../../Amount";
 import { useGetSettlementStrategy } from "../../../../hooks/spot/useGetSettlementStrategy";
 import { useContract } from "../../../../hooks/useContract";
 import { useMarketId } from "../../../../hooks/useMarketId";
+import { useTransact } from "../../../../hooks/useTransact";
 
 interface Props {
   marketId: number;
@@ -34,7 +35,7 @@ export function CommitedOrderRow({ marketId, order, block }: Props) {
     () => Number(order.orderType.toString()),
     [order.orderType],
   );
-
+  const { transact } = useTransact();
   const toast = useToast({
     isClosable: true,
     duration: 9000,
@@ -143,14 +144,12 @@ export function CommitedOrderRow({ marketId, order, block }: Props) {
     }
 
     try {
-      const tx = await spotMarketProxy.contract.settlePythOrder(
-        response.data,
-        extraData,
-        {
-          value: fee.toString(),
-        },
+      await transact(
+        spotMarketProxy.contract,
+        "settlePythOrder",
+        [response.data, extraData],
+        fee.toString(),
       );
-      await tx.wait();
 
       toast({
         title: "Successfully done",
@@ -167,11 +166,11 @@ export function CommitedOrderRow({ marketId, order, block }: Props) {
   const cancel = async () => {
     try {
       setCanceling(true);
-      const tx = await spotMarketProxy.contract.cancelOrder(
+
+      await transact(spotMarketProxy.contract, "cancelOrder", [
         marketId,
         order.asyncOrderId,
-      );
-      await tx.wait();
+      ]);
 
       toast({
         title: "Successfully done",

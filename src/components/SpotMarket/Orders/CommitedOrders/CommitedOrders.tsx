@@ -26,7 +26,12 @@ export function CommitedOrders({ marketId, orders, loading, refetch }: Props) {
   const { address } = useAccount();
 
   const commitedOrders = useMemo(
-    () => orders.filter((order) => order.status === OrderStatus.Commited),
+    () =>
+      orders.filter(
+        (order) =>
+          order.status === OrderStatus.Commited &&
+          Number(order.settledAt) === 0,
+      ),
     [orders, address],
   );
 

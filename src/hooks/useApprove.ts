@@ -1,29 +1,24 @@
-import { BigNumber, BigNumberish, ethers } from "ethers";
+import { BigNumber, BigNumberish, Contract, ethers } from "ethers";
 import { useCallback, useMemo } from "react";
 import {
   erc20ABI,
   useAccount,
   useContractRead,
-  useContractWrite,
   useNetwork,
+  useSigner,
 } from "wagmi";
+import { useTransact } from "./useTransact";
 
 export const useApprove = (
   contractAddress: string,
   amount: BigNumberish,
   spender: string,
 ) => {
+  const { transact, isLoading } = useTransact();
+  const { data: signer } = useSigner();
   const { address: accountAddress } = useAccount();
   const { chain: activeChain } = useNetwork();
   const hasWalletConnected = Boolean(activeChain);
-
-  const { writeAsync, isLoading } = useContractWrite({
-    mode: "recklesslyUnprepared",
-    address: contractAddress as `0x${string}`,
-    abi: erc20ABI,
-    functionName: "approve",
-    args: [spender as `0x${string}`, BigNumber.from(amount)],
-  });
 
   const { data: allowance, refetch: refetchAllowance } = useContractRead({
     address: contractAddress as `0x${string}`,
@@ -38,12 +33,20 @@ export const useApprove = (
   }, [allowance, amount]);
 
   const approve = useCallback(async () => {
-    if (!sufficientAllowance && !!contractAddress) {
-      const txReceipt = await writeAsync();
-      await txReceipt.wait();
+    if (!sufficientAllowance && !!contractAddress && !!signer) {
+      const contract = new Contract(contractAddress, erc20ABI, signer);
+      await transact(contract, "approve", [spender, BigNumber.from(amount)]);
       refetchAllowance();
     }
-  }, [refetchAllowance, sufficientAllowance, writeAsync, contractAddress]);
+  }, [
+    refetchAllowance,
+    sufficientAllowance,
+    contractAddress,
+    signer,
+    spender,
+    amount,
+    transact,
+  ]);
 
   return {
     isLoading,
