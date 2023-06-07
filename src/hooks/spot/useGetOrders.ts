@@ -80,6 +80,7 @@ export const useGetOrders = (marketId: number, showAll: boolean) => {
     },
     notifyOnNetworkStatusChange: true,
     context: { clientName: chain === 10 ? "optimism" : "optimismGoerli" },
+    pollInterval: 20000,
   });
 
   const orders = useMemo(() => {
