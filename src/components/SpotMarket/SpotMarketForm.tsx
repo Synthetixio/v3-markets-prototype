@@ -29,13 +29,16 @@ import { wei } from "@synthetixio/wei";
 import { OrderStatus, useGetOrders } from "../../hooks/spot/useGetOrders";
 import { AsyncOrderModal } from "./Orders/AsyncOrderModal";
 import { useStrategyType } from "../../hooks/useStrategyType";
+import { useGetWrapper } from "../../hooks/spot/useGetWrapper";
 
 export function SpotMarketForm({ id }: { id: number }) {
   const { synthAddress, unwrapFee, wrapFee } = useSpotMarketInfo(id);
   const [isOpen, setIsOpen] = useState(false);
 
-  const { wrapCollateralType, refetch: refetchCollateralInfo } =
-    useGetMarketWrapCollateral(id);
+  const { wrapper, refetch: refetchCollateralInfo } = useGetWrapper(id);
+
+  const wrapCollateralType = wrapper.wrapCollateralType;
+
   const [slippage, setSlippage] = useState(1);
   const [amount, setAmount] = useState("0");
   // const [settlementType, setSettlementType] = useState("async");

@@ -1,10 +1,12 @@
 import { RepeatIcon } from "@chakra-ui/icons";
 import { TabList, Tab, Tabs, Box, Checkbox, Flex } from "@chakra-ui/react";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { OrderStatus, useGetOrders } from "../../../hooks/spot/useGetOrders";
+import { useGetWrappHistory } from "../../../hooks/spot/useGetWrappHistory";
 import { CancelledOrders } from "../Orders/CancelledOrders";
 import { CommitedOrders } from "../Orders/CommitedOrders";
 import { SettledOrders } from "../Orders/SettledOrders";
+import { WrappOrders } from "./WrappOrders";
 
 interface Props {
   marketId: number;
@@ -22,6 +24,8 @@ export function AsyncOrders({ marketId, defaultIndex }: Props) {
   const orderStatus = tabs[tabIndex];
 
   const { refetch, orders, loading } = useGetOrders(marketId, showAll);
+  const { orders: wrappOrders, loading: wrappLoading } =
+    useGetWrappHistory(marketId);
 
   return (
     <>
@@ -33,6 +37,8 @@ export function AsyncOrders({ marketId, defaultIndex }: Props) {
                 {tab}
               </Tab>
             ))}
+
+            <Tab onClick={() => setTabIndex(3)}>Wrapp/Un-Wrapp</Tab>
           </TabList>
           <Flex
             alignItems="center"
@@ -75,6 +81,13 @@ export function AsyncOrders({ marketId, defaultIndex }: Props) {
           orders={orders}
           loading={loading}
           refetch={refetch}
+        />
+      )}
+      {tabIndex === 3 && (
+        <WrappOrders
+          marketId={marketId}
+          orders={wrappOrders}
+          loading={wrappLoading}
         />
       )}
     </>
