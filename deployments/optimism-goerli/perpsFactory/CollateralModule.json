@@ -1,5 +1,5 @@
 {
-  "address": "0xC6021b2AAe7Ab7bD31a5E9993B243e48041F3239",
+  "address": "0x45dC63d93Bd59Bf594550a64dc6328F3d3467679",
   "abi": [
     {
       "inputs": [
@@ -11,6 +11,25 @@
       ],
       "name": "Unauthorized",
       "type": "error"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint128",
+          "name": "synthId",
+          "type": "uint128"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "maxCollateralAmount",
+          "type": "uint256"
+        }
+      ],
+      "name": "MaxCollateralSet",
+      "type": "event"
     },
     {
       "inputs": [
@@ -33,7 +52,7 @@
   ],
   "constructorArgs": [],
   "linkedLibraries": {},
-  "deployTxnHash": "0x240e47bdba75a6311c69d7a8d213e95072384ee7505b054ea64c417ee54e8bee",
+  "deployTxnHash": "0x0bbf2c9070f62867d02e2798d0c7b5c684bdbc8b6a231710b7b86ba631f18247",
   "sourceName": "contracts/modules/CollateralModule.sol",
   "contractName": "CollateralModule",
   "deployedOn": "contract.CollateralModule"

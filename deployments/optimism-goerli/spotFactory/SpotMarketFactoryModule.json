@@ -1,5 +1,5 @@
 {
-  "address": "0x7aA201cc0dAfbAddf3b1227a37c24ca60B3fF8D9",
+  "address": "0xf3F62ba587cF2dbddD1631399E8E71B60534E489",
   "abi": [
     {
       "inputs": [
@@ -714,7 +714,7 @@
   ],
   "constructorArgs": [],
   "linkedLibraries": {},
-  "deployTxnHash": "0x178b11f32322ff920ad0ca75b2c5dabff8dc3171e482eb05d19b77216c10b58f",
+  "deployTxnHash": "0xc27790f07a4c759d131227c7ee72756eb4f7d6b40fe87f175d2cf410b7dd068f",
   "sourceName": "contracts/modules/SpotMarketFactoryModule.sol",
   "contractName": "SpotMarketFactoryModule",
   "deployedOn": "contract.SpotMarketFactoryModule"

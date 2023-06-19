@@ -1,5 +1,5 @@
 {
-  "address": "0x9aEf21d354DB68bFBE720c6bB4fC18cFA059b446",
+  "address": "0x0924FB811CF25eD6082b6470d5b6DDF7E45FA00a",
   "abi": [
     {
       "inputs": [
@@ -10,6 +10,11 @@
         }
       ],
       "name": "FeatureUnavailable",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "InvalidMarketOwner",
       "type": "error"
     },
     {
@@ -203,7 +208,7 @@
       "inputs": [
         {
           "internalType": "uint128",
-          "name": "marketId",
+          "name": "perpsMarketId",
           "type": "uint128"
         }
       ],
@@ -222,7 +227,7 @@
       "inputs": [
         {
           "internalType": "uint128",
-          "name": "marketId",
+          "name": "perpsMarketId",
           "type": "uint128"
         }
       ],
@@ -259,7 +264,7 @@
       "inputs": [
         {
           "internalType": "uint128",
-          "name": "marketId",
+          "name": "perpsMarketId",
           "type": "uint128"
         }
       ],
@@ -283,19 +288,6 @@
         }
       ],
       "name": "setSpotMarket",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint128[]",
-          "name": "synthDeductionPriority",
-          "type": "uint128[]"
-        }
-      ],
-      "name": "setSynthDeductionPriority",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
@@ -338,6 +330,25 @@
           "internalType": "uint128",
           "name": "perpsMarketId",
           "type": "uint128"
+        }
+      ],
+      "name": "symbol",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint128",
+          "name": "perpsMarketId",
+          "type": "uint128"
         },
         {
           "internalType": "bytes32",
@@ -353,7 +364,7 @@
   ],
   "constructorArgs": [],
   "linkedLibraries": {},
-  "deployTxnHash": "0xb3358d1bc75507338c7a907b38fd312898ddb997e02ae3b90b034cca581cbb06",
+  "deployTxnHash": "0x2bb65bca353b64f2840a086ce29dcebbdf496876df918669b67fe734b294f1cf",
   "sourceName": "contracts/modules/PerpsMarketFactoryModule.sol",
   "contractName": "PerpsMarketFactoryModule",
   "deployedOn": "contract.PerpsMarketFactoryModule"

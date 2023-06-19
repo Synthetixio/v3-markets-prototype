@@ -1,5 +1,5 @@
 {
-  "address": "0xa2AF87112a820505523cc7406d555b9b8bce2837",
+  "address": "0xEcC60daB9431aff65e743FBE65B4e22639ba5e4A",
   "abi": [
     {
       "inputs": [
@@ -16,6 +16,222 @@
       ],
       "name": "OnlyMarketOwner",
       "type": "error"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "uint128",
+          "name": "marketId",
+          "type": "uint128"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "skewScale",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "maxFundingVelocity",
+          "type": "uint256"
+        }
+      ],
+      "name": "FundingParametersSet",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "uint128",
+          "name": "marketId",
+          "type": "uint128"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "initialMarginFraction",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "maintenanceMarginFraction",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "liquidationRewardRatioD18",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "maxLiquidationLimitAccumulationMultiplier",
+          "type": "uint256"
+        }
+      ],
+      "name": "LiquidationParametersSet",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "uint128",
+          "name": "marketId",
+          "type": "uint128"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "lockedOiPercent",
+          "type": "uint256"
+        }
+      ],
+      "name": "LockedOiPercentSet",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "uint128",
+          "name": "marketId",
+          "type": "uint128"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "maxMarketValue",
+          "type": "uint256"
+        }
+      ],
+      "name": "MaxMarketValueSet",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "uint128",
+          "name": "marketId",
+          "type": "uint128"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "makerFeeRatio",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "takerFeeRatio",
+          "type": "uint256"
+        }
+      ],
+      "name": "OrderFeesSet",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "uint128",
+          "name": "marketId",
+          "type": "uint128"
+        },
+        {
+          "components": [
+            {
+              "internalType": "enum SettlementStrategy.Type",
+              "name": "strategyType",
+              "type": "uint8"
+            },
+            {
+              "internalType": "uint256",
+              "name": "settlementDelay",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "settlementWindowDuration",
+              "type": "uint256"
+            },
+            {
+              "internalType": "address",
+              "name": "priceVerificationContract",
+              "type": "address"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "feedId",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "string",
+              "name": "url",
+              "type": "string"
+            },
+            {
+              "internalType": "uint256",
+              "name": "settlementReward",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "priceDeviationTolerance",
+              "type": "uint256"
+            },
+            {
+              "internalType": "bool",
+              "name": "disabled",
+              "type": "bool"
+            }
+          ],
+          "indexed": false,
+          "internalType": "struct SettlementStrategy.Data",
+          "name": "strategy",
+          "type": "tuple"
+        }
+      ],
+      "name": "SettlementStrategyAdded",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "uint128",
+          "name": "marketId",
+          "type": "uint128"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "strategyId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "bool",
+          "name": "enabled",
+          "type": "bool"
+        }
+      ],
+      "name": "SettlementStrategyEnabled",
+      "type": "event"
     },
     {
       "inputs": [
@@ -94,14 +310,325 @@
           "internalType": "uint128",
           "name": "marketId",
           "type": "uint128"
+        }
+      ],
+      "name": "getFundingParameters",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "skewScale",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "maxFundingVelocity",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint128",
+          "name": "marketId",
+          "type": "uint128"
+        }
+      ],
+      "name": "getLiquidationParameters",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "initialMarginFraction",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "maintenanceMarginFraction",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "liquidationRewardRatioD18",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "maxLiquidationLimitAccumulationMultiplier",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint128",
+          "name": "marketId",
+          "type": "uint128"
+        }
+      ],
+      "name": "getLockedOiPercent",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint128",
+          "name": "marketId",
+          "type": "uint128"
+        }
+      ],
+      "name": "getMaxMarketValue",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "maxMarketValue",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint128",
+          "name": "marketId",
+          "type": "uint128"
+        }
+      ],
+      "name": "getOrderFees",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "makerFee",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "takerFee",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint128",
+          "name": "marketId",
+          "type": "uint128"
+        },
+        {
+          "internalType": "uint256",
+          "name": "strategyId",
+          "type": "uint256"
+        }
+      ],
+      "name": "getSettlementStrategy",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "enum SettlementStrategy.Type",
+              "name": "strategyType",
+              "type": "uint8"
+            },
+            {
+              "internalType": "uint256",
+              "name": "settlementDelay",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "settlementWindowDuration",
+              "type": "uint256"
+            },
+            {
+              "internalType": "address",
+              "name": "priceVerificationContract",
+              "type": "address"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "feedId",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "string",
+              "name": "url",
+              "type": "string"
+            },
+            {
+              "internalType": "uint256",
+              "name": "settlementReward",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "priceDeviationTolerance",
+              "type": "uint256"
+            },
+            {
+              "internalType": "bool",
+              "name": "disabled",
+              "type": "bool"
+            }
+          ],
+          "internalType": "struct SettlementStrategy.Data",
+          "name": "settlementStrategy",
+          "type": "tuple"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint128",
+          "name": "marketId",
+          "type": "uint128"
         },
         {
           "internalType": "uint256",
           "name": "skewScale",
           "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "maxFundingVelocity",
+          "type": "uint256"
         }
       ],
-      "name": "setSkewScale",
+      "name": "setFundingParameters",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint128",
+          "name": "marketId",
+          "type": "uint128"
+        },
+        {
+          "internalType": "uint256",
+          "name": "initialMarginFraction",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "maintenanceMarginFraction",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "liquidationRewardRatioD18",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "maxLiquidationLimitAccumulationMultiplier",
+          "type": "uint256"
+        }
+      ],
+      "name": "setLiquidationParameters",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint128",
+          "name": "marketId",
+          "type": "uint128"
+        },
+        {
+          "internalType": "uint256",
+          "name": "lockedOiPercent",
+          "type": "uint256"
+        }
+      ],
+      "name": "setLockedOiPercent",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint128",
+          "name": "marketId",
+          "type": "uint128"
+        },
+        {
+          "internalType": "uint256",
+          "name": "maxMarketValue",
+          "type": "uint256"
+        }
+      ],
+      "name": "setMaxMarketValue",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint128",
+          "name": "marketId",
+          "type": "uint128"
+        },
+        {
+          "internalType": "uint256",
+          "name": "makerFeeRatio",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "takerFeeRatio",
+          "type": "uint256"
+        }
+      ],
+      "name": "setOrderFees",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint128",
+          "name": "marketId",
+          "type": "uint128"
+        },
+        {
+          "internalType": "uint256",
+          "name": "strategyId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bool",
+          "name": "enabled",
+          "type": "bool"
+        }
+      ],
+      "name": "setSettlementStrategyEnabled",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
@@ -109,7 +636,7 @@
   ],
   "constructorArgs": [],
   "linkedLibraries": {},
-  "deployTxnHash": "0x75f21914849429c22831af552b3a7c01f4aa9c1d6b1c90aaa0e357fe2714c041",
+  "deployTxnHash": "0x989a05bd42caaf46aa6549190e7a9c1addff2e135af991e9ea1890f9cd3900af",
   "sourceName": "contracts/modules/MarketConfigurationModule.sol",
   "contractName": "MarketConfigurationModule",
   "deployedOn": "contract.MarketConfigurationModule"

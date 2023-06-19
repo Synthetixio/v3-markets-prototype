@@ -1,0 +1,121 @@
+{
+  "address": "0x1222707Aa19D67Fa239da0aF8D3286eDcd676DB5",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "addr",
+          "type": "address"
+        }
+      ],
+      "name": "Unauthorized",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "getLiquidationRewardGuards",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "minLiquidationRewardUsd",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "maxLiquidationRewardUsd",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint128",
+          "name": "synthMarketId",
+          "type": "uint128"
+        }
+      ],
+      "name": "getMaxCollateralAmountsForSynthMarket",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getSynthDeductionPriority",
+      "outputs": [
+        {
+          "internalType": "uint128[]",
+          "name": "",
+          "type": "uint128[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "minLiquidationRewardUsd",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "maxLiquidationRewardUsd",
+          "type": "uint256"
+        }
+      ],
+      "name": "setLiquidationRewardGuards",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint128",
+          "name": "synthMarketId",
+          "type": "uint128"
+        },
+        {
+          "internalType": "uint256",
+          "name": "collateralAmount",
+          "type": "uint256"
+        }
+      ],
+      "name": "setMaxCollateralForSynthMarketId",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint128[]",
+          "name": "newSynthDeductionPriority",
+          "type": "uint128[]"
+        }
+      ],
+      "name": "setSynthDeductionPriority",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "constructorArgs": [],
+  "linkedLibraries": {},
+  "deployTxnHash": "0xf256ffbc1deaf488a61a9b14a0e9243f970d759bec7b3cbb0f25a596a1656d1e",
+  "sourceName": "contracts/modules/GlobalPerpsMarketModule.sol",
+  "contractName": "GlobalPerpsMarketModule",
+  "deployedOn": "contract.GlobalPerpsMarketModule"
+}
