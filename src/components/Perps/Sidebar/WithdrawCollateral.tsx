@@ -9,12 +9,15 @@ import {
   NumberInputField,
   useToast,
 } from "@chakra-ui/react";
+import { wei } from "@synthetixio/wei";
+import { formatEther } from "ethers/lib/utils.js";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useAccount, useContractRead } from "wagmi";
-import { perpsMarkets } from "../../constants/markets";
-import { useModifyCollateral } from "../../hooks/perps/useModifyCollateral";
-import { useContract } from "../../hooks/useContract";
+import { perpsMarkets } from "../../../constants/markets";
+import { useModifyCollateral } from "../../../hooks/perps/useModifyCollateral";
+import { useContract } from "../../../hooks/useContract";
+import { Amount } from "../../Amount";
 
 export function WithdrawCollateral({ accountId }: { accountId: string }) {
   const { address } = useAccount();
@@ -23,11 +26,7 @@ export function WithdrawCollateral({ accountId }: { accountId: string }) {
   const market = perpsMarkets[420][marketId?.toUpperCase() || "ETH"];
   const [amount, setAmount] = useState("0");
 
-  const {
-    data: collateralValue,
-    isLoading: collateralValueLoading,
-    refetch,
-  } = useContractRead({
+  const { data: collateralValue } = useContractRead({
     address: perpsMarket.address,
     abi: perpsMarket.abi,
     functionName: "totalCollateralValue",
@@ -79,10 +78,10 @@ export function WithdrawCollateral({ accountId }: { accountId: string }) {
               opacity="0.5"
             >
               Balance:&nbsp;
-              {/* <Amount
-                value={wei(synthBalance?.formatted || "0")}
-                suffix={market.synth}
-              /> */}
+              <Amount
+                value={wei(formatEther(collateralValue?.toString() || "0"))}
+                suffix="USD"
+              />
             </Flex>
           )}
         </FormLabel>
@@ -101,7 +100,7 @@ export function WithdrawCollateral({ accountId }: { accountId: string }) {
             // max={Number(synthBalance?.formatted)}
           >
             <NumberInputField />
-            <InputRightElement width="6rem">{market.synth}</InputRightElement>
+            <InputRightElement width="6rem">USD</InputRightElement>
           </NumberInput>
         </InputGroup>
       </FormControl>

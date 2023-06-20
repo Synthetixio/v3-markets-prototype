@@ -1,5 +1,5 @@
 import { Flex, Box } from "@chakra-ui/react";
-import { MarketSwitcher } from "./Market/index";
+import { MarketSwitcher } from "./MarketSwitcher";
 import { AccountOverview, CurrentPosition, OrderForm } from "./Sidebar/index";
 
 export function Sidebar() {

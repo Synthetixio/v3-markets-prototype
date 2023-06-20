@@ -4,46 +4,46 @@ import { ChevronDownIcon } from "@chakra-ui/icons";
 
 import { useSearchParams } from "react-router-dom";
 import { useCreateAccount } from "../../hooks/useCreateAccount";
-import { useGetAccounts } from "../../hooks/useGetAccounts";
 import { useEffect } from "react";
+import { useAccounts } from "../../hooks/perps/useAccounts";
 
 export function AccountSwitcher() {
   const { isConnected } = useAccount();
 
+  const { accounts, refetch } = useAccounts();
   const [searchParams, setSelectedAccountId] = useSearchParams();
   const selectedAccountId = searchParams.get("accountId");
 
-  const { accountIds, refetch } = useGetAccounts();
   const { createAccount } = useCreateAccount((accountId) => {
     setSelectedAccountId({ accountId });
     refetch();
   });
 
   useEffect(() => {
-    if (!selectedAccountId && accountIds.length > 0) {
-      setSelectedAccountId({ accountId: accountIds[0]?.toString() || "" });
+    if (!selectedAccountId && accounts.length > 0) {
+      setSelectedAccountId({ accountId: accounts[0].accountId || "" });
       refetch();
     }
-  }, [selectedAccountId, accountIds]);
+  }, [selectedAccountId, accounts]);
 
   if (!isConnected) {
     return null;
   }
 
-  return accountIds?.length || selectedAccountId ? (
+  return accounts?.length || selectedAccountId ? (
     <Menu>
       <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
         <>Account #{selectedAccountId}</>
       </MenuButton>
       <MenuList>
-        {accountIds?.map((accountId) => (
+        {accounts?.map((account) => (
           <MenuItem
-            key={accountId as string}
+            key={account.accountId}
             onClick={() =>
-              setSelectedAccountId({ accountId: accountId as string })
+              setSelectedAccountId({ accountId: account.accountId })
             }
           >
-            <>Account #{(accountId as string)?.toString()}</>
+            <>Account #{account.accountId?.toString()}</>
           </MenuItem>
         ))}
         <MenuItem onClick={() => createAccount()}>Create New Account</MenuItem>

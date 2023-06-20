@@ -1,1 +1,1 @@
-export { AccountSwitcher } from "./AccountSwitcher";
+export { Header } from "./Header";

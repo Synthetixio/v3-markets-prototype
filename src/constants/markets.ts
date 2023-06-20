@@ -11,7 +11,7 @@ interface MarketData {
 export const perpsMarkets: MarketData = {
   420: {
     ETH: {
-      marketId: 2,
+      marketId: 4,
       tradingViewSymbol: "PYTH:ETHUSD",
       synth: "snxETH",
     },

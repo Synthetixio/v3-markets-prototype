@@ -18,7 +18,7 @@ import { SpotAdmin } from "./pages/spot/SpotAdmin";
 
 import { ApolloProvider } from "@apollo/client";
 import { PerpsMarket } from "./pages/perps/PerpsMarket";
-import { apolloClient } from "./apolo";
+import { spotClient } from "./utils/clients";
 
 const router = createBrowserRouter([
   {
@@ -57,7 +57,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <ChakraProvider theme={theme}>
       <ColorModeScript initialColorMode={theme.config.initialColorMode} />
-      <ApolloProvider client={apolloClient}>
+      <ApolloProvider client={spotClient}>
         <WagmiConfig client={client}>
           <RainbowKitProvider
             chains={chains}

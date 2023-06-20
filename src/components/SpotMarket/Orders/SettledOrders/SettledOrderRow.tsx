@@ -7,7 +7,7 @@ import { useParams } from "react-router-dom";
 import { spotMarkets } from "../../../../constants/markets";
 import { TransactionType } from "../../../../constants/order";
 import { Order } from "../../../../hooks/spot/useGetOrders";
-import { useMarketId } from "../../../../hooks/useMarketId";
+import { useMarketId } from "../../../../hooks/spot/useMarketId";
 import { prettyString } from "../../../../utils/format";
 import { Amount } from "../../../Amount";
 

@@ -1,8 +1,8 @@
 import { Flex } from "@chakra-ui/react";
 import { Header } from "../../components";
-import { CreateMarketForm } from "../../components/Market/CreateMarketForm";
-import { SettlementStrategyForm } from "../../components/Market/SettlementStrategyForm";
-import { SkewScaleForm } from "../../components/Market/SkewScaleForm";
+import { CreateMarketForm } from "../../components/MarketForms/CreateMarketForm";
+import { SettlementStrategyForm } from "../../components/MarketForms/SettlementStrategyForm";
+import { SkewScaleForm } from "../../components/MarketForms/SkewScaleForm";
 
 export function PerpsAdmin() {
   return (

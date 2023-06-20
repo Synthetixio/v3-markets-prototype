@@ -1,5 +1,5 @@
 import { Flex } from "@chakra-ui/react";
-import { PriceChart } from "./Market/index";
+import { PriceChart } from "./PriceChart";
 
 export function PerpsMarketInfo() {
   return (

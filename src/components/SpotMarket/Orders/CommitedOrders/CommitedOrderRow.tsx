@@ -15,7 +15,7 @@ import { prettyString } from "../../../../utils/format";
 import { Amount } from "../../../Amount";
 import { useGetSettlementStrategy } from "../../../../hooks/spot/useGetSettlementStrategy";
 import { useContract } from "../../../../hooks/useContract";
-import { useMarketId } from "../../../../hooks/useMarketId";
+import { useMarketId } from "../../../../hooks/spot/useMarketId";
 import { useTransact } from "../../../../hooks/useTransact";
 
 interface Props {

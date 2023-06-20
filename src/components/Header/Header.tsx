@@ -1,9 +1,8 @@
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { Heading, Flex, Box, Tag, Button } from "@chakra-ui/react";
-import { AccountSwitcher } from "./Header/index";
+import { AccountSwitcher } from "./AccountSwitcher";
 import { Link } from "react-router-dom";
 import { ExternalLinkIcon } from "@chakra-ui/icons";
-import { perpsMarkets, spotMarkets } from "../constants/markets";
 
 interface HeaderProps {
   isSpot?: boolean;

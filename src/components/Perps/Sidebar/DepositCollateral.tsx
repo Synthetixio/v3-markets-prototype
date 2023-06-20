@@ -13,9 +13,9 @@ import { wei } from "@synthetixio/wei";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useAccount, useBalance } from "wagmi";
-import { perpsMarkets } from "../../constants/markets";
-import { useModifyCollateral } from "../../hooks/perps/useModifyCollateral";
-import { Amount } from "../Amount";
+import { perpsMarkets } from "../../../constants/markets";
+import { useModifyCollateral } from "../../../hooks/perps/useModifyCollateral";
+import { Amount } from "../../Amount";
 
 export function DepositCollateral({
   synth,

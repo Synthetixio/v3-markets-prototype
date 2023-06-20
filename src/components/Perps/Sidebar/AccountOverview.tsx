@@ -17,8 +17,8 @@ import {
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { useParams, useSearchParams } from "react-router-dom";
-import { perpsMarkets } from "../../constants/markets";
-import { useSpotMarketInfo } from "../../hooks/spot/useSpotMarketInfo";
+import { perpsMarkets } from "../../../constants/markets";
+import { useSpotMarketInfo } from "../../../hooks/spot/useSpotMarketInfo";
 import { Collateral } from "./Collateral";
 import { DepositCollateral } from "./DepositCollateral";
 import { WithdrawCollateral } from "./WithdrawCollateral";
@@ -27,13 +27,13 @@ export function AccountOverview() {
   const [openDeposit, setOpenDeposit] = useState(false);
   const [openWithdraw, setOpenWithdraw] = useState(false);
 
+  //needs to be fetched from perps
   const { marketId } = useParams();
   const market = perpsMarkets[420][marketId?.toUpperCase() || "ETH"];
+  const { synthAddress } = useSpotMarketInfo(market?.marketId);
 
   const [searchParams] = useSearchParams();
   const selectedAccountId = searchParams.get("accountId");
-
-  const { synthAddress } = useSpotMarketInfo(market?.marketId);
 
   return (
     <Box p="4" borderBottom="1px solid rgba(255,255,255,0.2)">
@@ -87,11 +87,8 @@ export function AccountOverview() {
           <ModalHeader>Withdraw Collateral</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            {selectedAccountId && synthAddress && (
-              <WithdrawCollateral
-                synth={synthAddress}
-                accountId={selectedAccountId}
-              />
+            {selectedAccountId && (
+              <WithdrawCollateral accountId={selectedAccountId} />
             )}
           </ModalBody>
         </ModalContent>
