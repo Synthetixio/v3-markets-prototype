@@ -13,6 +13,8 @@ import {
   Heading,
 } from "@chakra-ui/react";
 import { useReducer, useRef } from "react";
+import { useSearchParams } from "react-router-dom";
+import { usePerpsMarketOrder } from "../../../../hooks/perps/usePerpsMarketOrder";
 import { LeverageInput, LeverageSlider, RefHandler } from "../Leverage";
 import { initialOrderFormState, reducer } from "./reducer";
 
@@ -20,11 +22,21 @@ export const maxLeverage = 100;
 
 export function OrderForm() {
   const [state, dispatch] = useReducer(reducer, initialOrderFormState);
+  const [searchParams, setSelectedAccountId] = useSearchParams();
+  const selectedAccountId = searchParams.get("accountId");
 
   const inputRef = useRef<HTMLInputElement>(null);
   const sliderRef = useRef<RefHandler>(null);
 
   const { amount, buy, nativeUnit, leverage } = state;
+
+  const { commit } = usePerpsMarketOrder(
+    selectedAccountId || "",
+    amount?.toString() || "0",
+    "0",
+    10,
+    () => {},
+  );
 
   const toggleNativeUnit = () =>
     dispatch({
@@ -33,7 +45,7 @@ export function OrderForm() {
     });
 
   const handleSubmit = () => {
-    alert(JSON.stringify({ leverage, amount, nativeUnit, buy }));
+    commit();
   };
 
   const reset = () => {

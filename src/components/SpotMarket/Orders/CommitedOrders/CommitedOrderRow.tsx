@@ -15,7 +15,7 @@ import { prettyString } from "../../../../utils/format";
 import { Amount } from "../../../Amount";
 import { useGetSettlementStrategy } from "../../../../hooks/spot/useGetSettlementStrategy";
 import { useContract } from "../../../../hooks/useContract";
-import { useMarketId } from "../../../../hooks/spot/useMarketId";
+import { useSpotMarketId } from "../../../../hooks/spot/useSpotMarketId";
 import { useTransact } from "../../../../hooks/useTransact";
 
 interface Props {
@@ -40,7 +40,7 @@ export function CommitedOrderRow({ marketId, order, block }: Props) {
     isClosable: true,
     duration: 9000,
   });
-  const market = useMarketId();
+  const market = useSpotMarketId();
 
   const { inputToken } = useMemo(() => {
     let inputToken = "";

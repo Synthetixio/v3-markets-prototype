@@ -1,5 +1,5 @@
 {
-  "address": "0x8B112fdC9aFaF3E8Ab6b9fd2F2fA2531b27556f5",
+  "address": "0x1d9d84fEa7e2b5B0Cb6470Ed0a2FB5F4FA791894",
   "abi": [
     {
       "inputs": [
@@ -10,11 +10,6 @@
         }
       ],
       "name": "NotEligibleForLiquidation",
-      "type": "error"
-    },
-    {
-      "inputs": [],
-      "name": "OverflowInt256ToInt128",
       "type": "error"
     },
     {
@@ -75,7 +70,7 @@
   ],
   "constructorArgs": [],
   "linkedLibraries": {},
-  "deployTxnHash": "0xf628cbaa895adefea1880503ac34501d85e4008cca7b5906931d3a7b9ecdf1de",
+  "deployTxnHash": "0x665467670520cf8c9042478be2ceef4e831612e395f3517af2b932e35ae85184",
   "sourceName": "contracts/modules/LiquidationModule.sol",
   "contractName": "LiquidationModule",
   "deployedOn": "contract.LiquidationModule"

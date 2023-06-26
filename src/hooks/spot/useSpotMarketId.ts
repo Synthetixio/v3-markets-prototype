@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import { spotMarkets } from "../../constants/markets";
 import { useDefaultNetwork } from "../useDefaultNetwork";
 
-export const useMarketId = () => {
+export const useSpotMarketId = () => {
   const { marketId: marketSymbol } = useParams();
   const network = useDefaultNetwork();
   const markets = spotMarkets[network.id];

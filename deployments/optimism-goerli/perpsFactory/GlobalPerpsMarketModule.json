@@ -1,5 +1,5 @@
 {
-  "address": "0x1222707Aa19D67Fa239da0aF8D3286eDcd676DB5",
+  "address": "0x200c93d3c13e92a0d739bA89eC1C5c800AA8630c",
   "abi": [
     {
       "inputs": [
@@ -11,6 +11,57 @@
       ],
       "name": "Unauthorized",
       "type": "error"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "minLiquidationRewardUsd",
+          "type": "uint256"
+        },
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "maxLiquidationRewardUsd",
+          "type": "uint256"
+        }
+      ],
+      "name": "LiquidationRewardGuardsSet",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint128",
+          "name": "synthMarketId",
+          "type": "uint128"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "collateralAmount",
+          "type": "uint256"
+        }
+      ],
+      "name": "MaxCollateralAmountSet",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "uint128[]",
+          "name": "newSynthDeductionPriority",
+          "type": "uint128[]"
+        }
+      ],
+      "name": "SynthDeductionPrioritySet",
+      "type": "event"
     },
     {
       "inputs": [],
@@ -38,7 +89,7 @@
           "type": "uint128"
         }
       ],
-      "name": "getMaxCollateralAmountsForSynthMarket",
+      "name": "getMaxCollateralAmount",
       "outputs": [
         {
           "internalType": "uint256",
@@ -93,7 +144,7 @@
           "type": "uint256"
         }
       ],
-      "name": "setMaxCollateralForSynthMarketId",
+      "name": "setMaxCollateralAmount",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
@@ -114,7 +165,7 @@
   ],
   "constructorArgs": [],
   "linkedLibraries": {},
-  "deployTxnHash": "0xf256ffbc1deaf488a61a9b14a0e9243f970d759bec7b3cbb0f25a596a1656d1e",
+  "deployTxnHash": "0x1d6855e6172839321523e98706723ed3ac04ab131194293a8e9af09de2df661c",
   "sourceName": "contracts/modules/GlobalPerpsMarketModule.sol",
   "contractName": "GlobalPerpsMarketModule",
   "deployedOn": "contract.GlobalPerpsMarketModule"

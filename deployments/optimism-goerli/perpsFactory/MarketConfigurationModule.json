@@ -1,5 +1,5 @@
 {
-  "address": "0xEcC60daB9431aff65e743FBE65B4e22639ba5e4A",
+  "address": "0x4B8425b675294d86BC3034981d85C7330c0E3515",
   "abi": [
     {
       "inputs": [
@@ -74,6 +74,12 @@
           "internalType": "uint256",
           "name": "maxLiquidationLimitAccumulationMultiplier",
           "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "maxSecondsInLiquidationWindow",
+          "type": "uint256"
         }
       ],
       "name": "LiquidationParametersSet",
@@ -146,7 +152,7 @@
       "anonymous": false,
       "inputs": [
         {
-          "indexed": false,
+          "indexed": true,
           "internalType": "uint128",
           "name": "marketId",
           "type": "uint128"
@@ -166,6 +172,11 @@
             {
               "internalType": "uint256",
               "name": "settlementWindowDuration",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "priceWindowDuration",
               "type": "uint256"
             },
             {
@@ -203,6 +214,12 @@
           "internalType": "struct SettlementStrategy.Data",
           "name": "strategy",
           "type": "tuple"
+        },
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "strategyId",
+          "type": "uint256"
         }
       ],
       "name": "SettlementStrategyAdded",
@@ -255,6 +272,11 @@
             {
               "internalType": "uint256",
               "name": "settlementWindowDuration",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "priceWindowDuration",
               "type": "uint256"
             },
             {
@@ -357,6 +379,11 @@
           "internalType": "uint256",
           "name": "maxLiquidationLimitAccumulationMultiplier",
           "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "maxSecondsInLiquidationWindow",
+          "type": "uint256"
         }
       ],
       "stateMutability": "view",
@@ -457,6 +484,11 @@
               "type": "uint256"
             },
             {
+              "internalType": "uint256",
+              "name": "priceWindowDuration",
+              "type": "uint256"
+            },
+            {
               "internalType": "address",
               "name": "priceVerificationContract",
               "type": "address"
@@ -543,6 +575,11 @@
         {
           "internalType": "uint256",
           "name": "maxLiquidationLimitAccumulationMultiplier",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "maxSecondsInLiquidationWindow",
           "type": "uint256"
         }
       ],
@@ -636,7 +673,7 @@
   ],
   "constructorArgs": [],
   "linkedLibraries": {},
-  "deployTxnHash": "0x989a05bd42caaf46aa6549190e7a9c1addff2e135af991e9ea1890f9cd3900af",
+  "deployTxnHash": "0x0573ff17b7636c6e69710022c8209b9d3c5eca4a7d128acd4868f7b67ad71253",
   "sourceName": "contracts/modules/MarketConfigurationModule.sol",
   "contractName": "MarketConfigurationModule",
   "deployedOn": "contract.MarketConfigurationModule"

@@ -1,5 +1,5 @@
 {
-  "address": "0xBC489c227a27170e8E78628B81827B6343E7cf9b",
+  "address": "0xdEC523a04D6024413014a23CB3FA190cF052cC64",
   "abi": [
     {
       "inputs": [
@@ -166,6 +166,17 @@
       "type": "error"
     },
     {
+      "inputs": [
+        {
+          "internalType": "uint128",
+          "name": "synthMarketId",
+          "type": "uint128"
+        }
+      ],
+      "name": "SynthNotEnabledForCollateral",
+      "type": "error"
+    },
+    {
       "inputs": [],
       "name": "ValueAlreadyInSet",
       "type": "error"
@@ -234,14 +245,14 @@
               "type": "uint128"
             },
             {
-              "internalType": "int256",
+              "internalType": "int128",
               "name": "sizeDelta",
-              "type": "int256"
+              "type": "int128"
             },
             {
-              "internalType": "uint256",
+              "internalType": "uint128",
               "name": "settlementStrategyId",
-              "type": "uint256"
+              "type": "uint128"
             },
             {
               "internalType": "uint256",
@@ -384,7 +395,7 @@
   ],
   "constructorArgs": [],
   "linkedLibraries": {},
-  "deployTxnHash": "0x72c3d558c1274032cbc1be91109b6baa79d00144fdd8ddc738b5c4140e325dc3",
+  "deployTxnHash": "0x286ff53a919f60904b4ce9f573bd875af23d62dc45aa3eaebc78cc9206440f24",
   "sourceName": "contracts/modules/PerpsAccountModule.sol",
   "contractName": "PerpsAccountModule",
   "deployedOn": "contract.PerpsAccountModule"

@@ -7,7 +7,7 @@ import { useParams } from "react-router-dom";
 import { spotMarkets } from "../../../../constants/markets";
 import { TransactionType } from "../../../../constants/order";
 import { Order } from "../../../../hooks/spot/useGetOrders";
-import { useMarketId } from "../../../../hooks/spot/useMarketId";
+import { useSpotMarketId } from "../../../../hooks/spot/useSpotMarketId";
 import { prettyString } from "../../../../utils/format";
 import { Amount } from "../../../Amount";
 
@@ -22,7 +22,7 @@ export function SettledOrderRow({ order }: Props) {
     [order.orderType],
   );
 
-  const market = useMarketId();
+  const market = useSpotMarketId();
 
   const { inputToken, outputToken } = useMemo(() => {
     let inputToken = "";

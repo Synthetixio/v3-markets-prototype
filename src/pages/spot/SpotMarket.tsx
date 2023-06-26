@@ -4,10 +4,10 @@ import { AdvancedRealTimeChart } from "react-ts-tradingview-widgets";
 import { MarketDetails } from "../../components/SpotMarket/MarketDetails";
 import { SpotMarketForm } from "../../components/SpotMarket/SpotMarketForm";
 import { ArrowUpDownIcon } from "@chakra-ui/icons";
-import { useMarketId } from "../../hooks/spot/useMarketId";
+import { useSpotMarketId } from "../../hooks/spot/useSpotMarketId";
 
 export function SpotMarket() {
-  const market = useMarketId();
+  const market = useSpotMarketId();
 
   if (!market) {
     return null;

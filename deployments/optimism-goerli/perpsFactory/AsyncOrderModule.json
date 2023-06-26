@@ -1,5 +1,5 @@
 {
-  "address": "0x6AAFce75c89Acbf4F53C9549645DD88CeaecE217",
+  "address": "0x521effFCbE8aa3F61D396D65eecD431C6065b418",
   "abi": [
     {
       "inputs": [
@@ -75,6 +75,17 @@
         }
       ],
       "name": "InvalidMarket",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint128",
+          "name": "settlementStrategyId",
+          "type": "uint128"
+        }
+      ],
+      "name": "InvalidSettlementStrategy",
       "type": "error"
     },
     {
@@ -160,6 +171,27 @@
       "type": "error"
     },
     {
+      "inputs": [
+        {
+          "internalType": "uint128",
+          "name": "accountId",
+          "type": "uint128"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "permission",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "address",
+          "name": "target",
+          "type": "address"
+        }
+      ],
+      "name": "PermissionDenied",
+      "type": "error"
+    },
+    {
       "inputs": [],
       "name": "PositionOutOfBounds",
       "type": "error"
@@ -224,6 +256,27 @@
       "type": "error"
     },
     {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "timestamp",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "settlementTime",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "settlementExpiration",
+          "type": "uint256"
+        }
+      ],
+      "name": "SettlementWindowNotExpired",
+      "type": "error"
+    },
+    {
       "inputs": [],
       "name": "ValueAlreadyInSet",
       "type": "error"
@@ -254,6 +307,37 @@
           "type": "uint128"
         },
         {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "settlementTime",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "acceptablePrice",
+          "type": "uint256"
+        }
+      ],
+      "name": "OrderCanceled",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint128",
+          "name": "marketId",
+          "type": "uint128"
+        },
+        {
+          "indexed": true,
+          "internalType": "uint128",
+          "name": "accountId",
+          "type": "uint128"
+        },
+        {
           "indexed": true,
           "internalType": "enum SettlementStrategy.Type",
           "name": "orderType",
@@ -261,9 +345,9 @@
         },
         {
           "indexed": false,
-          "internalType": "int256",
+          "internalType": "int128",
           "name": "sizeDelta",
-          "type": "int256"
+          "type": "int128"
         },
         {
           "indexed": false,
@@ -345,13 +429,13 @@
           "type": "uint256"
         },
         {
-          "indexed": false,
+          "indexed": true,
           "internalType": "bytes32",
           "name": "trackingCode",
           "type": "bytes32"
         },
         {
-          "indexed": true,
+          "indexed": false,
           "internalType": "address",
           "name": "settler",
           "type": "address"
@@ -376,6 +460,24 @@
     {
       "inputs": [
         {
+          "internalType": "uint128",
+          "name": "marketId",
+          "type": "uint128"
+        },
+        {
+          "internalType": "uint128",
+          "name": "accountId",
+          "type": "uint128"
+        }
+      ],
+      "name": "cancelOrder",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
           "components": [
             {
               "internalType": "uint128",
@@ -388,14 +490,14 @@
               "type": "uint128"
             },
             {
-              "internalType": "int256",
+              "internalType": "int128",
               "name": "sizeDelta",
-              "type": "int256"
+              "type": "int128"
             },
             {
-              "internalType": "uint256",
+              "internalType": "uint128",
               "name": "settlementStrategyId",
-              "type": "uint256"
+              "type": "uint128"
             },
             {
               "internalType": "uint256",
@@ -428,14 +530,14 @@
               "type": "uint128"
             },
             {
-              "internalType": "int256",
+              "internalType": "int128",
               "name": "sizeDelta",
-              "type": "int256"
+              "type": "int128"
             },
             {
-              "internalType": "uint256",
+              "internalType": "uint128",
               "name": "settlementStrategyId",
-              "type": "uint256"
+              "type": "uint128"
             },
             {
               "internalType": "uint256",
@@ -479,6 +581,67 @@
           "type": "uint128"
         }
       ],
+      "name": "getOrder",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint128",
+              "name": "accountId",
+              "type": "uint128"
+            },
+            {
+              "internalType": "uint128",
+              "name": "marketId",
+              "type": "uint128"
+            },
+            {
+              "internalType": "int128",
+              "name": "sizeDelta",
+              "type": "int128"
+            },
+            {
+              "internalType": "uint128",
+              "name": "settlementStrategyId",
+              "type": "uint128"
+            },
+            {
+              "internalType": "uint256",
+              "name": "settlementTime",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "acceptablePrice",
+              "type": "uint256"
+            },
+            {
+              "internalType": "bytes32",
+              "name": "trackingCode",
+              "type": "bytes32"
+            }
+          ],
+          "internalType": "struct AsyncOrder.Data",
+          "name": "",
+          "type": "tuple"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint128",
+          "name": "marketId",
+          "type": "uint128"
+        },
+        {
+          "internalType": "uint128",
+          "name": "accountId",
+          "type": "uint128"
+        }
+      ],
       "name": "settle",
       "outputs": [],
       "stateMutability": "view",
@@ -505,7 +668,7 @@
   ],
   "constructorArgs": [],
   "linkedLibraries": {},
-  "deployTxnHash": "0x252c1de040fa5078d62106d3ab163aa0502a3b36daaaf5629d8243b706c0bedf",
+  "deployTxnHash": "0x758120ecf9669212b7dc75bc7422693cc7cd92d4d2ff1cc38754dd83a8fc5036",
   "sourceName": "contracts/modules/AsyncOrderModule.sol",
   "contractName": "AsyncOrderModule",
   "deployedOn": "contract.AsyncOrderModule"
