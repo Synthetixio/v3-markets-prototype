@@ -1,85 +1,46 @@
 import {
   Button,
   Flex,
-  Text,
   FormControl,
   FormLabel,
   Input,
   VStack,
   Box,
-  Divider,
   InputGroup,
   InputRightElement,
   Heading,
+  NumberInput,
+  NumberInputField,
 } from "@chakra-ui/react";
-import { useReducer, useRef } from "react";
+import { useReducer } from "react";
 import { useSearchParams } from "react-router-dom";
 import { usePerpsMarketOrder } from "../../../../hooks/perps/usePerpsMarketOrder";
-import { LeverageInput, LeverageSlider, RefHandler } from "../Leverage";
 import { initialOrderFormState, reducer } from "./reducer";
 
 export const maxLeverage = 100;
 
-export function OrderForm() {
+interface Props {
+  refetch: () => void;
+}
+export function OrderForm({ refetch }: Props) {
   const [state, dispatch] = useReducer(reducer, initialOrderFormState);
-  const [searchParams, setSelectedAccountId] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const selectedAccountId = searchParams.get("accountId");
 
-  const inputRef = useRef<HTMLInputElement>(null);
-  const sliderRef = useRef<RefHandler>(null);
+  const { amount, buy } = state;
 
-  const { amount, buy, nativeUnit, leverage } = state;
-
-  const { commit } = usePerpsMarketOrder(
+  const { commit, isLoading } = usePerpsMarketOrder(
     selectedAccountId || "",
     amount?.toString() || "0",
     "0",
     10,
-    () => {},
+    () => {
+      refetch();
+    },
   );
-
-  const toggleNativeUnit = () =>
-    dispatch({
-      type: "set_native_unit",
-      payload: { nativeUnit: !nativeUnit },
-    });
 
   const handleSubmit = () => {
     commit();
-  };
-
-  const reset = () => {
-    dispatch({ type: "reset_leverage" });
-    if (inputRef.current && sliderRef?.current) {
-      const { thumbRef, trackRef } = sliderRef.current;
-      if (thumbRef.current && trackRef.current) {
-        thumbRef.current.style.left = "calc(0% - 12px)";
-        trackRef.current.style.width = "0%";
-      }
-      inputRef.current.value = "1";
-    }
-  };
-
-  const onChange = (
-    val: number | null,
-    controllingComponent: "input" | "slider",
-  ) => {
-    dispatch({ type: "set_leverage", payload: { leverage: val } });
-    if (controllingComponent === "input" && sliderRef?.current) {
-      const { thumbRef, trackRef } = sliderRef.current;
-      if (thumbRef.current && trackRef.current && val) {
-        thumbRef.current.style.left = `calc(${
-          val >= maxLeverage ? maxLeverage : val
-        }% - 12px)`;
-        trackRef.current.style.width = `${
-          val >= maxLeverage ? maxLeverage : val
-        }%`;
-      }
-    }
-
-    if (controllingComponent === "slider" && inputRef?.current) {
-      inputRef.current.value = val ? String(val) : "1";
-    }
   };
 
   return (
@@ -114,7 +75,7 @@ export function OrderForm() {
             </Flex>
             <FormControl key="amount">
               <FormLabel htmlFor="amount">Amount</FormLabel>
-              <InputGroup>
+              {/* <InputGroup>
                 <Input
                   id="amount"
                   name="amount"
@@ -131,31 +92,30 @@ export function OrderForm() {
                     });
                   }}
                 />
-                <InputRightElement width="4.5rem">
-                  <Button h="1.75rem" size="sm" onClick={toggleNativeUnit}>
-                    {nativeUnit ? "USD" : "ETH"}
-                  </Button>
-                </InputRightElement>
+                <InputRightElement width="4.5rem">USD</InputRightElement>
+              </InputGroup> */}
+
+              <InputGroup>
+                <NumberInput
+                  width="full"
+                  id="amount"
+                  name="amount"
+                  variant="filled"
+                  min={0}
+                  value={amount || ""}
+                  onChange={(_v, valueAsNumber) => {
+                    dispatch({
+                      type: "set_amount",
+                      payload: { amount: isNaN(valueAsNumber) ? "" : _v },
+                    });
+                  }}
+                >
+                  <NumberInputField />
+                  <InputRightElement width="6rem">USD</InputRightElement>
+                </NumberInput>
               </InputGroup>
             </FormControl>
-            <Flex alignItems="center" width="100%">
-              <Divider flex="1" />
-              <Text mx={3} fontSize="sm" opacity="0.66">
-                OR
-              </Text>
-              <Divider flex="1" />
-            </Flex>
-            <FormControl key="leverage">
-              <FormLabel htmlFor="leverage">Leverage</FormLabel>
-              <Flex align="center">
-                <LeverageSlider onChange={onChange} buy={buy} ref={sliderRef} />
-                <LeverageInput
-                  onChange={onChange}
-                  reset={reset}
-                  ref={inputRef}
-                />
-              </Flex>
-            </FormControl>
+
             <Button
               key="button"
               type="submit"
@@ -163,6 +123,7 @@ export function OrderForm() {
               colorScheme={buy ? "green" : "red"}
               width="full"
               onClick={handleSubmit}
+              isLoading={isLoading}
             >
               Submit {buy ? "Buy" : "Sell"} Order
             </Button>

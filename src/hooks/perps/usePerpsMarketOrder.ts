@@ -1,7 +1,6 @@
 import { ethers } from "ethers";
 import { parseEther } from "ethers/lib/utils.js";
 import { useCallback, useState } from "react";
-import { useSpotMarketId } from "../spot/useSpotMarketId";
 import { useContract } from "../useContract";
 import { useTransact } from "../useTransact";
 import { usePerpsMarketId } from "./usePerpsMarketId";
@@ -24,36 +23,33 @@ export const usePerpsMarketOrder = (
     setIsLoading(true);
     try {
       const amount = parseEther(sizeDelta || "0").toString();
-      console.log({
+
+      const price2 = await perpsMarket.contract.indexPrice(market?.marketId);
+
+      const fillPrice = await perpsMarket.contract.fillPrice(
+        market?.marketId,
+        amount,
+        price2,
+      );
+
+      const commitment = {
         marketId: market?.marketId,
         accountId,
         sizeDelta: amount,
         settlementStrategyId: 0,
-        acceptablePrice: amount,
+        acceptablePrice: fillPrice.toString(),
         trackingCode: ethers.constants.HashZero,
-      });
-      await perpsMarket.contract.callStatic.commitOrder({
-        marketId: market?.marketId,
-        accountId,
-        sizeDelta: amount,
-        settlementStrategyId: 0,
-        acceptablePrice: amount,
-        trackingCode: ethers.constants.HashZero,
-      });
-      // await transact(perpsMarket.contract, "commitOrder", [
-      //   {
-      //     marketId: spotMarket?.marketId,
-      //     accountId,
-      //     sizeDelta,
-      //     settlementStrategyId: 0,
-      //     acceptablePrice: acceptablePrice,
-      //     trackingCode: ethers.constants.HashZero,
-      //   },
-      // ]);
+      };
+      await perpsMarket.contract.callStatic.commitOrder(commitment);
+      await transact(perpsMarket.contract, "commitOrder", [commitment]);
 
       onSuccess();
-    } catch (error) {
-      console.log("error:", error);
+    } catch (error: any) {
+      if (error.errorName) {
+        console.log("error:", error.errorName);
+      } else {
+        console.log("error:", error);
+      }
     } finally {
       setIsLoading(false);
     }

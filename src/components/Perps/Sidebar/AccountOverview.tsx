@@ -14,10 +14,16 @@ import {
   ModalBody,
   Text,
 } from "@chakra-ui/react";
+import { wei } from "@synthetixio/wei";
+import { formatEther } from "ethers/lib/utils.js";
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import { useAccount, useContractRead } from "wagmi";
+import { usePerpsMarketId } from "../../../hooks/perps/usePerpsMarketId";
 import { useSpotMarketId } from "../../../hooks/spot/useSpotMarketId";
 import { useSpotMarketInfo } from "../../../hooks/spot/useSpotMarketInfo";
+import { useContract } from "../../../hooks/useContract";
+import { Amount } from "../../Amount";
 import { DepositCollateral } from "./DepositCollateral";
 import { WithdrawCollateral } from "./WithdrawCollateral";
 
@@ -26,10 +32,42 @@ export function AccountOverview() {
   const [openWithdraw, setOpenWithdraw] = useState(false);
 
   const market = useSpotMarketId();
+  const perps = usePerpsMarketId();
   const { synthAddress } = useSpotMarketInfo(market?.marketId);
 
   const [searchParams] = useSearchParams();
   const selectedAccountId = searchParams.get("accountId");
+
+  const { address } = useAccount();
+  const perpsMarket = useContract("PERPS_MARKET");
+  const { data: collateralValue } = useContractRead({
+    address: perpsMarket.address,
+    abi: perpsMarket.abi,
+    functionName: "totalCollateralValue",
+    args: [selectedAccountId],
+    enabled: !!selectedAccountId,
+  });
+  const { data: openInterest } = useContractRead({
+    address: perpsMarket.address,
+    abi: perpsMarket.abi,
+    functionName: "totalAccountOpenInterest",
+    args: [selectedAccountId],
+    enabled: !!selectedAccountId,
+  });
+  const { data: price } = useContractRead({
+    address: perpsMarket.address,
+    abi: perpsMarket.abi,
+    functionName: "indexPrice",
+    args: [perps?.marketId],
+    enabled: !!address,
+  });
+  const { data: availableMargin } = useContractRead({
+    address: perpsMarket.address,
+    abi: perpsMarket.abi,
+    functionName: "getAvailableMargin",
+    args: [selectedAccountId],
+    enabled: !!selectedAccountId,
+  });
 
   return (
     <Box p="4" borderBottom="1px solid rgba(255,255,255,0.2)">
@@ -92,41 +130,50 @@ export function AccountOverview() {
 
       {/* Need the before/after component */}
       <Box mb="1">
-        Buying Power{" "}
+        Current Price{" "}
         <Box display="inline" float="right">
           <Text display="inline" fontFamily="mono">
-            $10,000
-          </Text>{" "}
-          <ArrowForwardIcon mt="-1" />{" "}
-          <Text display="inline" fontFamily="mono">
-            $10,000
+            <Amount
+              value={wei(formatEther(price?.toString() || "0"))}
+              suffix="USD"
+            />
           </Text>
         </Box>
       </Box>
       <Box mb="1">
-        Free Collateral{" "}
+        Collateral{" "}
         <Box display="inline" float="right">
           <Text display="inline" fontFamily="mono">
-            $1,000
-          </Text>{" "}
-          <ArrowForwardIcon mt="-1" />{" "}
-          <Text display="inline" fontFamily="mono">
-            $1,000
+            <Amount
+              value={wei(formatEther(collateralValue?.toString() || "0"))}
+              suffix="USD"
+            />
           </Text>
         </Box>
       </Box>
       <Box mb="1">
-        Leverage
+        Open Interest{" "}
         <Box display="inline" float="right">
           <Text display="inline" fontFamily="mono">
-            1&times;
-          </Text>{" "}
-          <ArrowForwardIcon mt="-1" />{" "}
-          <Text display="inline" fontFamily="mono">
-            2&times;
+            <Amount
+              value={wei(formatEther(openInterest?.toString() || "0"))}
+              suffix="USD"
+            />
           </Text>
         </Box>
       </Box>
+      <Box mb="1">
+        Availble Margin{" "}
+        <Box display="inline" float="right">
+          <Text display="inline" fontFamily="mono">
+            <Amount
+              value={wei(formatEther(availableMargin?.toString() || "0"))}
+              suffix="USD"
+            />
+          </Text>
+        </Box>
+      </Box>
+      {/*
       <Box mb="1">
         Margin Usage{" "}
         <Box display="inline" float="right">
@@ -143,7 +190,7 @@ export function AccountOverview() {
         <AlertIcon />
         If Margin Usage exceeds 100%, you will be liquidated and lose everything
         you deposited.
-      </Alert>
+      </Alert> */}
     </Box>
   );
 }

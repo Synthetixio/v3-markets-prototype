@@ -27,7 +27,7 @@ export const useModifyCollateral = (
 
         const tx = await perpsProxy.contract.modifyCollateral(
           accountId,
-          marketId,
+          2, //snxETH
           isDeposit ? amountD18 : `-${Number(amountD18).toString()}`,
         );
 

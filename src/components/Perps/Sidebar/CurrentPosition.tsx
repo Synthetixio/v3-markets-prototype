@@ -1,4 +1,3 @@
-import { ArrowForwardIcon } from "@chakra-ui/icons";
 import {
   Flex,
   Heading,
@@ -8,8 +7,37 @@ import {
   Alert,
   AlertIcon,
 } from "@chakra-ui/react";
+import { wei } from "@synthetixio/wei";
+import { formatEther } from "ethers/lib/utils.js";
+import { useContractRead } from "wagmi";
+import { usePerpsMarketId } from "../../../hooks/perps/usePerpsMarketId";
+import { useContract } from "../../../hooks/useContract";
+import { Amount } from "../../Amount";
 
-export function CurrentPosition() {
+interface Props {
+  accountId: string;
+}
+export function CurrentPosition({ accountId }: Props) {
+  const perpsMarket = useContract("PERPS_MARKET");
+  const perps = usePerpsMarketId();
+
+  const { data: openPosition, isLoading } = useContractRead({
+    address: perpsMarket.address,
+    abi: perpsMarket.abi,
+    functionName: "getOpenPosition",
+    args: [accountId, perps?.marketId],
+  });
+
+  if (isLoading || !openPosition) {
+    return null;
+  }
+
+  const [pnl, accruedFunding, size] = openPosition;
+
+  if (Number(size?.toString() || "0") === 0) {
+    return null;
+  }
+
   return (
     <Box p="4" borderBottom="1px solid rgba(255,255,255,0.2)">
       <Alert status="error" fontSize="sm" w="100%" mb="4">
@@ -27,26 +55,27 @@ export function CurrentPosition() {
           Long
         </Badge>
       </Flex>
-      {/* before and after */}
-      <Box mb="1">
+
+      <Box display="flex" alignItems="center" justifyContent="space-between">
         Size
-        <Box display="inline" float="right">
-          <Text display="inline" fontFamily="mono">
-            1 ETH ($X)
-          </Text>{" "}
-          <ArrowForwardIcon mt="-1" />{" "}
-          <Text display="inline" fontFamily="mono">
-            1 ETH ($X)
-          </Text>
-        </Box>
+        <Text display="inline" fontFamily="mono">
+          <Amount value={wei(formatEther(size?.toString() || "0"))} />
+        </Text>
       </Box>
-      <Box>
+      <Box display="flex" alignItems="center" justifyContent="space-between">
+        Accrued Funding
+        <Text display="inline" fontFamily="mono">
+          <Amount value={wei(formatEther(accruedFunding?.toString() || "0"))} />
+        </Text>
+      </Box>
+      <Box display="flex" alignItems="center" justifyContent="space-between">
         Profit/Loss
-        <Box display="inline" float="right">
-          <Text display="inline" fontFamily="mono">
-            $0
-          </Text>
-        </Box>
+        <Text display="inline" fontFamily="mono">
+          <Amount
+            value={wei(formatEther(pnl?.toString() || "0"))}
+            suffix="USD"
+          />
+        </Text>
       </Box>
     </Box>
   );

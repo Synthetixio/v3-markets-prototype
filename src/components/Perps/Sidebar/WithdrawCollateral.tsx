@@ -22,17 +22,16 @@ import { Amount } from "../../Amount";
 export function WithdrawCollateral({ accountId }: { accountId: string }) {
   const { address } = useAccount();
   const { marketId } = useParams();
-  const perpsMarket = useContract("PERPS_MARKET");
   const market = perpsMarkets[420][marketId?.toUpperCase() || "ETH"];
   const [amount, setAmount] = useState("0");
 
-  const { data: collateralValue } = useContractRead({
-    address: perpsMarket.address,
-    abi: perpsMarket.abi,
-    functionName: "totalCollateralValue",
-    args: [accountId],
-    enabled: !!address,
-  });
+  // const { data: collateralValue } = useContractRead({
+  //   address: perpsMarket.address,
+  //   abi: perpsMarket.abi,
+  //   functionName: "totalCollateralValue",
+  //   args: [accountId],
+  //   enabled: !!address,
+  // });
 
   const toast = useToast({
     isClosable: true,
@@ -70,7 +69,7 @@ export function WithdrawCollateral({ accountId }: { accountId: string }) {
           htmlFor="amount"
         >
           Amount
-          {!!address && (
+          {/* {!!address && (
             <Flex
               alignItems="center"
               fontWeight="normal"
@@ -83,7 +82,7 @@ export function WithdrawCollateral({ accountId }: { accountId: string }) {
                 suffix="USD"
               />
             </Flex>
-          )}
+          )} */}
         </FormLabel>
 
         <InputGroup>
@@ -100,7 +99,7 @@ export function WithdrawCollateral({ accountId }: { accountId: string }) {
             // max={Number(synthBalance?.formatted)}
           >
             <NumberInputField />
-            <InputRightElement width="6rem">USD</InputRightElement>
+            <InputRightElement width="6rem">snxETH</InputRightElement>
           </NumberInput>
         </InputGroup>
       </FormControl>
