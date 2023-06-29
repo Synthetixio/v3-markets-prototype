@@ -1,4 +1,4 @@
-import { Flex, Box } from "@chakra-ui/react";
+import { Flex, Box, Alert, AlertIcon, Text } from "@chakra-ui/react";
 import { useSearchParams } from "react-router-dom";
 import { useContractRead } from "wagmi";
 import { usePerpsMarketId } from "../../hooks/perps/usePerpsMarketId";
@@ -23,7 +23,14 @@ export function Sidebar() {
   });
   const asyncOrderClaim = asyncOrderClaimData as unknown as PerpsAsyncOrder;
   const hasAsyncOrderOrder =
-    !!asyncOrderClaim && asyncOrderClaim.sizeDelta.gt(0);
+    !!asyncOrderClaim && !asyncOrderClaim.sizeDelta.isZero();
+
+  const { data: openPosition, refetch: refetchOpenPosition } = useContractRead({
+    address: perpsMarket.address,
+    abi: perpsMarket.abi,
+    functionName: "getOpenPosition",
+    args: [selectedAccountId, perps?.marketId],
+  });
 
   return (
     <Flex
@@ -33,16 +40,29 @@ export function Sidebar() {
     >
       <Flex flexDirection="column" height="100%">
         <Box>
+          <Alert status="warning" fontSize="sm" minWidth="400px">
+            <AlertIcon w="4" />
+            <Box>
+              This is an experimental prototype.{" "}
+              <Text fontWeight="semibold" display="inline">
+                Use with caution.
+              </Text>
+            </Box>
+          </Alert>
           <MarketSwitcher />
           <AccountOverview />
-          {selectedAccountId && (
-            <CurrentPosition accountId={selectedAccountId} />
+          {selectedAccountId && openPosition && (
+            <CurrentPosition openPosition={openPosition as any[]} />
           )}
         </Box>
         {hasAsyncOrderOrder && selectedAccountId && (
           <AsyncOrderClaim
             orderClaim={asyncOrderClaim}
             accountId={selectedAccountId}
+            refetch={() => {
+              refetchOpenPosition();
+              refetch();
+            }}
           />
         )}
         {!hasAsyncOrderOrder && <OrderForm refetch={() => refetch()} />}

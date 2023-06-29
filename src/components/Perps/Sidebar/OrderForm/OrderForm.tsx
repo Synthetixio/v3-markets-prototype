@@ -12,7 +12,7 @@ import {
   NumberInput,
   NumberInputField,
 } from "@chakra-ui/react";
-import { useReducer } from "react";
+import { useReducer, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { usePerpsMarketOrder } from "../../../../hooks/perps/usePerpsMarketOrder";
 import { initialOrderFormState, reducer } from "./reducer";
@@ -32,7 +32,7 @@ export function OrderForm({ refetch }: Props) {
   const { commit, isLoading } = usePerpsMarketOrder(
     selectedAccountId || "",
     amount?.toString() || "0",
-    "0",
+    buy,
     10,
     () => {
       refetch();

@@ -1,6 +1,5 @@
 import {
   Button,
-  Flex,
   FormControl,
   FormLabel,
   InputGroup,
@@ -9,21 +8,29 @@ import {
   NumberInputField,
   useToast,
 } from "@chakra-ui/react";
-import { wei } from "@synthetixio/wei";
-import { formatEther } from "ethers/lib/utils.js";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-import { useAccount, useContractRead } from "wagmi";
+import { useAccount } from "wagmi";
 import { perpsMarkets } from "../../../constants/markets";
 import { useModifyCollateral } from "../../../hooks/perps/useModifyCollateral";
 import { useContract } from "../../../hooks/useContract";
-import { Amount } from "../../Amount";
 
-export function WithdrawCollateral({ accountId }: { accountId: string }) {
+export function WithdrawCollateral({
+  accountId,
+  refetch,
+  synth,
+}: {
+  synth: string;
+  accountId: string;
+  refetch: () => void;
+}) {
   const { address } = useAccount();
   const { marketId } = useParams();
   const market = perpsMarkets[420][marketId?.toUpperCase() || "ETH"];
   const [amount, setAmount] = useState("0");
+
+  const [nativeUnit, setNativeUnit] = useState(true);
+  const USD = useContract("USD");
 
   // const { data: collateralValue } = useContractRead({
   //   address: perpsMarket.address,
@@ -45,13 +52,14 @@ export function WithdrawCollateral({ accountId }: { accountId: string }) {
     });
     // refetch();
     setAmount("0");
+    refetch();
   };
 
   const { submit, isLoading } = useModifyCollateral(
-    market.marketId,
+    nativeUnit ? 0 : 2,
     accountId,
     amount,
-    "",
+    nativeUnit ? USD.address : synth,
     onSuccess,
   );
 
@@ -99,7 +107,16 @@ export function WithdrawCollateral({ accountId }: { accountId: string }) {
             // max={Number(synthBalance?.formatted)}
           >
             <NumberInputField />
-            <InputRightElement width="6rem">snxETH</InputRightElement>
+
+            <InputRightElement width="6rem">
+              <Button
+                h="1.75rem"
+                size="sm"
+                onClick={() => setNativeUnit((e) => !e)}
+              >
+                {nativeUnit ? "USD" : "snxETH"}
+              </Button>
+            </InputRightElement>
           </NumberInput>
         </InputGroup>
       </FormControl>

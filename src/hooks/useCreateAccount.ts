@@ -1,27 +1,51 @@
+import { useToast } from "@chakra-ui/react";
 import { ethers } from "ethers";
-import { useMemo } from "react";
 import { useContractWrite } from "wagmi";
 import { useContract } from "./useContract";
 
-export const useCreateAccount = (onSuccess: (id: string) => void) => {
-  const id = useMemo(() => {
-    const randomNumber = Math.floor(Math.random() * 10000) + 1;
-    return ethers.BigNumber.from(randomNumber.toString());
-  }, []);
+const getId = () => {
+  const randomNumber = Math.floor(Math.random() * 100000) + 1;
+  return ethers.BigNumber.from(randomNumber.toString());
+};
 
+export const useCreateAccount = (onSuccess: (id: string) => void) => {
   const coreProxy = useContract("PERPS_MARKET");
+
+  const toast = useToast({
+    isClosable: true,
+    duration: 9000,
+  });
 
   const { writeAsync } = useContractWrite({
     mode: "recklesslyUnprepared",
     address: coreProxy.address,
     abi: coreProxy.abi,
     functionName: "createAccount",
-    args: [id],
-    onSuccess: () => onSuccess(id.toString()),
+    args: [getId()],
+    onSuccess: () => onSuccess(getId().toString()),
   });
 
   return {
-    createAccount: writeAsync,
-    id,
+    createAccount: async () => {
+      try {
+        const id = getId();
+        console.log("accountId:", id.toString());
+
+        const tx = await writeAsync({
+          recklesslySetUnpreparedArgs: [id],
+        });
+
+        await tx.wait();
+
+        toast({
+          title: "Successfully created #" + id.toString(),
+          status: "success",
+        });
+
+        onSuccess(id.toString());
+      } catch (error) {
+        console.log("error:", error);
+      }
+    },
   };
 };

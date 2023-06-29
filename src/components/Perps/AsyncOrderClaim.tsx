@@ -25,9 +25,10 @@ export interface PerpsAsyncOrder {
 interface Props {
   orderClaim: PerpsAsyncOrder;
   accountId: string;
+  refetch: () => void;
 }
 
-export function AsyncOrderClaim({ orderClaim, accountId }: Props) {
+export function AsyncOrderClaim({ orderClaim, accountId, refetch }: Props) {
   const perpsMarket = useContract("PERPS_MARKET");
   const oracleVerifier = useContract("OracleVerifier");
   const perps = usePerpsMarketId();
@@ -128,13 +129,13 @@ export function AsyncOrderClaim({ orderClaim, accountId }: Props) {
     }
 
     try {
-      // await perpsMarket.contract.callStatic.settlePythOrder(
-      //   response.data,
-      //   extraData,
-      //   {
-      //     value: fee.toString(),
-      //   },
-      // );
+      await perpsMarket.contract.callStatic.settlePythOrder(
+        response.data,
+        extraData,
+        {
+          value: fee.toString(),
+        },
+      );
       await transact(
         perpsMarket.contract,
         "settlePythOrder",
@@ -147,8 +148,13 @@ export function AsyncOrderClaim({ orderClaim, accountId }: Props) {
         description: "Refresh in a few seconds",
         status: "success",
       });
-    } catch (error) {
-      console.log("error:,", error);
+      refetch();
+    } catch (error: any) {
+      if (error.errorName) {
+        console.log("error:,", error.errorName);
+      } else {
+        console.log("error:,", error);
+      }
     } finally {
       setSettling(false);
     }
@@ -157,6 +163,11 @@ export function AsyncOrderClaim({ orderClaim, accountId }: Props) {
   const cancel = async () => {
     try {
       setCanceling(true);
+
+      await perpsMarket.contract.callStatic.cancelOrder(
+        perps?.marketId,
+        accountId,
+      );
 
       await transact(perpsMarket.contract, "cancelOrder", [
         perps?.marketId,
@@ -168,8 +179,14 @@ export function AsyncOrderClaim({ orderClaim, accountId }: Props) {
         description: "Refresh in a few seconds",
         status: "success",
       });
-    } catch (error) {
-      console.log("error in cancel:", error);
+
+      refetch();
+    } catch (error: any) {
+      if (error.errorName) {
+        console.log("error:,", error.errorName);
+      } else {
+        console.log("error:,", error);
+      }
     } finally {
       setCanceling(false);
     }

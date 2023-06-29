@@ -40,20 +40,22 @@ export function AccountOverview() {
 
   const { address } = useAccount();
   const perpsMarket = useContract("PERPS_MARKET");
-  const { data: collateralValue } = useContractRead({
-    address: perpsMarket.address,
-    abi: perpsMarket.abi,
-    functionName: "totalCollateralValue",
-    args: [selectedAccountId],
-    enabled: !!selectedAccountId,
-  });
-  const { data: openInterest } = useContractRead({
-    address: perpsMarket.address,
-    abi: perpsMarket.abi,
-    functionName: "totalAccountOpenInterest",
-    args: [selectedAccountId],
-    enabled: !!selectedAccountId,
-  });
+  const { data: collateralValue, refetch: refetchTotalCollateralValue } =
+    useContractRead({
+      address: perpsMarket.address,
+      abi: perpsMarket.abi,
+      functionName: "totalCollateralValue",
+      args: [selectedAccountId],
+      enabled: !!selectedAccountId,
+    });
+  const { data: openInterest, refetch: refetshTotalAccountOpenInterest } =
+    useContractRead({
+      address: perpsMarket.address,
+      abi: perpsMarket.abi,
+      functionName: "totalAccountOpenInterest",
+      args: [selectedAccountId],
+      enabled: !!selectedAccountId,
+    });
   const { data: price } = useContractRead({
     address: perpsMarket.address,
     abi: perpsMarket.abi,
@@ -61,14 +63,20 @@ export function AccountOverview() {
     args: [perps?.marketId],
     enabled: !!address,
   });
-  const { data: availableMargin } = useContractRead({
-    address: perpsMarket.address,
-    abi: perpsMarket.abi,
-    functionName: "getAvailableMargin",
-    args: [selectedAccountId],
-    enabled: !!selectedAccountId,
-  });
+  const { data: availableMargin, refetch: refetchAvailableMargin } =
+    useContractRead({
+      address: perpsMarket.address,
+      abi: perpsMarket.abi,
+      functionName: "getAvailableMargin",
+      args: [selectedAccountId],
+      enabled: !!selectedAccountId,
+    });
 
+  const refetch = () => {
+    refetchAvailableMargin();
+    refetshTotalAccountOpenInterest();
+    refetchTotalCollateralValue();
+  };
   return (
     <Box p="4" borderBottom="1px solid rgba(255,255,255,0.2)">
       <Flex align="center" mb="3" gap="2">
@@ -105,6 +113,7 @@ export function AccountOverview() {
               <DepositCollateral
                 synth={synthAddress}
                 accountId={selectedAccountId}
+                refetch={refetch}
               />
             )}
           </ModalBody>
@@ -122,7 +131,11 @@ export function AccountOverview() {
           <ModalCloseButton />
           <ModalBody>
             {selectedAccountId && (
-              <WithdrawCollateral accountId={selectedAccountId} />
+              <WithdrawCollateral
+                synth={synthAddress}
+                accountId={selectedAccountId}
+                refetch={refetch}
+              />
             )}
           </ModalBody>
         </ModalContent>

@@ -1,5 +1,5 @@
 import { gql, useQuery } from "@apollo/client";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { useAccount, useContractRead, useContractReads } from "wagmi";
 import { perpsClient } from "../../utils/clients";
 
@@ -21,6 +21,7 @@ export interface Account {
 
 export const useAccounts = () => {
   const { address } = useAccount();
+  const [newAccounts, setNewAccounts] = useState<Account[]>([]);
 
   const { loading, data, refetch } = useQuery(GET_ACCOUNTS, {
     variables: {
@@ -32,13 +33,28 @@ export const useAccounts = () => {
 
   const accounts = useMemo(() => {
     if (!data) {
-      return [];
+      return [...newAccounts];
     }
-    return data.accounts as Account[];
+    const list = [...data.accounts, ...newAccounts];
+
+    let uniqueList: Account[] = [];
+    list.forEach((account) => {
+      if (!uniqueList.find((i) => i.accountId == account.accountId)) {
+        uniqueList.push(account);
+      }
+    });
+
+    return uniqueList;
   }, [data]);
 
   return {
     accounts,
+    addNewAccount: (account: Account) =>
+      setNewAccounts((list) => {
+        const newList = [...list];
+        newList.push(account);
+        return newList;
+      }),
     isLoading: loading,
     refetch,
   };

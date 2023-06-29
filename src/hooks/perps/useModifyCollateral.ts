@@ -23,18 +23,29 @@ export const useModifyCollateral = (
     async (isDeposit: boolean) => {
       try {
         setIsLoading(true);
-        await approve();
 
-        const tx = await perpsProxy.contract.modifyCollateral(
+        if (isDeposit) {
+          await approve();
+        }
+
+        const args = [
           accountId,
-          2, //snxETH
+          marketId,
           isDeposit ? amountD18 : `-${Number(amountD18).toString()}`,
-        );
+        ];
+
+        await perpsProxy.contract.callStatic.modifyCollateral(...args);
+
+        const tx = await perpsProxy.contract.modifyCollateral(...args);
 
         await tx.wait();
         onSuccess();
-      } catch (error) {
-        console.log("error:", error);
+      } catch (error: any) {
+        if (error.errorName) {
+          console.log(error.errorName);
+        } else {
+          console.log("error:", error);
+        }
       } finally {
         setIsLoading(false);
       }

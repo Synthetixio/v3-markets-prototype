@@ -6,15 +6,20 @@ import { useSearchParams } from "react-router-dom";
 import { useCreateAccount } from "../../hooks/useCreateAccount";
 import { useEffect } from "react";
 import { useAccounts } from "../../hooks/perps/useAccounts";
+import { useGetAccounts } from "../../hooks/perps/useGetAccounts";
 
 export function AccountSwitcher() {
   const { isConnected } = useAccount();
 
-  const { accounts, refetch } = useAccounts();
+  const { address } = useAccount();
+  const { accounts, refetch } = useGetAccounts();
   const [searchParams, setSelectedAccountId] = useSearchParams();
   const selectedAccountId = searchParams.get("accountId");
 
   const { createAccount } = useCreateAccount((accountId) => {
+    console.log({
+      accountId,
+    });
     setSelectedAccountId({ accountId });
     refetch();
   });
@@ -23,6 +28,13 @@ export function AccountSwitcher() {
     if (!selectedAccountId && accounts.length > 0) {
       setSelectedAccountId({ accountId: accounts[0].accountId || "" });
       refetch();
+    }
+
+    if (
+      selectedAccountId &&
+      !accounts.find((item) => item.accountId === selectedAccountId)
+    ) {
+      setSelectedAccountId({ accountId: "" });
     }
   }, [selectedAccountId, accounts]);
 

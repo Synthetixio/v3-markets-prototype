@@ -15,23 +15,9 @@ import { useContract } from "../../../hooks/useContract";
 import { Amount } from "../../Amount";
 
 interface Props {
-  accountId: string;
+  openPosition: any[];
 }
-export function CurrentPosition({ accountId }: Props) {
-  const perpsMarket = useContract("PERPS_MARKET");
-  const perps = usePerpsMarketId();
-
-  const { data: openPosition, isLoading } = useContractRead({
-    address: perpsMarket.address,
-    abi: perpsMarket.abi,
-    functionName: "getOpenPosition",
-    args: [accountId, perps?.marketId],
-  });
-
-  if (isLoading || !openPosition) {
-    return null;
-  }
-
+export function CurrentPosition({ openPosition }: Props) {
   const [pnl, accruedFunding, size] = openPosition;
 
   if (Number(size?.toString() || "0") === 0) {
@@ -40,20 +26,17 @@ export function CurrentPosition({ accountId }: Props) {
 
   return (
     <Box p="4" borderBottom="1px solid rgba(255,255,255,0.2)">
-      <Alert status="error" fontSize="sm" w="100%" mb="4">
-        <AlertIcon w="4" />
-        <Box>
-          <Text fontWeight="bold" display="inline">
-            This UI is under construction.
-          </Text>
-        </Box>
-      </Alert>
-
       <Flex align="center" mb="2">
         <Heading size="sm">Current Position</Heading>{" "}
-        <Badge ml="2" colorScheme="green" fontSize="sm" borderRadius="4px">
-          Long
-        </Badge>
+        {Number(size?.toString() || "0") > 0 ? (
+          <Badge ml="2" colorScheme="green" fontSize="sm" borderRadius="4px">
+            Long
+          </Badge>
+        ) : (
+          <Badge ml="2" colorScheme="red" fontSize="sm" borderRadius="4px">
+            Short
+          </Badge>
+        )}
       </Flex>
 
       <Box display="flex" alignItems="center" justifyContent="space-between">

@@ -15,15 +15,20 @@ import { useParams } from "react-router-dom";
 import { useAccount, useBalance } from "wagmi";
 import { perpsMarkets } from "../../../constants/markets";
 import { useModifyCollateral } from "../../../hooks/perps/useModifyCollateral";
+import { useContract } from "../../../hooks/useContract";
 import { Amount } from "../../Amount";
 
 export function DepositCollateral({
   synth,
   accountId,
+  refetch,
 }: {
   synth: string;
   accountId: string;
+  refetch: () => void;
 }) {
+  const [nativeUnit, setNativeUnit] = useState(true);
+  const USD = useContract("USD");
   const { address } = useAccount();
   const { marketId } = useParams();
   const market = perpsMarkets[420][marketId?.toUpperCase() || "ETH"];
@@ -34,6 +39,11 @@ export function DepositCollateral({
     token: synth as `0x${string}`,
     watch: true,
     enabled: !!synth,
+  });
+  const { data: USDBalance, refetch: refetchUSD } = useBalance({
+    address,
+    token: USD.address as `0x${string}`,
+    watch: true,
   });
 
   const toast = useToast({
@@ -47,14 +57,16 @@ export function DepositCollateral({
       status: "success",
     });
     refetcSynth();
+    refetchUSD();
     setAmount("0");
+    refetch();
   };
 
   const { submit, isLoading } = useModifyCollateral(
-    market.marketId,
+    nativeUnit ? 0 : 2,
     accountId,
     amount,
-    synth,
+    nativeUnit ? USD.address : synth,
     onSuccess,
   );
 
@@ -80,8 +92,12 @@ export function DepositCollateral({
             >
               Balance:&nbsp;
               <Amount
-                value={wei(synthBalance?.formatted || "0")}
-                suffix={market.synth}
+                value={wei(
+                  (nativeUnit
+                    ? USDBalance?.formatted
+                    : synthBalance?.formatted) || "0",
+                )}
+                suffix={nativeUnit ? "USD" : market.synth}
               />
             </Flex>
           )}
@@ -98,10 +114,17 @@ export function DepositCollateral({
             onChange={(_v, valueAsNumber) => {
               setAmount(isNaN(valueAsNumber) ? "" : _v);
             }}
-            max={Number(synthBalance?.formatted)}
           >
             <NumberInputField />
-            <InputRightElement width="6rem">{market.synth}</InputRightElement>
+            <InputRightElement width="6rem">
+              <Button
+                h="1.75rem"
+                size="sm"
+                onClick={() => setNativeUnit((e) => !e)}
+              >
+                {nativeUnit ? "USD" : "snxETH"}
+              </Button>
+            </InputRightElement>
           </NumberInput>
         </InputGroup>
       </FormControl>
