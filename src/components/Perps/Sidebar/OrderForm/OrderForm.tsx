@@ -111,7 +111,7 @@ export function OrderForm({ refetch }: Props) {
                   }}
                 >
                   <NumberInputField />
-                  <InputRightElement width="6rem">USD</InputRightElement>
+                  <InputRightElement width="6rem">ETH</InputRightElement>
                 </NumberInput>
               </InputGroup>
             </FormControl>
