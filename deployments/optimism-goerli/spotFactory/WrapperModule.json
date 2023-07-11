@@ -1,5 +1,5 @@
 {
-  "address": "0x1F0e5F83a3d0ac5B33cD6B905446c28F97feE060",
+  "address": "0xe500fa71Fad8cd39007560373B5Ca1a74E3aBE69",
   "abi": [
     {
       "inputs": [
@@ -376,7 +376,7 @@
   ],
   "constructorArgs": [],
   "linkedLibraries": {},
-  "deployTxnHash": "0x8b0caf6526293cbb29d557390588778a6cf267c3e689cf79d4c92801653746e3",
+  "deployTxnHash": "0xaedbfe82daae3faa9973edf3405c07e69274f1afca6a5e9e0ec97b570ab3b29e",
   "sourceName": "contracts/modules/WrapperModule.sol",
   "contractName": "WrapperModule",
   "deployedOn": "contract.WrapperModule"

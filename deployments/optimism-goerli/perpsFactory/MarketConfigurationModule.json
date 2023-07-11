@@ -1,5 +1,5 @@
 {
-  "address": "0x4B8425b675294d86BC3034981d85C7330c0E3515",
+  "address": "0x0fa1475B618B14a3FdD243dE01042aE1bE3d0794",
   "abi": [
     {
       "inputs": [
@@ -21,7 +21,7 @@
       "anonymous": false,
       "inputs": [
         {
-          "indexed": false,
+          "indexed": true,
           "internalType": "uint128",
           "name": "marketId",
           "type": "uint128"
@@ -46,7 +46,7 @@
       "anonymous": false,
       "inputs": [
         {
-          "indexed": false,
+          "indexed": true,
           "internalType": "uint128",
           "name": "marketId",
           "type": "uint128"
@@ -54,13 +54,13 @@
         {
           "indexed": false,
           "internalType": "uint256",
-          "name": "initialMarginFraction",
+          "name": "initialMarginRatioD18",
           "type": "uint256"
         },
         {
           "indexed": false,
           "internalType": "uint256",
-          "name": "maintenanceMarginFraction",
+          "name": "maintenanceMarginRatioD18",
           "type": "uint256"
         },
         {
@@ -80,6 +80,12 @@
           "internalType": "uint256",
           "name": "maxSecondsInLiquidationWindow",
           "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "minimumPositionMargin",
+          "type": "uint256"
         }
       ],
       "name": "LiquidationParametersSet",
@@ -89,7 +95,7 @@
       "anonymous": false,
       "inputs": [
         {
-          "indexed": false,
+          "indexed": true,
           "internalType": "uint128",
           "name": "marketId",
           "type": "uint128"
@@ -97,18 +103,18 @@
         {
           "indexed": false,
           "internalType": "uint256",
-          "name": "lockedOiPercent",
+          "name": "lockedOiRatioD18",
           "type": "uint256"
         }
       ],
-      "name": "LockedOiPercentSet",
+      "name": "LockedOiRatioD18Set",
       "type": "event"
     },
     {
       "anonymous": false,
       "inputs": [
         {
-          "indexed": false,
+          "indexed": true,
           "internalType": "uint128",
           "name": "marketId",
           "type": "uint128"
@@ -116,18 +122,18 @@
         {
           "indexed": false,
           "internalType": "uint256",
-          "name": "maxMarketValue",
+          "name": "maxMarketSize",
           "type": "uint256"
         }
       ],
-      "name": "MaxMarketValueSet",
+      "name": "MaxMarketSizeSet",
       "type": "event"
     },
     {
       "anonymous": false,
       "inputs": [
         {
-          "indexed": false,
+          "indexed": true,
           "internalType": "uint128",
           "name": "marketId",
           "type": "uint128"
@@ -229,7 +235,7 @@
       "anonymous": false,
       "inputs": [
         {
-          "indexed": false,
+          "indexed": true,
           "internalType": "uint128",
           "name": "marketId",
           "type": "uint128"
@@ -362,12 +368,12 @@
       "outputs": [
         {
           "internalType": "uint256",
-          "name": "initialMarginFraction",
+          "name": "initialMarginRatioD18",
           "type": "uint256"
         },
         {
           "internalType": "uint256",
-          "name": "maintenanceMarginFraction",
+          "name": "maintenanceMarginRatioD18",
           "type": "uint256"
         },
         {
@@ -397,7 +403,7 @@
           "type": "uint128"
         }
       ],
-      "name": "getLockedOiPercent",
+      "name": "getLockedOiRatioD18",
       "outputs": [
         {
           "internalType": "uint256",
@@ -416,11 +422,11 @@
           "type": "uint128"
         }
       ],
-      "name": "getMaxMarketValue",
+      "name": "getMaxMarketSize",
       "outputs": [
         {
           "internalType": "uint256",
-          "name": "maxMarketValue",
+          "name": "maxMarketSize",
           "type": "uint256"
         }
       ],
@@ -559,12 +565,12 @@
         },
         {
           "internalType": "uint256",
-          "name": "initialMarginFraction",
+          "name": "initialMarginRatioD18",
           "type": "uint256"
         },
         {
           "internalType": "uint256",
-          "name": "maintenanceMarginFraction",
+          "name": "maintenanceMarginRatioD18",
           "type": "uint256"
         },
         {
@@ -580,6 +586,11 @@
         {
           "internalType": "uint256",
           "name": "maxSecondsInLiquidationWindow",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "minimumPositionMargin",
           "type": "uint256"
         }
       ],
@@ -597,11 +608,11 @@
         },
         {
           "internalType": "uint256",
-          "name": "lockedOiPercent",
+          "name": "lockedOiRatioD18",
           "type": "uint256"
         }
       ],
-      "name": "setLockedOiPercent",
+      "name": "setLockedOiRatio",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
@@ -615,11 +626,11 @@
         },
         {
           "internalType": "uint256",
-          "name": "maxMarketValue",
+          "name": "maxMarketSize",
           "type": "uint256"
         }
       ],
-      "name": "setMaxMarketValue",
+      "name": "setMaxMarketSize",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
@@ -673,7 +684,7 @@
   ],
   "constructorArgs": [],
   "linkedLibraries": {},
-  "deployTxnHash": "0x0573ff17b7636c6e69710022c8209b9d3c5eca4a7d128acd4868f7b67ad71253",
+  "deployTxnHash": "0x90921820f6fef64256e7976d024f45be3de5828c82d5b041fc03086c3bb02901",
   "sourceName": "contracts/modules/MarketConfigurationModule.sol",
   "contractName": "MarketConfigurationModule",
   "deployedOn": "contract.MarketConfigurationModule"

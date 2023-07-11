@@ -1,5 +1,5 @@
 {
-  "address": "0xdEC523a04D6024413014a23CB3FA190cF052cC64",
+  "address": "0xb493065d0043Aef72c4bf64Cd2e24d490732B994",
   "abi": [
     {
       "inputs": [
@@ -202,13 +202,13 @@
           "type": "uint128"
         },
         {
-          "indexed": true,
+          "indexed": false,
           "internalType": "int256",
           "name": "amountDelta",
           "type": "int256"
         },
         {
-          "indexed": false,
+          "indexed": true,
           "internalType": "address",
           "name": "sender",
           "type": "address"
@@ -216,67 +216,6 @@
       ],
       "name": "CollateralModified",
       "type": "event"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint128",
-          "name": "accountId",
-          "type": "uint128"
-        },
-        {
-          "internalType": "uint128",
-          "name": "marketId",
-          "type": "uint128"
-        }
-      ],
-      "name": "getAsyncOrderClaim",
-      "outputs": [
-        {
-          "components": [
-            {
-              "internalType": "uint128",
-              "name": "accountId",
-              "type": "uint128"
-            },
-            {
-              "internalType": "uint128",
-              "name": "marketId",
-              "type": "uint128"
-            },
-            {
-              "internalType": "int128",
-              "name": "sizeDelta",
-              "type": "int128"
-            },
-            {
-              "internalType": "uint128",
-              "name": "settlementStrategyId",
-              "type": "uint128"
-            },
-            {
-              "internalType": "uint256",
-              "name": "settlementTime",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "acceptablePrice",
-              "type": "uint256"
-            },
-            {
-              "internalType": "bytes32",
-              "name": "trackingCode",
-              "type": "bytes32"
-            }
-          ],
-          "internalType": "struct AsyncOrder.Data",
-          "name": "",
-          "type": "tuple"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
     },
     {
       "inputs": [
@@ -292,6 +231,30 @@
           "internalType": "int256",
           "name": "",
           "type": "int256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint128",
+          "name": "accountId",
+          "type": "uint128"
+        },
+        {
+          "internalType": "uint128",
+          "name": "synthMarketId",
+          "type": "uint128"
+        }
+      ],
+      "name": "getCollateralAmount",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
         }
       ],
       "stateMutability": "view",
@@ -395,7 +358,7 @@
   ],
   "constructorArgs": [],
   "linkedLibraries": {},
-  "deployTxnHash": "0x286ff53a919f60904b4ce9f573bd875af23d62dc45aa3eaebc78cc9206440f24",
+  "deployTxnHash": "0x01a10ba18600bce5d6e726cb90a18575716db0e127b71e3f8f42c3ede4e9f169",
   "sourceName": "contracts/modules/PerpsAccountModule.sol",
   "contractName": "PerpsAccountModule",
   "deployedOn": "contract.PerpsAccountModule"

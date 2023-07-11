@@ -1,5 +1,5 @@
 {
-  "address": "0xD432391786CB766861bEed83b73b6616efd010a5",
+  "address": "0x34e3f84978836966150be7EFC4BF787F57244278",
   "abi": [
     {
       "inputs": [
@@ -59,13 +59,13 @@
           "type": "uint128"
         },
         {
-          "indexed": false,
+          "indexed": true,
           "internalType": "address",
           "name": "oldOwner",
           "type": "address"
         },
         {
-          "indexed": false,
+          "indexed": true,
           "internalType": "address",
           "name": "newOwner",
           "type": "address"
@@ -84,7 +84,7 @@
           "type": "uint128"
         },
         {
-          "indexed": false,
+          "indexed": true,
           "internalType": "address",
           "name": "newNominatedOwner",
           "type": "address"
@@ -364,7 +364,7 @@
   ],
   "constructorArgs": [],
   "linkedLibraries": {},
-  "deployTxnHash": "0x8e9e58d68f49d6f1f947973fc5c0f23999c608c4176dc5db68af9ab5abff44e3",
+  "deployTxnHash": "0x0db3ec8588eb515a2784220a2de94e0a92a2f9b804a0a96ff5ae00fbfec2fd59",
   "sourceName": "contracts/modules/PerpsMarketFactoryModule.sol",
   "contractName": "PerpsMarketFactoryModule",
   "deployedOn": "contract.PerpsMarketFactoryModule"

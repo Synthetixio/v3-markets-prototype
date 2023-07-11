@@ -1,5 +1,5 @@
 {
-  "address": "0x892de68268e05D3EA2aE770c9c0Ce8BE4BEA525A",
+  "address": "0x32fE6F96dAE60Bce878f97a43c858139B7E5Ad92",
   "abi": [
     {
       "inputs": [],
@@ -208,7 +208,7 @@
   ],
   "constructorArgs": [],
   "linkedLibraries": {},
-  "deployTxnHash": "0x21ce8c536639a8b47e1dc25835849d8370147afb9c046640c4dfb9f67ed11061",
+  "deployTxnHash": "0x94008dfefee1c89c5fc26542c2efd427dd283e258c5eca611dbb9105858b3845",
   "sourceName": "contracts/modules/PerpsMarketModule.sol",
   "contractName": "PerpsMarketModule",
   "deployedOn": "contract.PerpsMarketModule"

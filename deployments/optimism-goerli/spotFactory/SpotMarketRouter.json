@@ -1,5 +1,5 @@
 {
-  "address": "0x998703cFbabaf1C2026c3D70c002bd52592CBc9c",
+  "address": "0x9dD97865312e8E77e2e9F674093A7cE822C9d6DD",
   "abi": [
     {
       "inputs": [
@@ -2235,6 +2235,12 @@
           "internalType": "uint256",
           "name": "price",
           "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "enum Transaction.Type",
+          "name": "orderType",
+          "type": "uint8"
         }
       ],
       "name": "OrderSettled",
@@ -3751,7 +3757,7 @@
     }
   ],
   "deployedOn": "router.SpotMarketRouter",
-  "deployTxnHash": "0x6ea4e53e6bc4e6991b46c8a3fa8e58ebdf23b4174d9623a2e3e686018d351544",
+  "deployTxnHash": "0x2986e6930adebf2bada3f4183e758299ce2f311d6c20b5f08a1ec1763ba238a0",
   "contractName": "SpotMarketRouter",
   "sourceName": "SpotMarketRouter.sol"
 }

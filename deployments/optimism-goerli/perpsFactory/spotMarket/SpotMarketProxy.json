@@ -2235,6 +2235,12 @@
           "internalType": "uint256",
           "name": "price",
           "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "enum Transaction.Type",
+          "name": "orderType",
+          "type": "uint8"
         }
       ],
       "name": "OrderSettled",

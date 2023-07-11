@@ -1,5 +1,5 @@
 {
-  "address": "0x521effFCbE8aa3F61D396D65eecD431C6065b418",
+  "address": "0x03300176894c7E67bfA224a29329BaDb63a522A3",
   "abi": [
     {
       "inputs": [
@@ -58,17 +58,6 @@
     {
       "inputs": [
         {
-          "internalType": "uint256",
-          "name": "leftover",
-          "type": "uint256"
-        }
-      ],
-      "name": "InsufficientMarginError",
-      "type": "error"
-    },
-    {
-      "inputs": [
-        {
           "internalType": "uint128",
           "name": "marketId",
           "type": "uint128"
@@ -91,32 +80,22 @@
     {
       "inputs": [
         {
-          "internalType": "address",
-          "name": "sender",
-          "type": "address"
+          "internalType": "uint128",
+          "name": "marketId",
+          "type": "uint128"
         },
         {
-          "internalType": "string[]",
-          "name": "urls",
-          "type": "string[]"
+          "internalType": "uint256",
+          "name": "maxMarketSize",
+          "type": "uint256"
         },
         {
-          "internalType": "bytes",
-          "name": "callData",
-          "type": "bytes"
-        },
-        {
-          "internalType": "bytes4",
-          "name": "callbackFunction",
-          "type": "bytes4"
-        },
-        {
-          "internalType": "bytes",
-          "name": "extraData",
-          "type": "bytes"
+          "internalType": "int256",
+          "name": "newSideSize",
+          "type": "int256"
         }
       ],
-      "name": "OffchainLookup",
+      "name": "MaxOpenInterestReached",
       "type": "error"
     },
     {
@@ -166,11 +145,6 @@
       "type": "error"
     },
     {
-      "inputs": [],
-      "name": "OverflowUint256ToUint64",
-      "type": "error"
-    },
-    {
       "inputs": [
         {
           "internalType": "uint128",
@@ -199,60 +173,12 @@
     {
       "inputs": [
         {
-          "internalType": "uint256",
-          "name": "deviation",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "tolerance",
-          "type": "uint256"
-        }
-      ],
-      "name": "PriceDeviationToleranceExceeded",
-      "type": "error"
-    },
-    {
-      "inputs": [
-        {
           "internalType": "uint128",
           "name": "marketId",
           "type": "uint128"
         }
       ],
       "name": "PriceFeedNotSet",
-      "type": "error"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "enum SettlementStrategy.Type",
-          "name": "strategyType",
-          "type": "uint8"
-        }
-      ],
-      "name": "SettlementStrategyNotFound",
-      "type": "error"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "timestamp",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "settlementTime",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "settlementExpiration",
-          "type": "uint256"
-        }
-      ],
-      "name": "SettlementWindowExpired",
       "type": "error"
     },
     {
@@ -274,16 +200,6 @@
         }
       ],
       "name": "SettlementWindowNotExpired",
-      "type": "error"
-    },
-    {
-      "inputs": [],
-      "name": "ValueAlreadyInSet",
-      "type": "error"
-    },
-    {
-      "inputs": [],
-      "name": "ValueNotInSet",
       "type": "error"
     },
     {
@@ -338,7 +254,7 @@
           "type": "uint128"
         },
         {
-          "indexed": true,
+          "indexed": false,
           "internalType": "enum SettlementStrategy.Type",
           "name": "orderType",
           "type": "uint8"
@@ -368,7 +284,7 @@
           "type": "uint256"
         },
         {
-          "indexed": false,
+          "indexed": true,
           "internalType": "bytes32",
           "name": "trackingCode",
           "type": "bytes32"
@@ -382,80 +298,6 @@
       ],
       "name": "OrderCommitted",
       "type": "event"
-    },
-    {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": true,
-          "internalType": "uint128",
-          "name": "marketId",
-          "type": "uint128"
-        },
-        {
-          "indexed": true,
-          "internalType": "uint128",
-          "name": "accountId",
-          "type": "uint128"
-        },
-        {
-          "indexed": false,
-          "internalType": "uint256",
-          "name": "fillPrice",
-          "type": "uint256"
-        },
-        {
-          "indexed": false,
-          "internalType": "int256",
-          "name": "accountPnlRealized",
-          "type": "int256"
-        },
-        {
-          "indexed": false,
-          "internalType": "int128",
-          "name": "newSize",
-          "type": "int128"
-        },
-        {
-          "indexed": false,
-          "internalType": "uint256",
-          "name": "collectedFees",
-          "type": "uint256"
-        },
-        {
-          "indexed": false,
-          "internalType": "uint256",
-          "name": "settelementReward",
-          "type": "uint256"
-        },
-        {
-          "indexed": true,
-          "internalType": "bytes32",
-          "name": "trackingCode",
-          "type": "bytes32"
-        },
-        {
-          "indexed": false,
-          "internalType": "address",
-          "name": "settler",
-          "type": "address"
-        }
-      ],
-      "name": "OrderSettled",
-      "type": "event"
-    },
-    {
-      "inputs": [],
-      "name": "PRECISION",
-      "outputs": [
-        {
-          "internalType": "int256",
-          "name": "",
-          "type": "int256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
     },
     {
       "inputs": [
@@ -628,47 +470,11 @@
       ],
       "stateMutability": "view",
       "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint128",
-          "name": "marketId",
-          "type": "uint128"
-        },
-        {
-          "internalType": "uint128",
-          "name": "accountId",
-          "type": "uint128"
-        }
-      ],
-      "name": "settle",
-      "outputs": [],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "bytes",
-          "name": "result",
-          "type": "bytes"
-        },
-        {
-          "internalType": "bytes",
-          "name": "extraData",
-          "type": "bytes"
-        }
-      ],
-      "name": "settlePythOrder",
-      "outputs": [],
-      "stateMutability": "payable",
-      "type": "function"
     }
   ],
   "constructorArgs": [],
   "linkedLibraries": {},
-  "deployTxnHash": "0x758120ecf9669212b7dc75bc7422693cc7cd92d4d2ff1cc38754dd83a8fc5036",
+  "deployTxnHash": "0x5d6e5a03a7b3e36df06e35408b54119ac7560367c4b035752b7f909ff2d3dd15",
   "sourceName": "contracts/modules/AsyncOrderModule.sol",
   "contractName": "AsyncOrderModule",
   "deployedOn": "contract.AsyncOrderModule"
