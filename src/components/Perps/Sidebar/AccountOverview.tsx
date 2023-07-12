@@ -176,7 +176,7 @@ export function AccountOverview() {
         </Box>
       </Box>
       <Box mb="1">
-        Availble Margin{" "}
+        Available Margin{" "}
         <Box display="inline" float="right">
           <Text display="inline" fontFamily="mono">
             <Amount
