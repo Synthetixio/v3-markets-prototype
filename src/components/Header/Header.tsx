@@ -1,7 +1,7 @@
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { Heading, Flex, Box, Tag, Button } from "@chakra-ui/react";
 import { AccountSwitcher } from "./AccountSwitcher";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { ExternalLinkIcon } from "@chakra-ui/icons";
 
 interface HeaderProps {
@@ -9,6 +9,7 @@ interface HeaderProps {
 }
 
 export function Header({ isSpot }: HeaderProps) {
+  const path = useLocation();
   return (
     <Flex p="3" borderBottom="1px solid rgba(255,255,255,0.2)" align="center">
       <Box>
@@ -37,6 +38,14 @@ export function Header({ isSpot }: HeaderProps) {
         <Link to="/perps/markets/ETH">
           <Button variant="ghost" opacity={!isSpot ? "1" : ".5"}>
             Perps
+          </Button>
+        </Link>
+        <Link to="/leaderboard">
+          <Button
+            variant="ghost"
+            opacity={path.pathname.includes("leaderboard") ? "1" : ".5"}
+          >
+            Leaderboard
           </Button>
         </Link>
         <Link target="_blank" to="https://v3.synthetix.io/">

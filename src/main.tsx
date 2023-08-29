@@ -19,6 +19,7 @@ import { SpotAdmin } from "./pages/spot/SpotAdmin";
 import { ApolloProvider } from "@apollo/client";
 import { PerpsMarket } from "./pages/perps/PerpsMarket";
 import { spotClient } from "./utils/clients";
+import Leaderboard from "./pages/leaderboard";
 
 const router = createBrowserRouter([
   {
@@ -45,6 +46,7 @@ const router = createBrowserRouter([
     path: "/spot/markets/:marketId",
     element: <SpotMarket />,
   },
+  { path: "/leaderboard", element: <Leaderboard /> },
 ]);
 
 /**
