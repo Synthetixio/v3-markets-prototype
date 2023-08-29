@@ -91,7 +91,7 @@ export default function Leaderboard() {
                 );
               } else {
                 return (
-                  (a.pnl_pct > b.pnl_pct ? 1 : -1) * (sortOption[1] ? 1 : -1)
+                  (a.pnl_pct < b.pnl_pct ? 1 : -1) * (sortOption[1] ? 1 : -1)
                 );
               }
             })
