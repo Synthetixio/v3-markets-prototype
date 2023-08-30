@@ -4,12 +4,8 @@ import { AccountSwitcher } from "./AccountSwitcher";
 import { Link, useLocation } from "react-router-dom";
 import { ExternalLinkIcon } from "@chakra-ui/icons";
 
-interface HeaderProps {
-  isSpot?: boolean;
-}
-
-export function Header({ isSpot }: HeaderProps) {
-  const path = useLocation();
+export function Header() {
+  const { pathname } = useLocation();
   return (
     <Flex p="3" borderBottom="1px solid rgba(255,255,255,0.2)" align="center">
       <Box>
@@ -31,19 +27,25 @@ export function Header({ isSpot }: HeaderProps) {
       </Box>
       <Box ml="4">
         <Link to="/spot/markets/ETH">
-          <Button variant="ghost" opacity={isSpot ? "1" : ".5"}>
+          <Button
+            variant="ghost"
+            opacity={pathname.includes("spot") ? "1" : ".5"}
+          >
             Spot
           </Button>
         </Link>
         <Link to="/perps/markets/ETH">
-          <Button variant="ghost" opacity={!isSpot ? "1" : ".5"}>
+          <Button
+            variant="ghost"
+            opacity={pathname.includes("perps") ? "1" : ".5"}
+          >
             Perps
           </Button>
         </Link>
         <Link to="/leaderboard">
           <Button
             variant="ghost"
-            opacity={path.pathname.includes("leaderboard") ? "1" : ".5"}
+            opacity={pathname.includes("leaderboard") ? "1" : ".5"}
           >
             Leaderboard
           </Button>
@@ -61,7 +63,7 @@ export function Header({ isSpot }: HeaderProps) {
       </Box>
       <Box ml="auto">
         <Flex>
-          {!isSpot && <AccountSwitcher />}
+          {!pathname.includes("spot") && <AccountSwitcher />}
           <Box ml="4">
             {/** @see https://www.rainbowkit.com/docs/connect-button */}
             <ConnectButton accountStatus="address" />
