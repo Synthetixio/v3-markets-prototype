@@ -41,10 +41,10 @@ const router = createBrowserRouter([
   //   path: "/perps/admin",
   //   element: <PerpsAdmin />,
   // },
-  {
-    path: "/perps/markets/:marketId",
-    element: <PerpsMarket />,
-  },
+  // {
+  //   path: "/perps/markets/:marketId",
+  //   element: <PerpsMarket />,
+  // },
   // {
   //   path: "/perps/markets/:marketId/:accountId",
   //   element: <PerpsMarket />,

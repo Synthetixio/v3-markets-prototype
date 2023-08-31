@@ -34,14 +34,14 @@ export function Header() {
             Spot
           </Button>
         </Link>
-        <Link to="/perps/markets/ETH">
+        {/* <Link to="/perps/markets/ETH">
           <Button
             variant="ghost"
             opacity={pathname.includes("perps") ? "1" : ".5"}
           >
             Perps
           </Button>
-        </Link>
+        </Link> */}
         <Link to="/leaderboard">
           <Button
             variant="ghost"
@@ -63,7 +63,7 @@ export function Header() {
       </Box>
       <Box ml="auto">
         <Flex>
-          {!pathname.includes("spot") && <AccountSwitcher />}
+          {/* {!pathname.includes("spot") && <AccountSwitcher />} */}
           <Box ml="4">
             {/** @see https://www.rainbowkit.com/docs/connect-button */}
             <ConnectButton accountStatus="address" />

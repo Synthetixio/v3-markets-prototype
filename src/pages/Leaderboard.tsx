@@ -37,13 +37,17 @@ export default function Leaderboard() {
     if (filterUser) {
       return (
         data?.leaderboard.filter((item) =>
-          item.address.toLowerCase().includes(filterUser),
+          item.address.toLowerCase().includes(filterUser.toLowerCase()),
         ) || []
       );
     }
 
     return data?.leaderboard || [];
   }, [data, filterUser]);
+
+  const topTraders = useMemo(() => {
+    return data?.leaderboard.filter((_, index) => index < 10);
+  }, [data]);
 
   return (
     <>
@@ -80,15 +84,9 @@ export default function Leaderboard() {
               <Table bg="navy.700" borderRadius="md">
                 <Thead>
                   <Tr>
-                    <Th cursor="pointer" userSelect="none">
-                      Rank
-                    </Th>
-                    <Th cursor="pointer" userSelect="none">
-                      User
-                    </Th>
-                    <Th cursor="pointer" userSelect="none">
-                      PnL
-                    </Th>
+                    <Th>Rank</Th>
+                    <Th>User</Th>
+                    <Th>PnL</Th>
                   </Tr>
                 </Thead>
                 <Tbody>
@@ -115,32 +113,24 @@ export default function Leaderboard() {
             <Table bg="navy.700" borderRadius="md">
               <Thead>
                 <Tr>
-                  <Th cursor="pointer" userSelect="none">
-                    Rank
-                  </Th>
-                  <Th cursor="pointer" userSelect="none">
-                    User
-                  </Th>
-                  <Th cursor="pointer" userSelect="none">
-                    PnL
-                  </Th>
+                  <Th>Rank</Th>
+                  <Th>User</Th>
+                  <Th>PnL</Th>
                 </Tr>
               </Thead>
               <Tbody>
-                {data?.leaderboard
-                  .filter((_, index) => index < 10)
-                  .map((user) => (
-                    <Tr key={user.address}>
-                      <Td>#{user.rank}</Td>
-                      <Td>{user.address}</Td>
-                      <Td
-                        color={user.pnl_pct >= 0 ? "green.500" : "red.500"}
-                        fontWeight={700}
-                      >
-                        {user.pnl_pct * 100}%
-                      </Td>
-                    </Tr>
-                  ))}
+                {topTraders?.map((user) => (
+                  <Tr key={user.address}>
+                    <Td>#{user.rank}</Td>
+                    <Td>{user.address}</Td>
+                    <Td
+                      color={user.pnl_pct >= 0 ? "green.500" : "red.500"}
+                      fontWeight={700}
+                    >
+                      {user.pnl_pct * 100}%
+                    </Td>
+                  </Tr>
+                ))}
               </Tbody>
             </Table>
           </Box>
@@ -224,8 +214,8 @@ export default function Leaderboard() {
                     }
                   })
                   .filter((_, index) => index < 10)
-                  .map((user) => (
-                    <Tr key={user.address}>
+                  .map((user, index) => (
+                    <Tr key={user.address.concat(String(index))}>
                       <Td>#{user.rank}</Td>
                       <Td>{user.address}</Td>
                       <Td
