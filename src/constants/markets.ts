@@ -50,6 +50,11 @@ export const spotMarkets: MarketData = {
       tradingViewSymbol: "PYTH:ETHUSD",
       synth: "snxETH",
     },
+    LINK: {
+      marketId: 3,
+      tradingViewSymbol: "PYTH:LINKUSD",
+      synth: "snxLINK",
+    },
   },
   10: {
     ETH: {

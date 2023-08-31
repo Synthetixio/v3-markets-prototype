@@ -46,7 +46,7 @@ export interface Strategy {
 
 export const useGetSettlementStrategy = (
   marketId: number,
-  strategyId: string,
+  strategyId: string | number,
 ) => {
   const { loading, data, refetch } = useQuery(GET_STRATEGIES, {
     variables: {
@@ -60,12 +60,17 @@ export const useGetSettlementStrategy = (
       return [];
     }
 
-    return data.settlementStrategies as Strategy[];
+    return (data.settlementStrategies as Strategy[]).filter(
+      (item) => !item.disabled,
+    );
   }, [data]);
 
   const strategy = useMemo(
-    () => strategies?.find((item) => item.settlementStrategyId == strategyId),
-    [strategies],
+    () =>
+      strategies?.find(
+        (item) => item.settlementStrategyId == String(strategyId),
+      ),
+    [strategies, strategyId],
   );
 
   return {

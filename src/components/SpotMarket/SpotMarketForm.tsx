@@ -14,8 +14,10 @@ import {
   Link,
   VStack,
   useToast,
+  Select,
+  Heading,
 } from "@chakra-ui/react";
-import { parseEther } from "ethers/lib/utils.js";
+import { formatEther, parseEther } from "ethers/lib/utils.js";
 import { useEffect, useMemo, useState } from "react";
 import { useAccount, useBalance, useToken } from "wagmi";
 import { TransactionType } from "../../constants/order";
@@ -29,6 +31,7 @@ import { OrderStatus, useGetOrders } from "../../hooks/spot/useGetOrders";
 import { AsyncOrderModal } from "./Orders/AsyncOrderModal";
 import { useStrategyType } from "../../hooks/useStrategyType";
 import { useGetWrapper } from "../../hooks/spot/useGetWrapper";
+import { useGetSettlementStrategy } from "../../hooks/spot/useGetSettlementStrategy";
 
 export function SpotMarketForm({ id }: { id: number }) {
   const { synthAddress, unwrapFee, wrapFee } = useSpotMarketInfo(id);
@@ -36,13 +39,12 @@ export function SpotMarketForm({ id }: { id: number }) {
 
   const { wrapper, refetch: refetchCollateralInfo } = useGetWrapper(id);
 
-  const wrapCollateralType = wrapper.wrapCollateralType;
+  const wrapCollateralType = wrapper?.wrapCollateralType;
 
   const [slippage, setSlippage] = useState(1);
   const [amount, setAmount] = useState("0");
-  // const [settlementType, setSettlementType] = useState("async");
-  const StrategyType = useStrategyType();
-  const [strategyType, setStrategyType] = useState(StrategyType.ONCHAIN);
+  const [strategyId, setStrategyId] = useState(0);
+  const { strategies, strategy } = useGetSettlementStrategy(id, strategyId);
 
   const { address } = useAccount();
 
@@ -133,7 +135,7 @@ export function SpotMarketForm({ id }: { id: number }) {
     }
   }, [orderType, synthBalance, USDBalance]);
 
-  const { inputToken, outputToken } = useMemo(() => {
+  const { inputToken } = useMemo(() => {
     let inputToken = "snxUSD";
     let outputToken = synthInfo?.symbol || "";
     if (orderType === TransactionType.ASYNC_SELL) {
@@ -154,9 +156,9 @@ export function SpotMarketForm({ id }: { id: number }) {
 
   const submit = () => {
     if (orderType === TransactionType.ASYNC_BUY) {
-      buyAsync(strategyType);
+      buyAsync(strategyId);
     } else if (orderType === TransactionType.ASYNC_SELL) {
-      sellAsync(strategyType);
+      sellAsync(strategyId);
     } else if (orderType === TransactionType.UNWRAP) {
       unwrap();
     } else if (orderType === TransactionType.WRAP) {
@@ -304,6 +306,30 @@ export function SpotMarketForm({ id }: { id: number }) {
                 </Box>
               )}
             </Box>
+            <Select
+              onChange={(e) => setStrategyId(Number(e.target.value))}
+              value={String(strategy?.settlementStrategyId || "")}
+              placeholder="Settlement Strategy"
+            >
+              {strategies.map((strategy) => (
+                <option value={String(strategy.settlementStrategyId)}>
+                  #{strategy.settlementStrategyId}
+                  {Number(strategy.strategyType) === 0 ? " ONCHAIN" : " PYTH"}
+                </option>
+              ))}
+            </Select>
+            {strategy && (
+              <Flex w="100%">
+                <Box w="50%">
+                  <Heading size="xs">Settlement Delay</Heading>
+                  {strategy.settlementDelay}
+                </Box>
+                <Box w="50%">
+                  <Heading size="xs">Settlement Window Duration</Heading>
+                  {strategy.settlementWindowDuration}
+                </Box>
+              </Flex>
+            )}
             <Box w="100%">
               <Button
                 key="button"
@@ -314,7 +340,11 @@ export function SpotMarketForm({ id }: { id: number }) {
                 isDisabled={!address || Number(amount) <= 0}
                 isLoading={isLoading}
               >
-                {address ? "Submit Order" : "Connect your wallet"}
+                {address
+                  ? strategy
+                    ? "Submit Order"
+                    : "Select Settlement Strategy"
+                  : "Connect your wallet"}
               </Button>
               {hasAsyncOrders ? (
                 <Text
