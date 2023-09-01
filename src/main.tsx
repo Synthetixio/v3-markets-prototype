@@ -20,6 +20,7 @@ import { PerpsMarket } from "./pages/perps/PerpsMarket";
 import { spotClient } from "./utils/clients";
 import Leaderboard from "./pages/Leaderboard";
 import { theme } from "@synthetixio/v3-theme";
+import TradingCompetition from "./pages/TradingCompetition";
 
 const customTheme = extendTheme({
   ...theme,
@@ -58,6 +59,7 @@ const router = createBrowserRouter([
     element: <SpotMarket />,
   },
   { path: "/leaderboard", element: <Leaderboard /> },
+  { path: "/competition", element: <TradingCompetition /> },
 ]);
 
 /**
