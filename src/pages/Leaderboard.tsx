@@ -56,18 +56,7 @@ export default function Leaderboard() {
         <Heading textAlign="start" w="100%" mt="12">
           Trading Competition
         </Heading>
-        <InputGroup mt="2">
-          <Input
-            id="address"
-            name="address"
-            placeholder="Search by Address"
-            variant="filled"
-            value={filterUser || ""}
-            onChange={(e) => setFilterUser(e.target.value)}
-            isInvalid={!isFilterValid}
-            errorBorderColor="crimson"
-          />
-        </InputGroup>
+
         <Box
           border="1px solid"
           borderColor="gray.900"
@@ -138,6 +127,23 @@ export default function Leaderboard() {
             <Heading m="4" fontSize="lg">
               All Traders
             </Heading>
+            <Flex justifyContent={"end"}>
+              <InputGroup mt="2" w="50%">
+                <Input
+                  border="1px solid"
+                  borderColor="gray.700"
+                  bg="navy.900"
+                  id="address"
+                  name="address"
+                  placeholder="Search by Address"
+                  variant="filled"
+                  value={filterUser || ""}
+                  onChange={(e) => setFilterUser(e.target.value)}
+                  isInvalid={!isFilterValid}
+                  errorBorderColor="crimson"
+                />
+              </InputGroup>
+            </Flex>
             <Table bg="navy.700" borderRadius="md">
               <TableCaption>
                 Last time updated:{" "}
