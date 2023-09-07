@@ -9,7 +9,7 @@ import { WagmiConfig } from "wagmi";
 // import { PerpsMarket } from "./pages/perps/PerpsMarket";
 import { chains, client } from "./wagmi";
 
-import { ChakraProvider, ColorModeScript, extendTheme } from "@chakra-ui/react";
+import { ChakraProvider, ColorModeScript } from "@chakra-ui/react";
 // import { Index } from "./pages/Index";
 // import { PerpsAdmin } from "./pages/perps/PerpsAdmin";
 import { SpotMarket } from "./pages/spot/SpotMarket";
@@ -19,19 +19,8 @@ import { ApolloProvider } from "@apollo/client";
 import { PerpsMarket } from "./pages/perps/PerpsMarket";
 import { spotClient } from "./utils/clients";
 import Leaderboard from "./pages/Leaderboard";
-import { theme } from "@synthetixio/v3-theme";
 import TradingCompetition from "./pages/TradingCompetition";
-
-const customTheme = extendTheme({
-  ...theme,
-  styles: {
-    global: {
-      body: {
-        bg: "navy.900",
-      },
-    },
-  },
-});
+import theme from "./theme";
 
 const router = createBrowserRouter([
   {
@@ -70,7 +59,7 @@ const router = createBrowserRouter([
  */
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <ChakraProvider theme={customTheme}>
+    <ChakraProvider theme={theme}>
       <ColorModeScript initialColorMode={theme.config.initialColorMode} />
       <ApolloProvider client={spotClient}>
         <WagmiConfig client={client}>
