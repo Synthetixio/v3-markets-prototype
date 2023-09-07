@@ -141,6 +141,7 @@ export default function Leaderboard() {
                   onChange={(e) => setFilterUser(e.target.value)}
                   isInvalid={!isFilterValid}
                   errorBorderColor="crimson"
+                  mr="2"
                 />
               </InputGroup>
             </Flex>
