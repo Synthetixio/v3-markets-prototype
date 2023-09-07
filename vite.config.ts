@@ -6,7 +6,7 @@ import { defineConfig } from "vite";
  */
 export default defineConfig({
   /**
-   * Defines global constant replacments
+   * Defines global constant replacements
    * @see https://vitejs.dev/config/shared-options.html#define
    */
   define: {
