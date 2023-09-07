@@ -8,6 +8,7 @@ import {
   TableCaption,
   Tbody,
   Td,
+  Text,
   Th,
   Thead,
   Tr,
@@ -20,7 +21,7 @@ import { useAccount } from "wagmi";
 import { isAddress } from "ethers/lib/utils.js";
 
 export default function Leaderboard() {
-  const { data } = useGetLeaderboard();
+  const { data, loading } = useGetLeaderboard();
   const [sortOption, setSortOption] = useState(["ranking", true]);
   const { address } = useAccount();
   const [filterUser, setFilterUser] = useState("");
@@ -48,6 +49,10 @@ export default function Leaderboard() {
   const topTraders = useMemo(() => {
     return data?.leaderboard.filter((_, index) => index < 10);
   }, [data]);
+
+  if (loading) {
+    return <Text>Loading...</Text>;
+  }
 
   return (
     <>
