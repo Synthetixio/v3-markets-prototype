@@ -5,13 +5,11 @@ import { ChevronDownIcon } from "@chakra-ui/icons";
 import { useSearchParams } from "react-router-dom";
 import { useCreateAccount } from "../../hooks/useCreateAccount";
 import { useEffect } from "react";
-import { useAccounts } from "../../hooks/perps/useAccounts";
 import { useGetAccounts } from "../../hooks/perps/useGetAccounts";
 
 export function AccountSwitcher() {
   const { isConnected } = useAccount();
 
-  const { address } = useAccount();
   const { accounts, refetch } = useGetAccounts();
   const [searchParams, setSelectedAccountId] = useSearchParams();
   const selectedAccountId = searchParams.get("accountId");
@@ -36,7 +34,7 @@ export function AccountSwitcher() {
     ) {
       setSelectedAccountId({ accountId: "" });
     }
-  }, [selectedAccountId, accounts]);
+  }, [selectedAccountId, accounts, setSelectedAccountId, refetch]);
 
   if (!isConnected) {
     return null;

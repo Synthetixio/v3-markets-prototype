@@ -1,4 +1,4 @@
-import { BigNumberish, CallOverrides, Contract } from "ethers";
+import { BigNumberish, Contract } from "ethers";
 import { useCallback, useState } from "react";
 import { useProvider, useSigner, useAccount } from "wagmi";
 import { EIP7412 } from "erc7412";
@@ -138,7 +138,7 @@ export const useTransact = () => {
         throw error;
       }
     },
-    [provider, signer],
+    [account, provider, signer],
   );
 
   return {

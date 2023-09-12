@@ -7,6 +7,7 @@
     "synthetix": "cannon inspect synthetix-sandbox --write-deployments ./deployments/cannon && npm run wagmi && cannon synthetix-sandbox --fund-addresses 0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
     "deployments:optimism-goerli": "cannon inspect synthetix-omnibus --chain-id 420 --write-deployments ./deployments/optimism-goerli",
     "deployments:optimism": "cannon inspect synthetix-omnibus --chain-id 10 --write-deployments ./deployments/optimism",
+    "deployments:base-goerli": "cannon inspect synthetix-omnibus --chain-id 84531 --write-deployments ./deployments/base-goerli",
     "build": "npm run wagmi && vite build",
     "preview": "vite preview",
     "lint": "prettier --write \"**/*.{ts,tsx}\"",
@@ -28,7 +29,7 @@
     "@rainbow-me/rainbowkit": "^0.12.13",
     "@rollup/plugin-json": "^6.0.0",
     "@synthetixio/wei": "^2.74.4",
-    "@usecannon/cli": "^2.4.21",
+    "@usecannon/cli": "^2.6.0",
     "@wagmi/cli": "^0.1.15",
     "buffer": "^6.0.3",
     "dayjs": "^1.11.7",
@@ -53,8 +54,11 @@
     "@types/react": "^18.0.9",
     "@types/react-dom": "^18.0.3",
     "@vitejs/plugin-react": "^3.1.0",
+    "eslint": "^8.49.0",
+    "eslint-config-react-app": "^7.0.1",
     "prettier": "^2.8.4",
     "typescript": "^4.9.5",
-    "vite": "^4.1.4"
+    "vite": "^4.1.4",
+    "vite-plugin-eslint": "^1.8.1"
   }
 }

@@ -1,4 +1,4 @@
-import { Box, Flex, Heading, Text } from "@chakra-ui/react";
+import { Box, Flex, Heading } from "@chakra-ui/react";
 import { Header } from "../../components";
 import { AdvancedRealTimeChart } from "react-ts-tradingview-widgets";
 import { MarketDetails } from "../../components/SpotMarket/MarketDetails";
@@ -15,8 +15,7 @@ export function SpotMarket() {
 
   return (
     <Flex height="100vh" maxHeight="100vh" flexDirection="column">
-      WOHOO
-      <Header isSpot />
+      <Header />
       <Flex flex="1" minHeight="0" overflow="hidden">
         <Flex
           borderRight="1px solid rgba(255,255,255,0.2)"

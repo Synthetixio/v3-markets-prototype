@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { useQuery, gql } from "@apollo/client";
 import { useAccount } from "wagmi";
-import { useChainContextName } from "../useDefaultNetwork";
+import { useGetSpotClient } from "./useGetSpotClient";
 
 const GET_ORDERS = gql`
   query GetOrders($owner: String, $marketId: String) {
@@ -71,6 +71,7 @@ export enum OrderStatus {
 
 export const useGetOrders = (marketId: number, showAll: boolean) => {
   const { address } = useAccount();
+  const client = useGetSpotClient();
 
   const { loading, error, data, refetch } = useQuery(GET_ORDERS, {
     variables: {
@@ -78,7 +79,7 @@ export const useGetOrders = (marketId: number, showAll: boolean) => {
       owner: showAll ? "" : address?.toLowerCase(),
     },
     notifyOnNetworkStatusChange: true,
-    context: { clientName: useChainContextName() },
+    client: client,
     pollInterval: 20000,
   });
 
@@ -87,7 +88,7 @@ export const useGetOrders = (marketId: number, showAll: boolean) => {
       return [];
     }
     return data.orders as Order[];
-  }, [data, showAll]);
+  }, [data]);
 
   return {
     orders,

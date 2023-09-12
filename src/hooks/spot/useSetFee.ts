@@ -24,7 +24,7 @@ export const useSetFee = (
       case FeeType.ASYNC_FIXED:
         return "setAsyncFixedFee";
     }
-  }, []);
+  }, [type]);
 
   const { writeAsync } = useContractWrite({
     mode: "recklesslyUnprepared",
@@ -55,7 +55,7 @@ export const useSetFee = (
     } finally {
       setIsLoading(false);
     }
-  }, [writeAsync, val, marketId]);
+  }, [writeAsync, marketId, val, toast]);
 
   return {
     submit,

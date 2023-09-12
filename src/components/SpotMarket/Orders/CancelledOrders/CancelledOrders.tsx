@@ -10,7 +10,6 @@ import {
   Tr,
 } from "@chakra-ui/react";
 import { useMemo } from "react";
-import { useAccount } from "wagmi";
 import { Order, OrderStatus } from "../../../../hooks/spot/useGetOrders";
 import { CancelledOrderRow } from "./CancelledOrderRow";
 
@@ -21,11 +20,9 @@ interface Props {
 }
 
 export function CancelledOrders({ marketId, orders, loading }: Props) {
-  const { address } = useAccount();
-
   const cancelledOrders = useMemo(
     () => orders.filter((order) => order.status === OrderStatus.Cancelled),
-    [orders, address],
+    [orders],
   );
 
   return (

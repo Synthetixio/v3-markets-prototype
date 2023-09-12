@@ -50,7 +50,7 @@ export const useModifyCollateral = (
         setIsLoading(false);
       }
     },
-    [marketId, accountId, perpsProxy, approve],
+    [accountId, marketId, amountD18, perpsProxy.contract, onSuccess, approve],
   );
 
   return {

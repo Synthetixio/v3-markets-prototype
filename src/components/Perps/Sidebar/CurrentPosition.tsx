@@ -1,17 +1,6 @@
-import {
-  Flex,
-  Heading,
-  Box,
-  Badge,
-  Text,
-  Alert,
-  AlertIcon,
-} from "@chakra-ui/react";
+import { Flex, Heading, Box, Badge, Text } from "@chakra-ui/react";
 import { wei } from "@synthetixio/wei";
 import { formatEther } from "ethers/lib/utils.js";
-import { useContractRead } from "wagmi";
-import { usePerpsMarketId } from "../../../hooks/perps/usePerpsMarketId";
-import { useContract } from "../../../hooks/useContract";
 import { Amount } from "../../Amount";
 
 interface Props {

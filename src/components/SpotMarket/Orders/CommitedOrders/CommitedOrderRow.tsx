@@ -1,13 +1,7 @@
-import { Button, Flex, Td, Text, Toast, Tr, useToast } from "@chakra-ui/react";
+import { Button, Flex, Td, Text, Tr, useToast } from "@chakra-ui/react";
 import Wei from "@synthetixio/wei";
-import {
-  defaultAbiCoder,
-  formatUnits,
-  solidityPack,
-} from "ethers/lib/utils.js";
+import { defaultAbiCoder, formatUnits } from "ethers/lib/utils.js";
 import { useMemo, useState } from "react";
-import { useParams } from "react-router-dom";
-import { spotMarkets } from "../../../../constants/markets";
 import { TransactionType } from "../../../../constants/order";
 import { Order } from "../../../../hooks/spot/useGetOrders";
 import { fromNow } from "../../../../utils/date";
@@ -189,7 +183,7 @@ export function CommitedOrderRow({ marketId, order, block }: Props) {
       <Tr>
         <Td>
           #{order.asyncOrderId} (
-          {orderType == TransactionType.ASYNC_BUY ? "Buy" : "Sell"})
+          {orderType === TransactionType.ASYNC_BUY ? "Buy" : "Sell"})
         </Td>
         <Td>
           <Amount

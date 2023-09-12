@@ -20,7 +20,7 @@ export function WrappOrderRow({ order }: Props) {
         <Td>#{order.type}</Td>
         <Td>
           {formatUnits(order.amount || "0", "ether")}{" "}
-          {order.type == WrappOrderType.UnWrapped ? "snxETH" : "ETH"}
+          {order.type === WrappOrderType.UnWrapped ? "snxETH" : "ETH"}
         </Td>
 
         <Td>

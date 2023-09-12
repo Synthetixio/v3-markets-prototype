@@ -10,7 +10,6 @@ import {
   Tr,
 } from "@chakra-ui/react";
 import { useMemo } from "react";
-import { useAccount } from "wagmi";
 import { Order, OrderStatus } from "../../../../hooks/spot/useGetOrders";
 import { useGetBlock } from "../../../../hooks/useGetBlock";
 import { CommitedOrderRow } from "./CommitedOrderRow";
@@ -23,8 +22,6 @@ interface Props {
 }
 
 export function CommitedOrders({ marketId, orders, loading, refetch }: Props) {
-  const { address } = useAccount();
-
   const commitedOrders = useMemo(
     () =>
       orders.filter(
@@ -32,7 +29,7 @@ export function CommitedOrders({ marketId, orders, loading, refetch }: Props) {
           order.status === OrderStatus.Commited &&
           Number(order.settledAt) === 0,
       ),
-    [orders, address],
+    [orders],
   );
 
   const { timestamp } = useGetBlock();

@@ -63,7 +63,7 @@ export function Header() {
       </Box>
       <Box ml="auto">
         <Flex>
-          {/* {!pathname.includes("spot") && <AccountSwitcher />} */}
+          {pathname.includes("perps") && <AccountSwitcher />}
           <Box ml="4">
             {/** @see https://www.rainbowkit.com/docs/connect-button */}
             <ConnectButton accountStatus="address" />

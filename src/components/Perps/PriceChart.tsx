@@ -1,6 +1,5 @@
 import { Box } from "@chakra-ui/react";
 import { AdvancedRealTimeChart } from "react-ts-tradingview-widgets";
-import { perpsMarkets } from "../../constants/markets";
 import { useParams } from "react-router-dom";
 
 export function PriceChart() {

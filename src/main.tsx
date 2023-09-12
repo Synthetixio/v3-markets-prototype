@@ -15,9 +15,7 @@ import { ChakraProvider, ColorModeScript } from "@chakra-ui/react";
 import { SpotMarket } from "./pages/spot/SpotMarket";
 import { SpotAdmin } from "./pages/spot/SpotAdmin";
 
-import { ApolloProvider } from "@apollo/client";
 import { PerpsMarket } from "./pages/perps/PerpsMarket";
-import { spotClient } from "./utils/clients";
 import Leaderboard from "./pages/Leaderboard";
 import theme from "./theme";
 
@@ -30,14 +28,14 @@ const router = createBrowserRouter([
   //   path: "/perps/admin",
   //   element: <PerpsAdmin />,
   // },
-  // {
-  //   path: "/perps/markets/:marketId",
-  //   element: <PerpsMarket />,
-  // },
-  // {
-  //   path: "/perps/markets/:marketId/:accountId",
-  //   element: <PerpsMarket />,
-  // },
+  {
+    path: "/perps/markets/:marketId",
+    element: <PerpsMarket />,
+  },
+  {
+    path: "/perps/markets/:marketId/:accountId",
+    element: <PerpsMarket />,
+  },
   {
     path: "/spot/admin",
     element: <SpotAdmin />,
@@ -59,20 +57,19 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <ChakraProvider theme={theme}>
       <ColorModeScript initialColorMode={theme.config.initialColorMode} />
-      <ApolloProvider client={spotClient}>
-        <WagmiConfig client={client}>
-          <RainbowKitProvider
-            chains={chains}
-            theme={darkTheme({
-              accentColor: "#00a4c4",
-              accentColorForeground: "#ffffff",
-              borderRadius: "small",
-            })}
-          >
-            <RouterProvider router={router} />
-          </RainbowKitProvider>
-        </WagmiConfig>
-      </ApolloProvider>
+
+      <WagmiConfig client={client}>
+        <RainbowKitProvider
+          chains={chains}
+          theme={darkTheme({
+            accentColor: "#00a4c4",
+            accentColorForeground: "#ffffff",
+            borderRadius: "small",
+          })}
+        >
+          <RouterProvider router={router} />
+        </RainbowKitProvider>
+      </WagmiConfig>
     </ChakraProvider>
   </React.StrictMode>,
 );

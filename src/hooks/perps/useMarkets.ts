@@ -59,7 +59,7 @@ export const useMarkets = (marketId: number | string | undefined) => {
 
   const market = useMemo(() => {
     return markets.find((item) => item.id === marketId?.toString());
-  }, [data]);
+  }, [marketId, markets]);
 
   return {
     markets,

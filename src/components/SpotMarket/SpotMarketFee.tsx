@@ -24,7 +24,7 @@ export function SpotMarketFee({ type }: { type: FeeType }) {
       return parseEther(amount.toString()).toString();
     }
     return parseEther(amount.toString()).div(100).toString();
-  }, [amount]);
+  }, [amount, type]);
 
   const { submit, isLoading } = useSetFee(marketId, value, type);
 

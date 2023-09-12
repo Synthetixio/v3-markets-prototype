@@ -1,11 +1,8 @@
-import { ArrowForwardIcon } from "@chakra-ui/icons";
 import {
   Button,
   Flex,
   Heading,
   Box,
-  Alert,
-  AlertIcon,
   Modal,
   ModalOverlay,
   ModalContent,

@@ -3,8 +3,6 @@ import Wei from "@synthetixio/wei";
 import dayjs from "dayjs";
 import { formatUnits } from "ethers/lib/utils.js";
 import { useMemo } from "react";
-import { useParams } from "react-router-dom";
-import { spotMarkets } from "../../../../constants/markets";
 import { TransactionType } from "../../../../constants/order";
 import { Order } from "../../../../hooks/spot/useGetOrders";
 import { useSpotMarketId } from "../../../../hooks/spot/useSpotMarketId";
@@ -46,7 +44,7 @@ export function SettledOrderRow({ order }: Props) {
       <Tr>
         <Td>
           #{order.asyncOrderId} (
-          {orderType == TransactionType.ASYNC_BUY ? "Buy" : "Sell"})
+          {orderType === TransactionType.ASYNC_BUY ? "Buy" : "Sell"})
         </Td>
         <Td>
           <Amount

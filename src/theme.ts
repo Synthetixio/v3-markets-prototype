@@ -20,9 +20,9 @@ const theme = extendTheme({
   components: {
     Button: {
       variants: {
-        solid: (props) => ({
+        solid: (props: any) => ({
           bg:
-            props.colorScheme == "cyan" || props.colorScheme == "gray"
+            props.colorScheme === "cyan" || props.colorScheme === "gray"
               ? `${props.colorScheme}.600`
               : `${props.colorScheme}.500`,
           color: "white",

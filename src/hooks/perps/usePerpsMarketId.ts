@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { perpsMarkets, spotMarkets } from "../../constants/markets";
+import { perpsMarkets } from "../../constants/markets";
 import { useDefaultNetwork } from "../useDefaultNetwork";
 
 export const usePerpsMarketId = () => {

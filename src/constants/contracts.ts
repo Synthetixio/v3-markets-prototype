@@ -45,7 +45,7 @@ export const contracts: Contracts = {
     USD: CannonUSDProxy,
     OracleVerifier: CannonOracleVerifier,
   },
-  ["optimism-goerli"]: {
+  "optimism-goerli": {
     chainId: 420,
     SYNTHETIX: OptimismGoerliCoreProxy,
     PERPS_MARKET: OptimismGoerliPerpsMarketProxy,
@@ -57,7 +57,7 @@ export const contracts: Contracts = {
       abi: IPythVerifier,
     },
   },
-  ["base-goerli"]: {
+  "base-goerli": {
     chainId: 420,
     SYNTHETIX: BaseGoerliCoreProxy,
     PERPS_MARKET: BaseGoerliPerpsMarketProxy,
@@ -69,7 +69,7 @@ export const contracts: Contracts = {
       abi: IPythVerifier,
     },
   },
-  ["optimism"]: {
+  optimism: {
     chainId: 1,
     SYNTHETIX: OptimismCoreProxy,
     PERPS_MARKET: null,

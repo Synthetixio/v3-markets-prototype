@@ -18,11 +18,11 @@ export function CancelledOrderRow({ order }: Props) {
       <Tr>
         <Td>
           #{order.asyncOrderId} (
-          {orderType == TransactionType.ASYNC_BUY ? "Buy" : "Sell"})
+          {orderType === TransactionType.ASYNC_BUY ? "Buy" : "Sell"})
         </Td>
         <Td>
           {formatUnits(order.amountEscrowed || "0", "ether")}{" "}
-          {orderType == TransactionType.ASYNC_BUY ? "snxETH" : "snxUSD"}
+          {orderType === TransactionType.ASYNC_BUY ? "snxETH" : "snxUSD"}
         </Td>
         <Td>
           {dayjs(Number(order.timestamp) * 1000).format("YYYY/MM/DD - HH:mm")}

@@ -11,7 +11,7 @@ export const useGetBlock = () => {
       const block = await provider.getBlock("latest");
       setBlockTimeStamp(block.timestamp);
     })();
-  }, [blockNumber]);
+  }, [blockNumber, provider]);
 
   return {
     blockNumber,

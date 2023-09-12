@@ -26,7 +26,7 @@ export function SpotMarketSettlementStrategy() {
   const spotMarket = useContract("SPOT_MARKET");
   const oracleVerifier = useContract("OracleVerifier");
 
-  const { writeAsync, data } = useContractWrite({
+  const { writeAsync } = useContractWrite({
     mode: "recklesslyUnprepared",
     address: spotMarket.address,
     abi: spotMarket.abi,

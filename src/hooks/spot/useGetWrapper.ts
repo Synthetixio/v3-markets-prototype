@@ -1,8 +1,6 @@
 import { gql, useQuery } from "@apollo/client";
 import { useMemo } from "react";
-import { useContractRead } from "wagmi";
-import { useContract } from "../useContract";
-import { useChainContextName } from "../useDefaultNetwork";
+import { useGetSpotClient } from "./useGetSpotClient";
 
 const GET_WRAPPERS = gql`
   query GetSettlementWrappers($owner: String, $marketId: String) {
@@ -27,11 +25,13 @@ export interface Wrapper {
 }
 
 export const useGetWrapper = (marketId: number) => {
+  const client = useGetSpotClient();
+
   const { loading, data, refetch } = useQuery(GET_WRAPPERS, {
     variables: {
       marketId: marketId.toString(),
     },
-    context: { clientName: useChainContextName() },
+    client,
   });
 
   const wrapper = useMemo(() => {

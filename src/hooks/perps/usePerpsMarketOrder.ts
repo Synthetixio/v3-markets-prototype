@@ -65,7 +65,15 @@ export const usePerpsMarketOrder = (
     } finally {
       setIsLoading(false);
     }
-  }, [accountId, market, sizeDelta, isBuy, transact]);
+  }, [
+    market?.marketId,
+    accountId,
+    sizeDelta,
+    isBuy,
+    perpsMarket.contract,
+    transact,
+    onSuccess,
+  ]);
 
   return {
     commit,

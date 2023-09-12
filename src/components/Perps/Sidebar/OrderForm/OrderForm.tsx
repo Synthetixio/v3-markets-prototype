@@ -3,7 +3,6 @@ import {
   Flex,
   FormControl,
   FormLabel,
-  Input,
   VStack,
   Box,
   InputGroup,
@@ -12,7 +11,7 @@ import {
   NumberInput,
   NumberInputField,
 } from "@chakra-ui/react";
-import { useReducer, useState } from "react";
+import { useReducer } from "react";
 import { useSearchParams } from "react-router-dom";
 import { usePerpsMarketOrder } from "../../../../hooks/perps/usePerpsMarketOrder";
 import { initialOrderFormState, reducer } from "./reducer";

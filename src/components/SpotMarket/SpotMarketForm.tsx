@@ -17,7 +17,7 @@ import {
   Select,
   Heading,
 } from "@chakra-ui/react";
-import { formatEther, parseEther } from "ethers/lib/utils.js";
+import { parseEther } from "ethers/lib/utils.js";
 import { useEffect, useMemo, useState } from "react";
 import { useAccount, useBalance, useToken } from "wagmi";
 import { TransactionType } from "../../constants/order";
@@ -29,7 +29,6 @@ import { SlippageSelector } from "./SlippageSelector";
 import { wei } from "@synthetixio/wei";
 import { OrderStatus, useGetOrders } from "../../hooks/spot/useGetOrders";
 import { AsyncOrderModal } from "./Orders/AsyncOrderModal";
-import { useStrategyType } from "../../hooks/useStrategyType";
 import { useGetWrapper } from "../../hooks/spot/useGetWrapper";
 import { useGetSettlementStrategy } from "../../hooks/spot/useGetSettlementStrategy";
 
@@ -133,7 +132,7 @@ export function SpotMarketForm({ id }: { id: number }) {
     } else if (orderType === TransactionType.WRAP) {
       return wrapCollateralBalance;
     }
-  }, [orderType, synthBalance, USDBalance]);
+  }, [orderType, USDBalance, synthBalance, wrapCollateralBalance]);
 
   const { inputToken } = useMemo(() => {
     let inputToken = "snxUSD";
@@ -152,7 +151,7 @@ export function SpotMarketForm({ id }: { id: number }) {
       inputToken,
       outputToken,
     };
-  }, [synthInfo?.symbol, orderType]);
+  }, [synthInfo?.symbol, orderType, wrapCollateralInfo?.symbol]);
 
   const submit = () => {
     if (orderType === TransactionType.ASYNC_BUY) {

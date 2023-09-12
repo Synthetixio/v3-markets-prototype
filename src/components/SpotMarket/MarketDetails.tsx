@@ -1,4 +1,4 @@
-import { useAccount, useToken } from "wagmi";
+import { useToken } from "wagmi";
 import { Box, Code, Heading, Text, Flex, Link } from "@chakra-ui/react";
 import {
   useSpotMarketInfo,
@@ -6,9 +6,6 @@ import {
 } from "../../hooks/spot/useSpotMarketInfo";
 import { useState } from "react";
 import { AsyncOrderModal } from "./Orders/AsyncOrderModal";
-import { parseEther } from "ethers/lib/utils.js";
-import { useApprove } from "../../hooks/useApprove";
-import { useContract } from "../../hooks/useContract";
 
 export function MarketDetails({ marketId }: { marketId: number }) {
   const { synthAddress, asyncFixedFee, marketSkewScale, unwrapFee, wrapFee } =
@@ -19,16 +16,15 @@ export function MarketDetails({ marketId }: { marketId: number }) {
   });
   const [orderHistory, setOrderHistory] = useState(false);
 
-  const collateral = "0x2E5ED97596a8368EB9E44B1f3F25B2E813845303";
+  // const collateral = "0x2E5ED97596a8368EB9E44B1f3F25B2E813845303";
 
-  const core = useContract("SYNTHETIX");
-  const { address } = useAccount();
+  // const core = useContract("SYNTHETIX");
 
-  const { approve, allowance } = useApprove(
-    collateral,
-    parseEther("10"),
-    core.address,
-  );
+  // const { approve, allowance } = useApprove(
+  //   collateral,
+  //   parseEther("10"),
+  //   core.address,
+  // );
 
   // const stake = async () => {
   // const c = (

@@ -1,6 +1,5 @@
 import { BigNumber, ethers } from "ethers";
 import { useCallback, useMemo, useState } from "react";
-import { useAccount, useContractWrite, useProvider, useSigner } from "wagmi";
 import { TransactionType } from "../../constants/order";
 import { useApprove } from "../useApprove";
 import { useContract } from "../useContract";
@@ -32,16 +31,16 @@ export const useSpotMarketOrder = (
       return wrapCollateralType;
     }
     return "";
-  }, [orderType, wrapCollateralType, synthAddress]);
+  }, [orderType, usd.address, synthAddress, wrapCollateralType]);
 
   const { approve } = useApprove(approvalAddress, amount, spotMarket.address);
 
-  const { writeAsync: buyTx } = useContractWrite({
-    mode: "recklesslyUnprepared",
-    address: spotMarket.address,
-    abi: spotMarket.abi,
-    functionName: "buy",
-  });
+  // const { writeAsync: buyTx } = useContractWrite({
+  //   mode: "recklesslyUnprepared",
+  //   address: spotMarket.address,
+  //   abi: spotMarket.abi,
+  //   functionName: "buy",
+  // });
 
   const buyAtomic = useCallback(async () => {
     setIsLoading(true);
@@ -65,7 +64,15 @@ export const useSpotMarketOrder = (
     } finally {
       setIsLoading(false);
     }
-  }, [approve, buyTx, marketId, amount, slippage]);
+  }, [
+    approve,
+    transact,
+    spotMarket.contract,
+    marketId,
+    amount,
+    slippage,
+    onSuccess,
+  ]);
 
   const buyAsync = useCallback(
     async (strategyId: number) => {
@@ -101,7 +108,7 @@ export const useSpotMarketOrder = (
         setIsLoading(false);
       }
     },
-    [approve, marketId, amount, slippage, transact],
+    [approve, transact, spotMarket.contract, marketId, amount, onSuccess],
   );
 
   const sellAsync = useCallback(
@@ -138,7 +145,7 @@ export const useSpotMarketOrder = (
         setIsLoading(false);
       }
     },
-    [approve, marketId, amount, slippage, transact],
+    [approve, spotMarket.contract, marketId, amount, transact, onSuccess],
   );
 
   const wrap = useCallback(async () => {
@@ -152,7 +159,7 @@ export const useSpotMarketOrder = (
     } finally {
       setIsLoading(false);
     }
-  }, [marketId, amount, transact]);
+  }, [approve, transact, spotMarket.contract, marketId, amount, onSuccess]);
 
   const unwrap = useCallback(async () => {
     setIsLoading(true);
@@ -165,7 +172,7 @@ export const useSpotMarketOrder = (
     } finally {
       setIsLoading(false);
     }
-  }, [marketId, amount, transact]);
+  }, [approve, transact, spotMarket.contract, marketId, amount, onSuccess]);
 
   // const settleAsync = useCallback(async () => {
   //   setIsLoading(true);

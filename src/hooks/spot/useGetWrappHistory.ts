@@ -1,7 +1,6 @@
 import { useMemo } from "react";
 import { useQuery, gql } from "@apollo/client";
-import { useAccount } from "wagmi";
-import { useChainContextName } from "../useDefaultNetwork";
+import { useGetSpotClient } from "./useGetSpotClient";
 
 const GET_WRAPP_ORDERS = gql`
   query GetWrappOrders($owner: String, $marketId: String) {
@@ -41,13 +40,15 @@ export interface WrappOrder {
 export const useGetWrappHistory = (marketId: number) => {
   // const { address } = useAccount();
 
+  const client = useGetSpotClient();
+
   const { loading, error, data, refetch } = useQuery(GET_WRAPP_ORDERS, {
     variables: {
       marketId: marketId.toString(),
       // owner: showAll ? "" : address?.toLowerCase(),
     },
     notifyOnNetworkStatusChange: true,
-    context: { clientName: useChainContextName() },
+    client,
     pollInterval: 20000,
   });
 

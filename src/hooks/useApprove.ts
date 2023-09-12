@@ -1,4 +1,4 @@
-import { BigNumber, BigNumberish, Contract, ethers } from "ethers";
+import { BigNumber, BigNumberish, Contract } from "ethers";
 import { useCallback, useMemo } from "react";
 import {
   erc20ABI,
