@@ -11,6 +11,12 @@ import OptimismGoerliSpotMarketProxy from "../../deployments/optimism-goerli/spo
 import OptimismGoerliPerpsAccountProxy from "../../deployments/optimism-goerli/perpsFactory/AccountProxy.json";
 import OptimismGoerliUSDProxy from "../../deployments/optimism-goerli/system/USDProxy.json";
 
+import BaseGoerliPerpsMarketProxy from "../../deployments/base-goerli-competition/perpsFactory/PerpsMarketProxy.json";
+import BaseGoerliCoreProxy from "../../deployments/base-goerli-competition/system/CoreProxy.json";
+import BaseGoerliSpotMarketProxy from "../../deployments/base-goerli-competition/spotFactory/SpotMarketProxy.json";
+import BaseGoerliPerpsAccountProxy from "../../deployments/base-goerli-competition/perpsFactory/PerpsAccountProxy.json";
+import BaseGoerliUSDProxy from "../../deployments/base-goerli-competition/system/USDProxy.json";
+
 import OptimismCoreProxy from "../../deployments/optimism/system/CoreProxy.json";
 import OptimismSpotMarketProxy from "../../deployments/optimism/spotFactory/SpotMarketProxy.json";
 import OptimismUSDProxy from "../../deployments/optimism/system/USDProxy.json";
@@ -46,6 +52,18 @@ export const contracts: Contracts = {
     SPOT_MARKET: OptimismGoerliSpotMarketProxy,
     PERPS_ACCOUNT_PROXY: OptimismGoerliPerpsAccountProxy,
     USD: OptimismGoerliUSDProxy,
+    OracleVerifier: {
+      address: "0xff1a0f4744e8582DF1aE09D5611b887B6a12925C",
+      abi: IPythVerifier,
+    },
+  },
+  ["base-goerli"]: {
+    chainId: 420,
+    SYNTHETIX: BaseGoerliCoreProxy,
+    PERPS_MARKET: BaseGoerliPerpsMarketProxy,
+    SPOT_MARKET: BaseGoerliSpotMarketProxy,
+    PERPS_ACCOUNT_PROXY: BaseGoerliPerpsAccountProxy,
+    USD: BaseGoerliUSDProxy,
     OracleVerifier: {
       address: "0xff1a0f4744e8582DF1aE09D5611b887B6a12925C",
       abi: IPythVerifier,

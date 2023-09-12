@@ -73,17 +73,17 @@ export const useSpotMarketOrder = (
       try {
         await approve();
 
-        const asyncOrderClaim =
-          await spotMarket.contract.callStatic.commitOrder(
-            marketId,
-            TransactionType.ASYNC_BUY,
-            amount,
-            strategyId,
-            0,
-            ethers.constants.AddressZero,
-          );
+        // const asyncOrderClaim =
+        //   await spotMarket.contract.callStatic.commitOrder(
+        //     marketId,
+        //     TransactionType.ASYNC_BUY,
+        //     amount,
+        //     strategyId,
+        //     0,
+        //     ethers.constants.AddressZero,
+        //   );
 
-        console.log("id:", asyncOrderClaim.id.toString());
+        // console.log("id:", asyncOrderClaim.id.toString());
 
         await transact(spotMarket.contract, "commitOrder", [
           marketId,

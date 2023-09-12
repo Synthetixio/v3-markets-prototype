@@ -6,6 +6,10 @@ export enum FeeType {
 }
 
 export const StrategyType = {
+  84531: {
+    ONCHAIN: 0,
+    PYTH: 0,
+  },
   420: {
     ONCHAIN: 2,
     PYTH: 1,

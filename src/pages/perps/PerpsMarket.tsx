@@ -7,7 +7,7 @@ export function PerpsMarket() {
   const { switchNetwork } = useSwitchNetwork();
   return (
     <Flex height="100vh" maxHeight="100vh" flexDirection="column">
-      {chain === 420 ? (
+      {chain !== 10 ? (
         <>
           <Header />
           <Flex flex="1" height="100%" minHeight={0}>

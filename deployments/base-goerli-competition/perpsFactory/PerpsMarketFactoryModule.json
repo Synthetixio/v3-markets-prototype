@@ -1,0 +1,272 @@
+{
+  "address": "0xC6fEa2a12a8a9e11232b18DC4d9D525F02180247",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "which",
+          "type": "bytes32"
+        }
+      ],
+      "name": "FeatureUnavailable",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint128",
+          "name": "marketId",
+          "type": "uint128"
+        }
+      ],
+      "name": "InvalidMarket",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "parameter",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "reason",
+          "type": "string"
+        }
+      ],
+      "name": "InvalidParameter",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "OverflowInt256ToUint256",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "OverflowUint256ToInt256",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "OverflowUint256ToUint128",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "PerpsMarketNotInitialized",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "PositionOutOfBounds",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "addr",
+          "type": "address"
+        }
+      ],
+      "name": "Unauthorized",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "ValueAlreadyInSet",
+      "type": "error"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "uint128",
+          "name": "globalPerpsMarketId",
+          "type": "uint128"
+        }
+      ],
+      "name": "FactoryInitialized",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint128",
+          "name": "perpsMarketId",
+          "type": "uint128"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "marketName",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "marketSymbol",
+          "type": "string"
+        }
+      ],
+      "name": "MarketCreated",
+      "type": "event"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint128",
+          "name": "requestedMarketId",
+          "type": "uint128"
+        },
+        {
+          "internalType": "string",
+          "name": "marketName",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "marketSymbol",
+          "type": "string"
+        }
+      ],
+      "name": "createMarket",
+      "outputs": [
+        {
+          "internalType": "uint128",
+          "name": "",
+          "type": "uint128"
+        }
+      ],
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "initializeFactory",
+      "outputs": [
+        {
+          "internalType": "uint128",
+          "name": "",
+          "type": "uint128"
+        }
+      ],
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint128",
+          "name": "perpsMarketId",
+          "type": "uint128"
+        }
+      ],
+      "name": "minimumCredit",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint128",
+          "name": "perpsMarketId",
+          "type": "uint128"
+        }
+      ],
+      "name": "name",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint128",
+          "name": "perpsMarketId",
+          "type": "uint128"
+        }
+      ],
+      "name": "reportedDebt",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "contract ISpotMarketSystem",
+          "name": "spotMarket",
+          "type": "address"
+        }
+      ],
+      "name": "setSpotMarket",
+      "outputs": [],
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "contract ISynthetixSystem",
+          "name": "synthetix",
+          "type": "address"
+        }
+      ],
+      "name": "setSynthetix",
+      "outputs": [],
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes4",
+          "name": "interfaceId",
+          "type": "bytes4"
+        }
+      ],
+      "name": "supportsInterface",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "constructorArgs": [],
+  "linkedLibraries": {},
+  "deployTxnHash": "0x4fc6850892f3f448062ee17b813372be5cea8c003687d3bdda9914cd2d73e6d2",
+  "sourceName": "contracts/modules/PerpsMarketFactoryModule.sol",
+  "contractName": "PerpsMarketFactoryModule",
+  "deployedOn": "contract.PerpsMarketFactoryModule"
+}

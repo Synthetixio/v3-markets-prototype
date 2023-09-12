@@ -1,5 +1,5 @@
 import { configureChains, createClient } from "wagmi";
-import { optimism, optimismGoerli } from "wagmi/chains";
+import { optimism, optimismGoerli, baseGoerli } from "wagmi/chains";
 import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
 import { infuraProvider } from "wagmi/providers/infura";
 import { getDefaultWallets } from "@rainbow-me/rainbowkit";
@@ -28,6 +28,7 @@ const networks = {
   },
   "optimism-goerli": optimismGoerli,
   optimism,
+  "base-goerli": baseGoerli,
 };
 
 type Network = keyof typeof networks;

@@ -1,0 +1,252 @@
+{
+  "address": "0x52C339d07e82d49073f6B85AB033599e0eB644f9",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "uint128",
+          "name": "accountId",
+          "type": "uint128"
+        }
+      ],
+      "name": "NotEligibleForLiquidation",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "OverflowInt128ToUint128",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "OverflowInt256ToInt128",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "OverflowInt256ToUint256",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "OverflowUint128ToInt128",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "OverflowUint256ToInt256",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "OverflowUint256ToUint128",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "PositionOutOfBounds",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "ValueAlreadyInSet",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "ValueNotInSet",
+      "type": "error"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint128",
+          "name": "accountId",
+          "type": "uint128"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "reward",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "bool",
+          "name": "fullLiquidation",
+          "type": "bool"
+        }
+      ],
+      "name": "AccountLiquidated",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "uint128",
+          "name": "marketId",
+          "type": "uint128"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "price",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "int256",
+          "name": "skew",
+          "type": "int256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "size",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "int256",
+          "name": "sizeDelta",
+          "type": "int256"
+        },
+        {
+          "indexed": false,
+          "internalType": "int256",
+          "name": "currentFundingRate",
+          "type": "int256"
+        },
+        {
+          "indexed": false,
+          "internalType": "int256",
+          "name": "currentFundingVelocity",
+          "type": "int256"
+        }
+      ],
+      "name": "MarketUpdated",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint128",
+          "name": "accountId",
+          "type": "uint128"
+        },
+        {
+          "indexed": true,
+          "internalType": "uint128",
+          "name": "marketId",
+          "type": "uint128"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "amountLiquidated",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "int128",
+          "name": "currentPositionSize",
+          "type": "int128"
+        }
+      ],
+      "name": "PositionLiquidated",
+      "type": "event"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint128",
+          "name": "accountId",
+          "type": "uint128"
+        }
+      ],
+      "name": "canLiquidate",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "isEligible",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint128",
+          "name": "accountId",
+          "type": "uint128"
+        }
+      ],
+      "name": "liquidate",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "liquidationReward",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "liquidateFlagged",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "liquidationReward",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint128",
+          "name": "marketId",
+          "type": "uint128"
+        }
+      ],
+      "name": "liquidationCapacity",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "capacity",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "maxLiquidationInWindow",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "latestLiquidationTimestamp",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "constructorArgs": [],
+  "linkedLibraries": {},
+  "deployTxnHash": "0xd37e22247007b7b7bc88b4066758dde9c754b95c7bc4c005daa0d323af9153b7",
+  "sourceName": "contracts/modules/LiquidationModule.sol",
+  "contractName": "LiquidationModule",
+  "deployedOn": "contract.LiquidationModule"
+}

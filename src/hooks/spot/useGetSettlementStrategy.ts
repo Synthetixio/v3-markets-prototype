@@ -1,6 +1,6 @@
 import { gql, useQuery } from "@apollo/client";
 import { useMemo } from "react";
-import { useChainId } from "../useDefaultNetwork";
+import { useChainContextName } from "../useDefaultNetwork";
 
 const GET_STRATEGIES = gql`
   query GetSettlementStrategies($owner: String, $marketId: String) {
@@ -48,12 +48,11 @@ export const useGetSettlementStrategy = (
   marketId: number,
   strategyId: string,
 ) => {
-  const chain = useChainId();
   const { loading, data, refetch } = useQuery(GET_STRATEGIES, {
     variables: {
       marketId: marketId.toString(),
     },
-    context: { clientName: chain === 10 ? "optimism" : "optimismGoerli" },
+    context: { clientName: useChainContextName() },
   });
 
   const strategies = useMemo(() => {
