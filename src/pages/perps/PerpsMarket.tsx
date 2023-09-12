@@ -1,4 +1,4 @@
-import { Alert, Box, Button, Flex } from "@chakra-ui/react";
+import { Box, Button, Flex } from "@chakra-ui/react";
 import { useChainId, useSwitchNetwork } from "wagmi";
 import { Header, PerpsMarketInfo, Sidebar } from "../../components";
 

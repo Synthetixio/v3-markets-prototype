@@ -9,7 +9,6 @@ import { WagmiConfig } from "wagmi";
 // import { PerpsMarket } from "./pages/perps/PerpsMarket";
 import { chains, client } from "./wagmi";
 
-import theme from "./theme";
 import { ChakraProvider, ColorModeScript } from "@chakra-ui/react";
 // import { Index } from "./pages/Index";
 // import { PerpsAdmin } from "./pages/perps/PerpsAdmin";
@@ -19,6 +18,8 @@ import { SpotAdmin } from "./pages/spot/SpotAdmin";
 import { ApolloProvider } from "@apollo/client";
 import { PerpsMarket } from "./pages/perps/PerpsMarket";
 import { spotClient } from "./utils/clients";
+import Leaderboard from "./pages/Leaderboard";
+import theme from "./theme";
 
 const router = createBrowserRouter([
   {
@@ -29,10 +30,10 @@ const router = createBrowserRouter([
   //   path: "/perps/admin",
   //   element: <PerpsAdmin />,
   // },
-  {
-    path: "/perps/markets/:marketId",
-    element: <PerpsMarket />,
-  },
+  // {
+  //   path: "/perps/markets/:marketId",
+  //   element: <PerpsMarket />,
+  // },
   // {
   //   path: "/perps/markets/:marketId/:accountId",
   //   element: <PerpsMarket />,
@@ -45,6 +46,7 @@ const router = createBrowserRouter([
     path: "/spot/markets/:marketId",
     element: <SpotMarket />,
   },
+  { path: "/leaderboard", element: <Leaderboard /> },
 ]);
 
 /**

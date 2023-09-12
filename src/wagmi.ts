@@ -77,6 +77,7 @@ export { chains };
 const { connectors } = getDefaultWallets({
   appName: "Synthetix V3 Markets Prototype",
   chains,
+  projectId: "5075a2da602e17eec34aa77b40b321be",
 });
 
 /**
