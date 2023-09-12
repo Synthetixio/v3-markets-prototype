@@ -65,7 +65,7 @@ export const contracts: Contracts = {
     PERPS_ACCOUNT_PROXY: BaseGoerliPerpsAccountProxy,
     USD: BaseGoerliUSDProxy,
     OracleVerifier: {
-      address: "0xff1a0f4744e8582DF1aE09D5611b887B6a12925C",
+      address: "0x5955C1478F0dAD753C7E2B4dD1b4bC530C64749f",
       abi: IPythVerifier,
     },
   },

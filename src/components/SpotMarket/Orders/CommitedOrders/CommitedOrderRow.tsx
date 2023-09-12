@@ -126,7 +126,8 @@ export function CommitedOrderRow({ marketId, order, block }: Props) {
     }
 
     const fee = await oracleVerifier.contract.getUpdateFee(1);
-    const parsedURL = urls[0].replace("{data}", data);
+
+    const parsedURL = urls[0]?.replace("{data}", data);
 
     const response = await fetch(parsedURL)
       .then((res) => res.json())
