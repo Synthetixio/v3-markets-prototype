@@ -19,7 +19,6 @@ import { ApolloProvider } from "@apollo/client";
 import { PerpsMarket } from "./pages/perps/PerpsMarket";
 import { spotClient } from "./utils/clients";
 import Leaderboard from "./pages/Leaderboard";
-import TradingCompetition from "./pages/TradingCompetition";
 import theme from "./theme";
 
 const router = createBrowserRouter([
@@ -48,7 +47,6 @@ const router = createBrowserRouter([
     element: <SpotMarket />,
   },
   { path: "/leaderboard", element: <Leaderboard /> },
-  { path: "/competition", element: <TradingCompetition /> },
 ]);
 
 /**
