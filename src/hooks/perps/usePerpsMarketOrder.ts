@@ -3,7 +3,7 @@ import { parseEther } from "ethers/lib/utils.js";
 import { useCallback, useState } from "react";
 import { useContract } from "../useContract";
 import { useTransact } from "../useTransact";
-import { usePerpsMarketId } from "./usePerpsMarketId";
+import { useActivePerpsMarket } from "./useActivePerpsMarket";
 
 export const usePerpsMarketOrder = (
   accountId: string | number,
@@ -15,23 +15,17 @@ export const usePerpsMarketOrder = (
   const [isLoading, setIsLoading] = useState(false);
 
   const perpsMarket = useContract("PERPS_MARKET");
-  const market = usePerpsMarketId();
+  const { market } = useActivePerpsMarket();
 
   const { transact } = useTransact();
 
   const commit = useCallback(async () => {
     setIsLoading(true);
     try {
-      console.log({
-        marketId: market?.marketId,
-        accountId,
-      });
       const amountD18 = parseEther(sizeDelta || "0").toString();
       const amount = isBuy ? amountD18 : `-${Number(amountD18).toString()}`;
 
-      let price: BigNumber = await perpsMarket.contract.indexPrice(
-        market?.marketId,
-      );
+      let price: BigNumber = await perpsMarket.contract.indexPrice(market?.id);
 
       if (isBuy) {
         price = price.mul(110).div(100);
@@ -39,13 +33,13 @@ export const usePerpsMarketOrder = (
         price = price.mul(90).div(100);
       }
       const fillPrice = await perpsMarket.contract.fillPrice(
-        market?.marketId,
+        market?.id,
         amount,
         price,
       );
 
       const commitment = {
-        marketId: market?.marketId,
+        marketId: market?.id,
         accountId,
         sizeDelta: amount,
         settlementStrategyId: 0,
@@ -66,11 +60,11 @@ export const usePerpsMarketOrder = (
       setIsLoading(false);
     }
   }, [
-    market?.marketId,
-    accountId,
     sizeDelta,
     isBuy,
     perpsMarket.contract,
+    market?.id,
+    accountId,
     transact,
     onSuccess,
   ]);

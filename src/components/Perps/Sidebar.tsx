@@ -1,7 +1,7 @@
 import { Flex, Box, Alert, AlertIcon, Text } from "@chakra-ui/react";
 import { useSearchParams } from "react-router-dom";
 import { useContractRead } from "wagmi";
-import { usePerpsMarketId } from "../../hooks/perps/usePerpsMarketId";
+import { useActivePerpsMarket } from "../../hooks/perps/useActivePerpsMarket";
 import { useContract } from "../../hooks/useContract";
 import { AsyncOrderClaim, PerpsAsyncOrder } from "./AsyncOrderClaim";
 import { MarketSwitcher } from "./MarketSwitcher";
@@ -12,13 +12,13 @@ export function Sidebar() {
   const selectedAccountId = searchParams.get("accountId");
 
   const perpsMarket = useContract("PERPS_MARKET");
-  const perps = usePerpsMarketId();
+  const { market: perps } = useActivePerpsMarket();
 
   const { data: asyncOrderClaimData, refetch } = useContractRead({
     address: perpsMarket.address,
     abi: perpsMarket.abi,
     functionName: "getAsyncOrderClaim",
-    args: [selectedAccountId, perps?.marketId],
+    args: [selectedAccountId, perps?.id],
     enabled: !!selectedAccountId,
   });
   const asyncOrderClaim = asyncOrderClaimData as unknown as PerpsAsyncOrder;
@@ -29,7 +29,7 @@ export function Sidebar() {
     address: perpsMarket.address,
     abi: perpsMarket.abi,
     functionName: "getOpenPosition",
-    args: [selectedAccountId, perps?.marketId],
+    args: [selectedAccountId, perps?.id],
   });
 
   return (

@@ -4,7 +4,7 @@ import { BigNumber } from "ethers";
 import { defaultAbiCoder, formatEther } from "ethers/lib/utils.js";
 import { useMemo, useState } from "react";
 import { useContractRead } from "wagmi";
-import { usePerpsMarketId } from "../../hooks/perps/usePerpsMarketId";
+import { useActivePerpsMarket } from "../../hooks/perps/useActivePerpsMarket";
 import { useContract } from "../../hooks/useContract";
 import { useGetBlock } from "../../hooks/useGetBlock";
 import { useTransact } from "../../hooks/useTransact";
@@ -31,7 +31,7 @@ interface Props {
 export function AsyncOrderClaim({ orderClaim, accountId, refetch }: Props) {
   const perpsMarket = useContract("PERPS_MARKET");
   const oracleVerifier = useContract("OracleVerifier");
-  const perps = usePerpsMarketId();
+  const { market: perps } = useActivePerpsMarket();
 
   const [canceling, setCanceling] = useState(false);
   const [settling, setSettling] = useState(false);
@@ -41,7 +41,7 @@ export function AsyncOrderClaim({ orderClaim, accountId, refetch }: Props) {
     address: perpsMarket.address,
     abi: perpsMarket.abi,
     functionName: "getSettlementStrategy",
-    args: [perps?.marketId, 0],
+    args: [perps?.id, 0],
   });
 
   const { transact } = useTransact();
@@ -53,7 +53,7 @@ export function AsyncOrderClaim({ orderClaim, accountId, refetch }: Props) {
   const settleOrderLocal = () => {
     const extraData = defaultAbiCoder.encode(
       ["uint128", "uint128"],
-      [perps?.marketId, accountId],
+      [perps?.id, accountId],
     );
 
     let settlementTimeBytes = defaultAbiCoder.encode(
@@ -164,13 +164,10 @@ export function AsyncOrderClaim({ orderClaim, accountId, refetch }: Props) {
     try {
       setCanceling(true);
 
-      await perpsMarket.contract.callStatic.cancelOrder(
-        perps?.marketId,
-        accountId,
-      );
+      await perpsMarket.contract.callStatic.cancelOrder(perps?.id, accountId);
 
       await transact(perpsMarket.contract, "cancelOrder", [
-        perps?.marketId,
+        perps?.id,
         accountId,
       ]);
 

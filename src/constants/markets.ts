@@ -8,24 +8,6 @@ interface MarketData {
   };
 }
 
-export const perpsMarkets: MarketData = {
-  84531: {
-    ETH: {
-      marketId: 5,
-      tradingViewSymbol: "PYTH:ETHUSD",
-      synth: "snxETH",
-    },
-  },
-  420: {
-    ETH: {
-      marketId: 5,
-      tradingViewSymbol: "PYTH:ETHUSD",
-      synth: "snxETH",
-    },
-  },
-  10: {},
-};
-
 export const spotMarkets: MarketData = {
   84531: {
     BTC: {

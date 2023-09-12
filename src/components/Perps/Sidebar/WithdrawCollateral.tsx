@@ -9,11 +9,10 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { useState } from "react";
-import { useParams } from "react-router-dom";
 import { useAccount } from "wagmi";
-import { perpsMarkets } from "../../../constants/markets";
 import { useModifyCollateral } from "../../../hooks/perps/useModifyCollateral";
 import { useContract } from "../../../hooks/useContract";
+import { useActivePerpsMarket } from "../../../hooks/perps/useActivePerpsMarket";
 
 export function WithdrawCollateral({
   accountId,
@@ -25,8 +24,7 @@ export function WithdrawCollateral({
   refetch: () => void;
 }) {
   const { address } = useAccount();
-  const { marketId } = useParams();
-  const market = perpsMarkets[420][marketId?.toUpperCase() || "ETH"];
+  const { market } = useActivePerpsMarket();
   const [amount, setAmount] = useState("0");
 
   const [nativeUnit, setNativeUnit] = useState(true);
@@ -63,7 +61,6 @@ export function WithdrawCollateral({
     onSuccess,
   );
 
-  // console.log({ collateralValue });
   if (!market) {
     return null;
   }

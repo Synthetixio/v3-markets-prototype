@@ -14,11 +14,12 @@ const GET_MARKETS = gql`
       owner
       maxFundingVelocity
       skewScale
-      initialMarginFraction
-      maintenanceMarginFraction
+      initialMarginRatioD18
+      maintenanceMarginRatioD18
       liquidationRewardRatioD18
+      maxSecondsInLiquidationWindow
+      minimumPositionMargin
       maxLiquidationLimitAccumulationMultiplier
-      lockedOiPercent
       makerFee
       takerFee
     }
@@ -35,16 +36,17 @@ export interface Market {
   owner: string;
   maxFundingVelocity: string;
   skewScale: string;
-  initialMarginFraction: string;
-  maintenanceMarginFraction: string;
+  initialMarginRatioD18: string;
+  maintenanceMarginRatioD18: string;
   liquidationRewardRatioD18: string;
+  maxSecondsInLiquidationWindow: string;
+  minimumPositionMargin: string;
   maxLiquidationLimitAccumulationMultiplier: string;
-  lockedOiPercent: string;
   makerFee: string;
   takerFee: string;
 }
 
-export const useMarkets = (marketId: number | string | undefined) => {
+export const useMarkets = (marketFilter?: number | string) => {
   const client = useGetPerpsClient();
   const { loading, data, refetch } = useQuery(GET_MARKETS, {
     client,
@@ -59,8 +61,14 @@ export const useMarkets = (marketId: number | string | undefined) => {
   }, [data]);
 
   const market = useMemo(() => {
-    return markets.find((item) => item.id === marketId?.toString());
-  }, [marketId, markets]);
+    return markets.find((item) =>
+      [
+        item.marketSymbol?.toUpperCase(),
+        item.id,
+        item.marketName?.toUpperCase(),
+      ].includes(String(marketFilter).toUpperCase()),
+    );
+  }, [marketFilter, markets]);
 
   return {
     markets,

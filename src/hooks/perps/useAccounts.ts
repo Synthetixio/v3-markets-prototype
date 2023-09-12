@@ -40,13 +40,14 @@ export const useAccounts = () => {
 
     let uniqueList: Account[] = [];
     list.forEach((account) => {
+      // eslint-disable-next-line eqeqeq
       if (!uniqueList.find((i) => i.accountId == account.accountId)) {
         uniqueList.push(account);
       }
     });
 
     return uniqueList;
-  }, [data]);
+  }, [data, newAccounts]);
 
   return {
     accounts,

@@ -11,12 +11,11 @@ import {
 } from "@chakra-ui/react";
 import { wei } from "@synthetixio/wei";
 import { useState } from "react";
-import { useParams } from "react-router-dom";
 import { useAccount, useBalance } from "wagmi";
-import { perpsMarkets } from "../../../constants/markets";
 import { useModifyCollateral } from "../../../hooks/perps/useModifyCollateral";
 import { useContract } from "../../../hooks/useContract";
 import { Amount } from "../../Amount";
+import { useActivePerpsMarket } from "../../../hooks/perps/useActivePerpsMarket";
 
 export function DepositCollateral({
   synth,
@@ -30,8 +29,7 @@ export function DepositCollateral({
   const [nativeUnit, setNativeUnit] = useState(true);
   const USD = useContract("USD");
   const { address } = useAccount();
-  const { marketId } = useParams();
-  const market = perpsMarkets[420][marketId?.toUpperCase() || "ETH"];
+  const { market } = useActivePerpsMarket();
   const [amount, setAmount] = useState("0");
 
   const { data: synthBalance, refetch: refetcSynth } = useBalance({
@@ -97,7 +95,7 @@ export function DepositCollateral({
                     ? USDBalance?.formatted
                     : synthBalance?.formatted) || "0",
                 )}
-                suffix={nativeUnit ? "USD" : market.synth}
+                suffix={nativeUnit ? "USD" : market.marketSymbol}
               />
             </Flex>
           )}

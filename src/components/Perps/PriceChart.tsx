@@ -3,8 +3,8 @@ import { AdvancedRealTimeChart } from "react-ts-tradingview-widgets";
 import { useParams } from "react-router-dom";
 
 export function PriceChart() {
-  const { marketId } = useParams();
-  const id = marketId?.toUpperCase();
+  const { marketSymbol } = useParams();
+  const id = marketSymbol?.toUpperCase();
 
   if (!id) {
     return null;
@@ -15,7 +15,7 @@ export function PriceChart() {
       <AdvancedRealTimeChart
         theme="dark"
         autosize
-        symbol={"PYTH:ETHUSD"}
+        symbol={`PYTH:${marketSymbol?.toUpperCase()}USD`}
       ></AdvancedRealTimeChart>
     </Box>
   );

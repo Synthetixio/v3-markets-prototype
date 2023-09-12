@@ -29,11 +29,11 @@ const router = createBrowserRouter([
   //   element: <PerpsAdmin />,
   // },
   {
-    path: "/perps/markets/:marketId",
+    path: "/perps/markets/:marketSymbol",
     element: <PerpsMarket />,
   },
   {
-    path: "/perps/markets/:marketId/:accountId",
+    path: "/perps/markets/:marketSymbol/:accountId",
     element: <PerpsMarket />,
   },
   {

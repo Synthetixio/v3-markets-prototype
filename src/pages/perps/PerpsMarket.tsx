@@ -1,10 +1,20 @@
 import { Box, Button, Flex } from "@chakra-ui/react";
 import { useChainId, useSwitchNetwork } from "wagmi";
 import { Header, PerpsMarketInfo, Sidebar } from "../../components";
+import { useActivePerpsMarket } from "../../hooks/perps/useActivePerpsMarket";
+import { useEffect } from "react";
 
 export function PerpsMarket() {
   const chain = useChainId();
   const { switchNetwork } = useSwitchNetwork();
+
+  const { market, isLoading } = useActivePerpsMarket();
+
+  useEffect(() => {
+    if (!isLoading && !market) {
+      window.location.href = "/perps/markets/ETH";
+    }
+  }, [isLoading, market]);
   return (
     <Flex height="100vh" maxHeight="100vh" flexDirection="column">
       {[420, 84531].includes(chain) ? (

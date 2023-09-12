@@ -1,11 +1,11 @@
 import { Heading, Box } from "@chakra-ui/react";
 import { ArrowUpDownIcon } from "@chakra-ui/icons";
-import { usePerpsMarketId } from "../../hooks/perps/usePerpsMarketId";
 import { useMarkets } from "../../hooks/perps/useMarkets";
+import { useParams } from "react-router-dom";
 
 export function MarketSwitcher() {
-  const marketInfo = usePerpsMarketId();
-  const { market } = useMarkets(marketInfo?.marketId);
+  const { marketSymbol } = useParams();
+  const { market } = useMarkets(marketSymbol);
 
   return (
     <>
