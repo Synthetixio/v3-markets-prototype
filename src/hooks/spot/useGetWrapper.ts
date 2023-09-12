@@ -29,7 +29,7 @@ export const useGetWrapper = (marketId: number) => {
 
   const { loading, data, refetch } = useQuery(GET_WRAPPERS, {
     variables: {
-      marketId: marketId.toString(),
+      marketId: marketId?.toString(),
     },
     client,
   });

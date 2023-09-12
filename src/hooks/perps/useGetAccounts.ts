@@ -40,8 +40,8 @@ export const useGetAccounts = () => {
     acccountCount,
     accounts: (accountIds || []).map((item) => ({
       owner: address?.toString()!,
-      accountId: item.toString(),
-      id: item.toString(),
+      accountId: item?.toString(),
+      id: item?.toString(),
     })),
     isLoading: accountIdsIsLoading || acccountCountisLoading,
     refetch,

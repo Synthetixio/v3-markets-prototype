@@ -46,12 +46,12 @@ export interface Strategy {
 
 export const useGetSettlementStrategy = (
   marketId: number,
-  strategyId: string | number,
+  strategyId?: string | number,
 ) => {
   const client = useGetSpotClient();
   const { loading, data, refetch } = useQuery(GET_STRATEGIES, {
     variables: {
-      marketId: marketId.toString(),
+      marketId: marketId?.toString(),
     },
     client,
   });

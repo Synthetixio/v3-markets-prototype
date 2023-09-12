@@ -44,7 +44,7 @@ export const useGetWrappHistory = (marketId: number) => {
 
   const { loading, error, data, refetch } = useQuery(GET_WRAPP_ORDERS, {
     variables: {
-      marketId: marketId.toString(),
+      marketId: marketId?.toString(),
       // owner: showAll ? "" : address?.toLowerCase(),
     },
     notifyOnNetworkStatusChange: true,

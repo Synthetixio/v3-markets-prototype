@@ -75,7 +75,7 @@ export const useGetOrders = (marketId: number, showAll: boolean) => {
 
   const { loading, error, data, refetch } = useQuery(GET_ORDERS, {
     variables: {
-      marketId: marketId.toString(),
+      marketId: marketId?.toString(),
       owner: showAll ? "" : address?.toLowerCase(),
     },
     notifyOnNetworkStatusChange: true,

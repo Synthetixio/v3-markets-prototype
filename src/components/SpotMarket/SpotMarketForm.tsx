@@ -14,8 +14,6 @@ import {
   Link,
   VStack,
   useToast,
-  Select,
-  Heading,
 } from "@chakra-ui/react";
 import { parseEther } from "ethers/lib/utils.js";
 import { useEffect, useMemo, useState } from "react";
@@ -42,8 +40,14 @@ export function SpotMarketForm({ id }: { id: number }) {
 
   const [slippage, setSlippage] = useState(1);
   const [amount, setAmount] = useState("0");
-  const [strategyId, setStrategyId] = useState(0);
-  const { strategies, strategy } = useGetSettlementStrategy(id, strategyId);
+  const { strategies } = useGetSettlementStrategy(id);
+  const strategyId = useMemo(() => {
+    if (strategies?.length) {
+      return strategies[0].settlementStrategyId;
+    }
+
+    return "0";
+  }, [strategies]);
 
   const { address } = useAccount();
 
@@ -305,7 +309,7 @@ export function SpotMarketForm({ id }: { id: number }) {
                 </Box>
               )}
             </Box>
-            <Select
+            {/* <Select
               onChange={(e) => setStrategyId(Number(e.target.value))}
               value={String(strategy?.settlementStrategyId || "")}
               placeholder="Settlement Strategy"
@@ -316,8 +320,8 @@ export function SpotMarketForm({ id }: { id: number }) {
                   {Number(strategy.strategyType) === 0 ? " ONCHAIN" : " PYTH"}
                 </option>
               ))}
-            </Select>
-            {strategy && (
+            </Select> */}
+            {/* {strategy && (
               <Flex w="100%">
                 <Box w="50%">
                   <Heading size="xs">Settlement Delay</Heading>
@@ -328,7 +332,7 @@ export function SpotMarketForm({ id }: { id: number }) {
                   {strategy.settlementWindowDuration}
                 </Box>
               </Flex>
-            )}
+            )} */}
             <Box w="100%">
               <Button
                 key="button"
@@ -339,11 +343,7 @@ export function SpotMarketForm({ id }: { id: number }) {
                 isDisabled={!address || Number(amount) <= 0}
                 isLoading={isLoading}
               >
-                {address
-                  ? strategy
-                    ? "Submit Order"
-                    : "Select Settlement Strategy"
-                  : "Connect your wallet"}
+                {address ? "Submit Order" : "Connect your wallet"}
               </Button>
               {hasAsyncOrders ? (
                 <Text

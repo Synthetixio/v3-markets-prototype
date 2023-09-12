@@ -1,7 +1,7 @@
 import { ApolloClient, InMemoryCache } from "@apollo/client";
 
 export const spotOptimismGoerliClient = new ApolloClient({
-  uri: "https://subgraph.satsuma-prod.com/ce5e03f52f3b/synthetix/spot-market-optimism-goerli/api",
+  uri: "https://subgraph.satsuma-prod.com/ce5e03f52f3b/synthetix/spot-market-optimism-goerli/version/v0.0.2/api",
   cache: new InMemoryCache({
     resultCaching: false,
   }),

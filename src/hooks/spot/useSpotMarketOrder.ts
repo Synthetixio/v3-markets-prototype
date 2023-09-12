@@ -75,7 +75,7 @@ export const useSpotMarketOrder = (
   ]);
 
   const buyAsync = useCallback(
-    async (strategyId: number) => {
+    async (strategyId: number | string) => {
       setIsLoading(true);
       try {
         await approve();
@@ -112,7 +112,7 @@ export const useSpotMarketOrder = (
   );
 
   const sellAsync = useCallback(
-    async (strategyId: number) => {
+    async (strategyId: number | string) => {
       setIsLoading(true);
       try {
         await approve();
