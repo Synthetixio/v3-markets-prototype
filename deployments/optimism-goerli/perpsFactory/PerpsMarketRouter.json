@@ -1,5 +1,5 @@
 {
-  "address": "0x1C510a978B518Eba31f4BAd27398005c9ac06710",
+  "address": "0x5F71C6626CB129cA3144Fa2882dB7ab3237C895F",
   "abi": [
     {
       "inputs": [
@@ -617,6 +617,123 @@
       "inputs": [
         {
           "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "DeniedMulticallTarget",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "parameter",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "reason",
+          "type": "string"
+        }
+      ],
+      "name": "InvalidParameter",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "RecursiveMulticall",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "getMessageSender",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes[]",
+          "name": "data",
+          "type": "bytes[]"
+        }
+      ],
+      "name": "multicall",
+      "outputs": [
+        {
+          "internalType": "bytes[]",
+          "name": "results",
+          "type": "bytes[]"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address[]",
+          "name": "to",
+          "type": "address[]"
+        },
+        {
+          "internalType": "bytes[]",
+          "name": "data",
+          "type": "bytes[]"
+        },
+        {
+          "internalType": "uint256[]",
+          "name": "values",
+          "type": "uint256[]"
+        }
+      ],
+      "name": "multicallThrough",
+      "outputs": [
+        {
+          "internalType": "bytes[]",
+          "name": "results",
+          "type": "bytes[]"
+        }
+      ],
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "target",
+          "type": "address"
+        },
+        {
+          "internalType": "bool",
+          "name": "allowlisted",
+          "type": "bool"
+        }
+      ],
+      "name": "setAllowlistedMulticallTarget",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
           "name": "implementation",
           "type": "address"
         }
@@ -800,8 +917,14 @@
       "type": "function"
     },
     {
-      "inputs": [],
-      "name": "InvalidMarketOwner",
+      "inputs": [
+        {
+          "internalType": "uint128",
+          "name": "marketId",
+          "type": "uint128"
+        }
+      ],
+      "name": "InvalidMarket",
       "type": "error"
     },
     {
@@ -810,66 +933,31 @@
       "type": "error"
     },
     {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": true,
-          "internalType": "uint128",
-          "name": "perpsMarketId",
-          "type": "uint128"
-        },
-        {
-          "indexed": true,
-          "internalType": "address",
-          "name": "oldOwner",
-          "type": "address"
-        },
-        {
-          "indexed": true,
-          "internalType": "address",
-          "name": "newOwner",
-          "type": "address"
-        }
-      ],
-      "name": "MarketOwnerChanged",
-      "type": "event"
+      "inputs": [],
+      "name": "OverflowUint256ToInt256",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "OverflowUint256ToUint128",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "PerpsMarketNotInitialized",
+      "type": "error"
     },
     {
       "anonymous": false,
       "inputs": [
-        {
-          "indexed": true,
-          "internalType": "uint128",
-          "name": "perpsMarketId",
-          "type": "uint128"
-        },
-        {
-          "indexed": true,
-          "internalType": "address",
-          "name": "newNominatedOwner",
-          "type": "address"
-        }
-      ],
-      "name": "MarketOwnerNominated",
-      "type": "event"
-    },
-    {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": true,
-          "internalType": "uint128",
-          "name": "perpsMarketId",
-          "type": "uint128"
-        },
         {
           "indexed": false,
-          "internalType": "bytes32",
-          "name": "feedId",
-          "type": "bytes32"
+          "internalType": "uint128",
+          "name": "globalPerpsMarketId",
+          "type": "uint128"
         }
       ],
-      "name": "MarketPriceDataUpdated",
+      "name": "FactoryInitialized",
       "type": "event"
     },
     {
@@ -880,12 +968,6 @@
           "internalType": "uint128",
           "name": "perpsMarketId",
           "type": "uint128"
-        },
-        {
-          "indexed": true,
-          "internalType": "address",
-          "name": "marketOwner",
-          "type": "address"
         },
         {
           "indexed": false,
@@ -900,24 +982,16 @@
           "type": "string"
         }
       ],
-      "name": "MarketRegistered",
+      "name": "MarketCreated",
       "type": "event"
     },
     {
       "inputs": [
         {
           "internalType": "uint128",
-          "name": "perpsMarketId",
+          "name": "requestedMarketId",
           "type": "uint128"
-        }
-      ],
-      "name": "acceptMarketOwnership",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
+        },
         {
           "internalType": "string",
           "name": "marketName",
@@ -927,11 +1001,6 @@
           "internalType": "string",
           "name": "marketSymbol",
           "type": "string"
-        },
-        {
-          "internalType": "address",
-          "name": "marketOwner",
-          "type": "address"
         }
       ],
       "name": "createMarket",
@@ -946,22 +1015,16 @@
       "type": "function"
     },
     {
-      "inputs": [
+      "inputs": [],
+      "name": "initializeFactory",
+      "outputs": [
         {
           "internalType": "uint128",
-          "name": "perpsMarketId",
+          "name": "",
           "type": "uint128"
         }
       ],
-      "name": "getMarketOwner",
-      "outputs": [
-        {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "stateMutability": "view",
+      "stateMutability": "nonpayable",
       "type": "function"
     },
     {
@@ -1000,24 +1063,6 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint128",
-          "name": "perpsMarketId",
-          "type": "uint128"
-        },
-        {
-          "internalType": "address",
-          "name": "newNominatedOwner",
-          "type": "address"
-        }
-      ],
-      "name": "nominateMarketOwner",
-      "outputs": [],
-      "stateMutability": "nonpayable",
       "type": "function"
     },
     {
@@ -1088,43 +1133,6 @@
       "inputs": [
         {
           "internalType": "uint128",
-          "name": "perpsMarketId",
-          "type": "uint128"
-        }
-      ],
-      "name": "symbol",
-      "outputs": [
-        {
-          "internalType": "string",
-          "name": "",
-          "type": "string"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint128",
-          "name": "perpsMarketId",
-          "type": "uint128"
-        },
-        {
-          "internalType": "bytes32",
-          "name": "feedId",
-          "type": "bytes32"
-        }
-      ],
-      "name": "updatePriceData",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint128",
           "name": "accountId",
           "type": "uint128"
         }
@@ -1168,16 +1176,37 @@
       "inputs": [
         {
           "internalType": "uint256",
-          "name": "available",
+          "name": "availableUsdDenominated",
           "type": "uint256"
         },
         {
           "internalType": "uint256",
-          "name": "required",
+          "name": "requiredUsdDenominated",
           "type": "uint256"
         }
       ],
       "name": "InsufficientCollateralAvailableForWithdraw",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint128",
+          "name": "synthMarketId",
+          "type": "uint128"
+        },
+        {
+          "internalType": "uint256",
+          "name": "collateralAmount",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "withdrawAmount",
+          "type": "uint256"
+        }
+      ],
+      "name": "InsufficientSynthCollateral",
       "type": "error"
     },
     {
@@ -1189,17 +1218,6 @@
         }
       ],
       "name": "InvalidAmountDelta",
-      "type": "error"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint128",
-          "name": "marketId",
-          "type": "uint128"
-        }
-      ],
-      "name": "InvalidMarket",
       "type": "error"
     },
     {
@@ -1229,18 +1247,24 @@
       "type": "error"
     },
     {
+      "inputs": [
+        {
+          "internalType": "uint128",
+          "name": "maxCollateralsPerAccount",
+          "type": "uint128"
+        }
+      ],
+      "name": "MaxCollateralsPerAccountReached",
+      "type": "error"
+    },
+    {
       "inputs": [],
       "name": "OverflowUint128ToInt128",
       "type": "error"
     },
     {
       "inputs": [],
-      "name": "OverflowUint256ToInt256",
-      "type": "error"
-    },
-    {
-      "inputs": [],
-      "name": "OverflowUint256ToUint128",
+      "name": "PendingOrderExists",
       "type": "error"
     },
     {
@@ -1308,7 +1332,7 @@
       "outputs": [
         {
           "internalType": "int256",
-          "name": "",
+          "name": "availableMargin",
           "type": "int256"
         }
       ],
@@ -1356,17 +1380,70 @@
       "outputs": [
         {
           "internalType": "int256",
-          "name": "",
+          "name": "totalPnl",
           "type": "int256"
         },
         {
           "internalType": "int256",
-          "name": "",
+          "name": "accruedFunding",
           "type": "int256"
         },
         {
+          "internalType": "int128",
+          "name": "positionSize",
+          "type": "int128"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint128",
+          "name": "accountId",
+          "type": "uint128"
+        }
+      ],
+      "name": "getRequiredMargins",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "requiredInitialMargin",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "requiredMaintenanceMargin",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "totalAccumulatedLiquidationRewards",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "maxLiquidationReward",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint128",
+          "name": "accountId",
+          "type": "uint128"
+        }
+      ],
+      "name": "getWithdrawableMargin",
+      "outputs": [
+        {
           "internalType": "int256",
-          "name": "",
+          "name": "withdrawableMargin",
           "type": "int256"
         }
       ],
@@ -1480,9 +1557,9 @@
           "type": "uint128"
         },
         {
-          "internalType": "int256",
+          "internalType": "int128",
           "name": "orderSize",
-          "type": "int256"
+          "type": "int128"
         },
         {
           "internalType": "uint256",
@@ -1598,6 +1675,30 @@
           "type": "uint128"
         }
       ],
+      "name": "metadata",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "symbol",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint128",
+          "name": "marketId",
+          "type": "uint128"
+        }
+      ],
       "name": "size",
       "outputs": [
         {
@@ -1632,12 +1733,12 @@
       "inputs": [
         {
           "internalType": "uint256",
-          "name": "acceptablePrice",
+          "name": "fillPrice",
           "type": "uint256"
         },
         {
           "internalType": "uint256",
-          "name": "fillPrice",
+          "name": "acceptablePrice",
           "type": "uint256"
         }
       ],
@@ -1696,21 +1797,11 @@
       "inputs": [
         {
           "internalType": "uint128",
-          "name": "marketId",
-          "type": "uint128"
-        },
-        {
-          "internalType": "uint128",
-          "name": "accountId",
+          "name": "maxPositionsPerAccount",
           "type": "uint128"
         }
       ],
-      "name": "OrderAlreadyCommitted",
-      "type": "error"
-    },
-    {
-      "inputs": [],
-      "name": "OrderNotValid",
+      "name": "MaxPositionsPerAccountReached",
       "type": "error"
     },
     {
@@ -1719,61 +1810,9 @@
       "type": "error"
     },
     {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "timestamp",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "settlementTime",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "settlementExpiration",
-          "type": "uint256"
-        }
-      ],
-      "name": "SettlementWindowNotExpired",
-      "type": "error"
-    },
-    {
       "inputs": [],
       "name": "ZeroSizeOrder",
       "type": "error"
-    },
-    {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": true,
-          "internalType": "uint128",
-          "name": "marketId",
-          "type": "uint128"
-        },
-        {
-          "indexed": true,
-          "internalType": "uint128",
-          "name": "accountId",
-          "type": "uint128"
-        },
-        {
-          "indexed": false,
-          "internalType": "uint256",
-          "name": "settlementTime",
-          "type": "uint256"
-        },
-        {
-          "indexed": false,
-          "internalType": "uint256",
-          "name": "acceptablePrice",
-          "type": "uint256"
-        }
-      ],
-      "name": "OrderCanceled",
-      "type": "event"
     },
     {
       "anonymous": false,
@@ -1837,22 +1876,47 @@
       "type": "event"
     },
     {
+      "anonymous": false,
       "inputs": [
         {
+          "indexed": true,
           "internalType": "uint128",
           "name": "marketId",
           "type": "uint128"
         },
         {
+          "indexed": true,
           "internalType": "uint128",
           "name": "accountId",
           "type": "uint128"
+        },
+        {
+          "indexed": false,
+          "internalType": "int128",
+          "name": "sizeDelta",
+          "type": "int128"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "acceptablePrice",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "settlementTime",
+          "type": "uint256"
+        },
+        {
+          "indexed": true,
+          "internalType": "bytes32",
+          "name": "trackingCode",
+          "type": "bytes32"
         }
       ],
-      "name": "cancelOrder",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
+      "name": "PreviousOrderExpired",
+      "type": "event"
     },
     {
       "inputs": [
@@ -1887,6 +1951,11 @@
               "internalType": "bytes32",
               "name": "trackingCode",
               "type": "bytes32"
+            },
+            {
+              "internalType": "address",
+              "name": "referrer",
+              "type": "address"
             }
           ],
           "internalType": "struct AsyncOrder.OrderCommitmentRequest",
@@ -1899,39 +1968,51 @@
         {
           "components": [
             {
-              "internalType": "uint128",
-              "name": "accountId",
-              "type": "uint128"
-            },
-            {
-              "internalType": "uint128",
-              "name": "marketId",
-              "type": "uint128"
-            },
-            {
-              "internalType": "int128",
-              "name": "sizeDelta",
-              "type": "int128"
-            },
-            {
-              "internalType": "uint128",
-              "name": "settlementStrategyId",
-              "type": "uint128"
-            },
-            {
               "internalType": "uint256",
               "name": "settlementTime",
               "type": "uint256"
             },
             {
-              "internalType": "uint256",
-              "name": "acceptablePrice",
-              "type": "uint256"
-            },
-            {
-              "internalType": "bytes32",
-              "name": "trackingCode",
-              "type": "bytes32"
+              "components": [
+                {
+                  "internalType": "uint128",
+                  "name": "marketId",
+                  "type": "uint128"
+                },
+                {
+                  "internalType": "uint128",
+                  "name": "accountId",
+                  "type": "uint128"
+                },
+                {
+                  "internalType": "int128",
+                  "name": "sizeDelta",
+                  "type": "int128"
+                },
+                {
+                  "internalType": "uint128",
+                  "name": "settlementStrategyId",
+                  "type": "uint128"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "acceptablePrice",
+                  "type": "uint256"
+                },
+                {
+                  "internalType": "bytes32",
+                  "name": "trackingCode",
+                  "type": "bytes32"
+                },
+                {
+                  "internalType": "address",
+                  "name": "referrer",
+                  "type": "address"
+                }
+              ],
+              "internalType": "struct AsyncOrder.OrderCommitmentRequest",
+              "name": "request",
+              "type": "tuple"
             }
           ],
           "internalType": "struct AsyncOrder.Data",
@@ -1955,6 +2036,30 @@
           "type": "uint128"
         },
         {
+          "internalType": "int128",
+          "name": "sizeDelta",
+          "type": "int128"
+        }
+      ],
+      "name": "computeOrderFees",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "orderFees",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "fillPrice",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
           "internalType": "uint128",
           "name": "accountId",
           "type": "uint128"
@@ -1965,44 +2070,85 @@
         {
           "components": [
             {
-              "internalType": "uint128",
-              "name": "accountId",
-              "type": "uint128"
-            },
-            {
-              "internalType": "uint128",
-              "name": "marketId",
-              "type": "uint128"
-            },
-            {
-              "internalType": "int128",
-              "name": "sizeDelta",
-              "type": "int128"
-            },
-            {
-              "internalType": "uint128",
-              "name": "settlementStrategyId",
-              "type": "uint128"
-            },
-            {
               "internalType": "uint256",
               "name": "settlementTime",
               "type": "uint256"
             },
             {
-              "internalType": "uint256",
-              "name": "acceptablePrice",
-              "type": "uint256"
-            },
-            {
-              "internalType": "bytes32",
-              "name": "trackingCode",
-              "type": "bytes32"
+              "components": [
+                {
+                  "internalType": "uint128",
+                  "name": "marketId",
+                  "type": "uint128"
+                },
+                {
+                  "internalType": "uint128",
+                  "name": "accountId",
+                  "type": "uint128"
+                },
+                {
+                  "internalType": "int128",
+                  "name": "sizeDelta",
+                  "type": "int128"
+                },
+                {
+                  "internalType": "uint128",
+                  "name": "settlementStrategyId",
+                  "type": "uint128"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "acceptablePrice",
+                  "type": "uint256"
+                },
+                {
+                  "internalType": "bytes32",
+                  "name": "trackingCode",
+                  "type": "bytes32"
+                },
+                {
+                  "internalType": "address",
+                  "name": "referrer",
+                  "type": "address"
+                }
+              ],
+              "internalType": "struct AsyncOrder.OrderCommitmentRequest",
+              "name": "request",
+              "type": "tuple"
             }
           ],
           "internalType": "struct AsyncOrder.Data",
-          "name": "",
+          "name": "order",
           "type": "tuple"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint128",
+          "name": "accountId",
+          "type": "uint128"
+        },
+        {
+          "internalType": "uint128",
+          "name": "marketId",
+          "type": "uint128"
+        },
+        {
+          "internalType": "int128",
+          "name": "sizeDelta",
+          "type": "int128"
+        }
+      ],
+      "name": "requiredMarginForOrder",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "requiredMargin",
+          "type": "uint256"
         }
       ],
       "stateMutability": "view",
@@ -2048,6 +2194,11 @@
         }
       ],
       "name": "OffchainLookup",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "OrderNotValid",
       "type": "error"
     },
     {
@@ -2104,6 +2255,22 @@
       "type": "error"
     },
     {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "timestamp",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "settlementTime",
+          "type": "uint256"
+        }
+      ],
+      "name": "SettlementWindowNotOpen",
+      "type": "error"
+    },
+    {
       "anonymous": false,
       "inputs": [
         {
@@ -2111,6 +2278,12 @@
           "internalType": "uint128",
           "name": "marketId",
           "type": "uint128"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "price",
+          "type": "uint256"
         },
         {
           "indexed": false,
@@ -2169,6 +2342,18 @@
         },
         {
           "indexed": false,
+          "internalType": "int256",
+          "name": "pnl",
+          "type": "int256"
+        },
+        {
+          "indexed": false,
+          "internalType": "int256",
+          "name": "accruedFunding",
+          "type": "int256"
+        },
+        {
+          "indexed": false,
           "internalType": "int128",
           "name": "sizeDelta",
           "type": "int128"
@@ -2178,6 +2363,18 @@
           "internalType": "int128",
           "name": "newSize",
           "type": "int128"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "totalFees",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "referralFees",
+          "type": "uint256"
         },
         {
           "indexed": false,
@@ -2222,11 +2419,6 @@
     },
     {
       "inputs": [
-        {
-          "internalType": "uint128",
-          "name": "marketId",
-          "type": "uint128"
-        },
         {
           "internalType": "uint128",
           "name": "accountId",
@@ -2553,6 +2745,81 @@
       "type": "error"
     },
     {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint128",
+          "name": "accountId",
+          "type": "uint128"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "reward",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "bool",
+          "name": "fullLiquidation",
+          "type": "bool"
+        }
+      ],
+      "name": "AccountLiquidated",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint128",
+          "name": "accountId",
+          "type": "uint128"
+        },
+        {
+          "indexed": true,
+          "internalType": "uint128",
+          "name": "marketId",
+          "type": "uint128"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "amountLiquidated",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "int128",
+          "name": "currentPositionSize",
+          "type": "int128"
+        }
+      ],
+      "name": "PositionLiquidated",
+      "type": "event"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint128",
+          "name": "accountId",
+          "type": "uint128"
+        }
+      ],
+      "name": "canLiquidate",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "isEligible",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
       "inputs": [
         {
           "internalType": "uint128",
@@ -2561,32 +2828,28 @@
         }
       ],
       "name": "liquidate",
-      "outputs": [],
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "liquidationReward",
+          "type": "uint256"
+        }
+      ],
       "stateMutability": "nonpayable",
       "type": "function"
     },
     {
       "inputs": [],
       "name": "liquidateFlagged",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
+      "outputs": [
         {
-          "internalType": "address",
-          "name": "marketOwner",
-          "type": "address"
-        },
-        {
-          "internalType": "address",
-          "name": "sender",
-          "type": "address"
+          "internalType": "uint256",
+          "name": "liquidationReward",
+          "type": "uint256"
         }
       ],
-      "name": "OnlyMarketOwner",
-      "type": "error"
+      "stateMutability": "nonpayable",
+      "type": "function"
     },
     {
       "anonymous": false,
@@ -2637,19 +2900,13 @@
         {
           "indexed": false,
           "internalType": "uint256",
+          "name": "minimumInitialMarginRatioD18",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
           "name": "liquidationRewardRatioD18",
-          "type": "uint256"
-        },
-        {
-          "indexed": false,
-          "internalType": "uint256",
-          "name": "maxLiquidationLimitAccumulationMultiplier",
-          "type": "uint256"
-        },
-        {
-          "indexed": false,
-          "internalType": "uint256",
-          "name": "maxSecondsInLiquidationWindow",
           "type": "uint256"
         },
         {
@@ -2678,7 +2935,63 @@
           "type": "uint256"
         }
       ],
-      "name": "LockedOiRatioD18Set",
+      "name": "LockedOiRatioSet",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint128",
+          "name": "marketId",
+          "type": "uint128"
+        },
+        {
+          "indexed": false,
+          "internalType": "bytes32",
+          "name": "feedId",
+          "type": "bytes32"
+        }
+      ],
+      "name": "MarketPriceDataUpdated",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint128",
+          "name": "marketId",
+          "type": "uint128"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "maxLiquidationLimitAccumulationMultiplier",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "maxSecondsInLiquidationWindow",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "maxLiquidationPd",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "endorsedLiquidator",
+          "type": "address"
+        }
+      ],
+      "name": "MaxLiquidationParametersSet",
       "type": "event"
     },
     {
@@ -2944,7 +3257,12 @@
         },
         {
           "internalType": "uint256",
-          "name": "maintenanceMarginRatioD18",
+          "name": "minimumInitialMarginRatioD18",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "maintenanceMarginScalarD18",
           "type": "uint256"
         },
         {
@@ -2954,12 +3272,7 @@
         },
         {
           "internalType": "uint256",
-          "name": "maxLiquidationLimitAccumulationMultiplier",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "maxSecondsInLiquidationWindow",
+          "name": "minimumPositionMargin",
           "type": "uint256"
         }
       ],
@@ -2974,12 +3287,46 @@
           "type": "uint128"
         }
       ],
-      "name": "getLockedOiRatioD18",
+      "name": "getLockedOiRatio",
       "outputs": [
         {
           "internalType": "uint256",
           "name": "",
           "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint128",
+          "name": "marketId",
+          "type": "uint128"
+        }
+      ],
+      "name": "getMaxLiquidationParameters",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "maxLiquidationLimitAccumulationMultiplier",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "maxSecondsInLiquidationWindow",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "maxLiquidationPd",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "endorsedLiquidator",
+          "type": "address"
         }
       ],
       "stateMutability": "view",
@@ -3141,22 +3488,17 @@
         },
         {
           "internalType": "uint256",
-          "name": "maintenanceMarginRatioD18",
+          "name": "minimumInitialMarginRatioD18",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "maintenanceMarginScalarD18",
           "type": "uint256"
         },
         {
           "internalType": "uint256",
           "name": "liquidationRewardRatioD18",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "maxLiquidationLimitAccumulationMultiplier",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "maxSecondsInLiquidationWindow",
           "type": "uint256"
         },
         {
@@ -3184,6 +3526,39 @@
         }
       ],
       "name": "setLockedOiRatio",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint128",
+          "name": "marketId",
+          "type": "uint128"
+        },
+        {
+          "internalType": "uint256",
+          "name": "maxLiquidationLimitAccumulationMultiplier",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "maxSecondsInLiquidationWindow",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "maxLiquidationPd",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "endorsedLiquidator",
+          "type": "address"
+        }
+      ],
+      "name": "setMaxLiquidationParameters",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
@@ -3253,6 +3628,59 @@
       "type": "function"
     },
     {
+      "inputs": [
+        {
+          "internalType": "uint128",
+          "name": "perpsMarketId",
+          "type": "uint128"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "feedId",
+          "type": "bytes32"
+        }
+      ],
+      "name": "updatePriceData",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "invalidFeeCollector",
+          "type": "address"
+        }
+      ],
+      "name": "InvalidFeeCollectorInterface",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "shareRatioD18",
+          "type": "uint256"
+        }
+      ],
+      "name": "InvalidReferrerShareRatio",
+      "type": "error"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "feeCollector",
+          "type": "address"
+        }
+      ],
+      "name": "FeeCollectorSet",
+      "type": "event"
+    },
+    {
       "anonymous": false,
       "inputs": [
         {
@@ -3295,6 +3723,44 @@
       "inputs": [
         {
           "indexed": false,
+          "internalType": "uint128",
+          "name": "maxPositionsPerAccount",
+          "type": "uint128"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint128",
+          "name": "maxCollateralsPerAccount",
+          "type": "uint128"
+        }
+      ],
+      "name": "PerAccountCapsSet",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "referrer",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "shareRatioD18",
+          "type": "uint256"
+        }
+      ],
+      "name": "ReferrerShareUpdated",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
           "internalType": "uint128[]",
           "name": "newSynthDeductionPriority",
           "type": "uint128[]"
@@ -3302,6 +3768,19 @@
       ],
       "name": "SynthDeductionPrioritySet",
       "type": "event"
+    },
+    {
+      "inputs": [],
+      "name": "getFeeCollector",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "feeCollector",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
     },
     {
       "inputs": [],
@@ -3316,6 +3795,19 @@
           "internalType": "uint256",
           "name": "maxLiquidationRewardUsd",
           "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getMarkets",
+      "outputs": [
+        {
+          "internalType": "uint256[]",
+          "name": "marketIds",
+          "type": "uint256[]"
         }
       ],
       "stateMutability": "view",
@@ -3342,6 +3834,43 @@
     },
     {
       "inputs": [],
+      "name": "getPerAccountCaps",
+      "outputs": [
+        {
+          "internalType": "uint128",
+          "name": "maxPositionsPerAccount",
+          "type": "uint128"
+        },
+        {
+          "internalType": "uint128",
+          "name": "maxCollateralsPerAccount",
+          "type": "uint128"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "referrer",
+          "type": "address"
+        }
+      ],
+      "name": "getReferrerShare",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "shareRatioD18",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
       "name": "getSynthDeductionPriority",
       "outputs": [
         {
@@ -3351,6 +3880,19 @@
         }
       ],
       "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "feeCollector",
+          "type": "address"
+        }
+      ],
+      "name": "setFeeCollector",
+      "outputs": [],
+      "stateMutability": "nonpayable",
       "type": "function"
     },
     {
@@ -3392,6 +3934,24 @@
     {
       "inputs": [
         {
+          "internalType": "uint128",
+          "name": "maxPositionsPerAccount",
+          "type": "uint128"
+        },
+        {
+          "internalType": "uint128",
+          "name": "maxCollateralsPerAccount",
+          "type": "uint128"
+        }
+      ],
+      "name": "setPerAccountCaps",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
           "internalType": "uint128[]",
           "name": "newSynthDeductionPriority",
           "type": "uint128[]"
@@ -3401,10 +3961,41 @@
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "totalGlobalCollateralValue",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "totalCollateralValue",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "referrer",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "shareRatioD18",
+          "type": "uint256"
+        }
+      ],
+      "name": "updateReferrerShare",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
     }
   ],
   "deployedOn": "router.PerpsMarketRouter",
-  "deployTxnHash": "0x1318b79bac2a11b23756a6d6e3f1eb8777a7f63da49f616665e4e798a426fb44",
+  "deployTxnHash": "0xf665c2f5e6260dd4570f183d5ba0ae67ce60f7c41c43229eb22a23d2b8f5c36b",
   "contractName": "PerpsMarketRouter",
   "sourceName": "PerpsMarketRouter.sol"
 }

@@ -1,5 +1,5 @@
 {
-  "address": "0x9dD97865312e8E77e2e9F674093A7cE822C9d6DD",
+  "address": "0x8cc3c36353399a61280BB45eAE1fa45152f1E4c0",
   "abi": [
     {
       "inputs": [
@@ -462,6 +462,12 @@
           "internalType": "uint256",
           "name": "synthMarketId",
           "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "synthTokenAddress",
+          "type": "address"
         }
       ],
       "name": "SynthRegistered",
@@ -764,6 +770,19 @@
         }
       ],
       "name": "renounceMarketNomination",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint128",
+          "name": "synthMarketId",
+          "type": "uint128"
+        }
+      ],
+      "name": "renounceMarketOwnership",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
@@ -3757,7 +3776,7 @@
     }
   ],
   "deployedOn": "router.SpotMarketRouter",
-  "deployTxnHash": "0x2986e6930adebf2bada3f4183e758299ce2f311d6c20b5f08a1ec1763ba238a0",
+  "deployTxnHash": "0x7763e85b2dc896588ce99f7e62f5acdcf24b468cebb042161a3919bdb1628823",
   "contractName": "SpotMarketRouter",
   "sourceName": "SpotMarketRouter.sol"
 }

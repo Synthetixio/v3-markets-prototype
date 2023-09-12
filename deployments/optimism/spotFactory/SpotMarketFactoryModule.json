@@ -1,5 +1,5 @@
 {
-  "address": "0xc9b3D8C38cE75EFD4a1b39880C86f4aB71a056b6",
+  "address": "0xaffF86843b3F85fe4960f1913fD62E6780183D2d",
   "abi": [
     {
       "inputs": [
@@ -287,6 +287,12 @@
           "internalType": "uint256",
           "name": "synthMarketId",
           "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "synthTokenAddress",
+          "type": "address"
         }
       ],
       "name": "SynthRegistered",
@@ -597,6 +603,19 @@
       "inputs": [
         {
           "internalType": "uint128",
+          "name": "synthMarketId",
+          "type": "uint128"
+        }
+      ],
+      "name": "renounceMarketOwnership",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint128",
           "name": "marketId",
           "type": "uint128"
         }
@@ -714,7 +733,7 @@
   ],
   "constructorArgs": [],
   "linkedLibraries": {},
-  "deployTxnHash": "0xede3fc49c527e4db6026c66f1ec5178758aef18925971f325b7c2c95b640b347",
+  "deployTxnHash": "0x19f1867478cc24a3fa29d97cf41f00955553a9412cfc974436aa659f26b6249e",
   "sourceName": "contracts/modules/SpotMarketFactoryModule.sol",
   "contractName": "SpotMarketFactoryModule",
   "deployedOn": "contract.SpotMarketFactoryModule"

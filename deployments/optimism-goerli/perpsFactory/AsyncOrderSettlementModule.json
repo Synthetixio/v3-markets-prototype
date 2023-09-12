@@ -1,16 +1,16 @@
 {
-  "address": "0xfA420437Dd088eb8101215531f890060F503c3BD",
+  "address": "0x09cC2486dFF638Ddaf9f1a1678E1A7CAf8217623",
   "abi": [
     {
       "inputs": [
         {
           "internalType": "uint256",
-          "name": "acceptablePrice",
+          "name": "fillPrice",
           "type": "uint256"
         },
         {
           "internalType": "uint256",
-          "name": "fillPrice",
+          "name": "acceptablePrice",
           "type": "uint256"
         }
       ],
@@ -218,6 +218,22 @@
       "type": "error"
     },
     {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "timestamp",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "settlementTime",
+          "type": "uint256"
+        }
+      ],
+      "name": "SettlementWindowNotOpen",
+      "type": "error"
+    },
+    {
       "inputs": [],
       "name": "ValueAlreadyInSet",
       "type": "error"
@@ -240,6 +256,12 @@
           "internalType": "uint128",
           "name": "marketId",
           "type": "uint128"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "price",
+          "type": "uint256"
         },
         {
           "indexed": false,
@@ -298,6 +320,18 @@
         },
         {
           "indexed": false,
+          "internalType": "int256",
+          "name": "pnl",
+          "type": "int256"
+        },
+        {
+          "indexed": false,
+          "internalType": "int256",
+          "name": "accruedFunding",
+          "type": "int256"
+        },
+        {
+          "indexed": false,
           "internalType": "int128",
           "name": "sizeDelta",
           "type": "int128"
@@ -307,6 +341,18 @@
           "internalType": "int128",
           "name": "newSize",
           "type": "int128"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "totalFees",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "referralFees",
+          "type": "uint256"
         },
         {
           "indexed": false,
@@ -353,11 +399,6 @@
       "inputs": [
         {
           "internalType": "uint128",
-          "name": "marketId",
-          "type": "uint128"
-        },
-        {
-          "internalType": "uint128",
           "name": "accountId",
           "type": "uint128"
         }
@@ -388,7 +429,7 @@
   ],
   "constructorArgs": [],
   "linkedLibraries": {},
-  "deployTxnHash": "0xa962b54f357ff94eb1033390d33e611ae96760cf7a26894cd83c23144b4f4230",
+  "deployTxnHash": "0x3014425bdd2921b72bc57dd8bf814d447d18f10c1571e4bafb4805e1ba2bbe94",
   "sourceName": "contracts/modules/AsyncOrderSettlementModule.sol",
   "contractName": "AsyncOrderSettlementModule",
   "deployedOn": "contract.AsyncOrderSettlementModule"

@@ -1,5 +1,5 @@
 {
-  "address": "0x32fE6F96dAE60Bce878f97a43c858139B7E5Ad92",
+  "address": "0xbbF6815Ef8e20d71DDc5F5d4b30cAFFb2607AAa7",
   "abi": [
     {
       "inputs": [],
@@ -57,9 +57,9 @@
           "type": "uint128"
         },
         {
-          "internalType": "int256",
+          "internalType": "int128",
           "name": "orderSize",
-          "type": "int256"
+          "type": "int128"
         },
         {
           "internalType": "uint256",
@@ -175,6 +175,30 @@
           "type": "uint128"
         }
       ],
+      "name": "metadata",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "symbol",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint128",
+          "name": "marketId",
+          "type": "uint128"
+        }
+      ],
       "name": "size",
       "outputs": [
         {
@@ -208,7 +232,7 @@
   ],
   "constructorArgs": [],
   "linkedLibraries": {},
-  "deployTxnHash": "0x94008dfefee1c89c5fc26542c2efd427dd283e258c5eca611dbb9105858b3845",
+  "deployTxnHash": "0x1ed5ded200f063a5f39a5add11ec927dc3d928352b9981b80f43f135ff8b3408",
   "sourceName": "contracts/modules/PerpsMarketModule.sol",
   "contractName": "PerpsMarketModule",
   "deployedOn": "contract.PerpsMarketModule"

@@ -1,20 +1,15 @@
 {
-  "address": "0x0fa1475B618B14a3FdD243dE01042aE1bE3d0794",
+  "address": "0xE3b87A4c0E5F77504D6fa7656Cd8Caf2Ef331162",
   "abi": [
     {
       "inputs": [
         {
           "internalType": "address",
-          "name": "marketOwner",
-          "type": "address"
-        },
-        {
-          "internalType": "address",
-          "name": "sender",
+          "name": "addr",
           "type": "address"
         }
       ],
-      "name": "OnlyMarketOwner",
+      "name": "Unauthorized",
       "type": "error"
     },
     {
@@ -66,19 +61,13 @@
         {
           "indexed": false,
           "internalType": "uint256",
+          "name": "minimumInitialMarginRatioD18",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
           "name": "liquidationRewardRatioD18",
-          "type": "uint256"
-        },
-        {
-          "indexed": false,
-          "internalType": "uint256",
-          "name": "maxLiquidationLimitAccumulationMultiplier",
-          "type": "uint256"
-        },
-        {
-          "indexed": false,
-          "internalType": "uint256",
-          "name": "maxSecondsInLiquidationWindow",
           "type": "uint256"
         },
         {
@@ -107,7 +96,63 @@
           "type": "uint256"
         }
       ],
-      "name": "LockedOiRatioD18Set",
+      "name": "LockedOiRatioSet",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint128",
+          "name": "marketId",
+          "type": "uint128"
+        },
+        {
+          "indexed": false,
+          "internalType": "bytes32",
+          "name": "feedId",
+          "type": "bytes32"
+        }
+      ],
+      "name": "MarketPriceDataUpdated",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint128",
+          "name": "marketId",
+          "type": "uint128"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "maxLiquidationLimitAccumulationMultiplier",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "maxSecondsInLiquidationWindow",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "maxLiquidationPd",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "endorsedLiquidator",
+          "type": "address"
+        }
+      ],
+      "name": "MaxLiquidationParametersSet",
       "type": "event"
     },
     {
@@ -373,7 +418,12 @@
         },
         {
           "internalType": "uint256",
-          "name": "maintenanceMarginRatioD18",
+          "name": "minimumInitialMarginRatioD18",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "maintenanceMarginScalarD18",
           "type": "uint256"
         },
         {
@@ -383,12 +433,7 @@
         },
         {
           "internalType": "uint256",
-          "name": "maxLiquidationLimitAccumulationMultiplier",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "maxSecondsInLiquidationWindow",
+          "name": "minimumPositionMargin",
           "type": "uint256"
         }
       ],
@@ -403,12 +448,46 @@
           "type": "uint128"
         }
       ],
-      "name": "getLockedOiRatioD18",
+      "name": "getLockedOiRatio",
       "outputs": [
         {
           "internalType": "uint256",
           "name": "",
           "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint128",
+          "name": "marketId",
+          "type": "uint128"
+        }
+      ],
+      "name": "getMaxLiquidationParameters",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "maxLiquidationLimitAccumulationMultiplier",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "maxSecondsInLiquidationWindow",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "maxLiquidationPd",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "endorsedLiquidator",
+          "type": "address"
         }
       ],
       "stateMutability": "view",
@@ -570,22 +649,17 @@
         },
         {
           "internalType": "uint256",
-          "name": "maintenanceMarginRatioD18",
+          "name": "minimumInitialMarginRatioD18",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "maintenanceMarginScalarD18",
           "type": "uint256"
         },
         {
           "internalType": "uint256",
           "name": "liquidationRewardRatioD18",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "maxLiquidationLimitAccumulationMultiplier",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "maxSecondsInLiquidationWindow",
           "type": "uint256"
         },
         {
@@ -613,6 +687,39 @@
         }
       ],
       "name": "setLockedOiRatio",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint128",
+          "name": "marketId",
+          "type": "uint128"
+        },
+        {
+          "internalType": "uint256",
+          "name": "maxLiquidationLimitAccumulationMultiplier",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "maxSecondsInLiquidationWindow",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "maxLiquidationPd",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "endorsedLiquidator",
+          "type": "address"
+        }
+      ],
+      "name": "setMaxLiquidationParameters",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
@@ -680,11 +787,29 @@
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint128",
+          "name": "perpsMarketId",
+          "type": "uint128"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "feedId",
+          "type": "bytes32"
+        }
+      ],
+      "name": "updatePriceData",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
     }
   ],
   "constructorArgs": [],
   "linkedLibraries": {},
-  "deployTxnHash": "0x90921820f6fef64256e7976d024f45be3de5828c82d5b041fc03086c3bb02901",
+  "deployTxnHash": "0x75342583ca3fcb0393a161de9bd99332b743946d86f2ac196904cd8076ee32e2",
   "sourceName": "contracts/modules/MarketConfigurationModule.sol",
   "contractName": "MarketConfigurationModule",
   "deployedOn": "contract.MarketConfigurationModule"

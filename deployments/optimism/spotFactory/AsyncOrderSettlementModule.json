@@ -1,5 +1,5 @@
 {
-  "address": "0x04c10988e88bF0b52f4ebC8D7C418573de3CF93D",
+  "address": "0x2aB5Ab7574276eC45A62415c79ab958E706F49c6",
   "abi": [
     {
       "inputs": [
@@ -220,6 +220,12 @@
           "internalType": "uint256",
           "name": "price",
           "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "enum Transaction.Type",
+          "name": "orderType",
+          "type": "uint8"
         }
       ],
       "name": "OrderSettled",
@@ -343,7 +349,7 @@
   ],
   "constructorArgs": [],
   "linkedLibraries": {},
-  "deployTxnHash": "0x1cf15394344b095c3c70e510f6093a5868a35f6a14fdde4b3865edacbca8a205",
+  "deployTxnHash": "0xf39bdeaa8289165a1837d0705a0ef8159f621814bc1402df1121bc1368d49b84",
   "sourceName": "contracts/modules/AsyncOrderSettlementModule.sol",
   "contractName": "AsyncOrderSettlementModule",
   "deployedOn": "contract.AsyncOrderSettlementModule"
