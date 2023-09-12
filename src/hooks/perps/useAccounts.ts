@@ -1,7 +1,7 @@
 import { gql, useQuery } from "@apollo/client";
 import { useMemo, useState } from "react";
-import { useAccount, useContractRead, useContractReads } from "wagmi";
-import { perpsClient } from "../../utils/clients";
+import { useAccount } from "wagmi";
+import { useGetPerpsClient } from "./useGetPerpsClient";
 
 const GET_ACCOUNTS = gql`
   query GetAccounts($owner: String) {
@@ -23,11 +23,12 @@ export const useAccounts = () => {
   const { address } = useAccount();
   const [newAccounts, setNewAccounts] = useState<Account[]>([]);
 
+  const client = useGetPerpsClient();
   const { loading, data, refetch } = useQuery(GET_ACCOUNTS, {
     variables: {
       owner: address?.toLowerCase(),
     },
-    client: perpsClient,
+    client,
     notifyOnNetworkStatusChange: true,
   });
 

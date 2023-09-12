@@ -79,7 +79,7 @@ export const useGetOrders = (marketId: number, showAll: boolean) => {
       owner: showAll ? "" : address?.toLowerCase(),
     },
     notifyOnNetworkStatusChange: true,
-    client: client,
+    client,
     pollInterval: 20000,
   });
 

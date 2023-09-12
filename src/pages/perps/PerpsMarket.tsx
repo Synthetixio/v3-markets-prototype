@@ -7,7 +7,7 @@ export function PerpsMarket() {
   const { switchNetwork } = useSwitchNetwork();
   return (
     <Flex height="100vh" maxHeight="100vh" flexDirection="column">
-      {chain !== 10 ? (
+      {[420, 84531].includes(chain) ? (
         <>
           <Header />
           <Flex flex="1" height="100%" minHeight={0}>
@@ -29,8 +29,8 @@ export function PerpsMarket() {
           minHeight={0}
         >
           Perps is not ready on this network <br />
-          <Button mt="2" onClick={() => switchNetwork?.(420)}>
-            Switch Optimism Goerli
+          <Button mt="2" onClick={() => switchNetwork?.(84531)}>
+            Switch Base Goerli
           </Button>
         </Flex>
       )}

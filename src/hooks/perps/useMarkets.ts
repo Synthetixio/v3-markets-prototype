@@ -1,6 +1,6 @@
 import { gql, useQuery } from "@apollo/client";
 import { useMemo } from "react";
-import { perpsClient } from "../../utils/clients";
+import { useGetPerpsClient } from "./useGetPerpsClient";
 
 const GET_MARKETS = gql`
   query {
@@ -45,8 +45,9 @@ export interface Market {
 }
 
 export const useMarkets = (marketId: number | string | undefined) => {
+  const client = useGetPerpsClient();
   const { loading, data, refetch } = useQuery(GET_MARKETS, {
-    client: perpsClient,
+    client,
     notifyOnNetworkStatusChange: true,
   });
 
