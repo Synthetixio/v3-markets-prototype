@@ -7,10 +7,10 @@ import { Order } from "../../../../hooks/spot/useGetOrders";
 import { fromNow } from "../../../../utils/date";
 import { prettyString } from "../../../../utils/format";
 import { Amount } from "../../../Amount";
-import { useGetSettlementStrategy } from "../../../../hooks/spot/useGetSettlementStrategy";
 import { useContract } from "../../../../hooks/useContract";
 import { useSpotMarketId } from "../../../../hooks/spot/useSpotMarketId";
 import { useTransact } from "../../../../hooks/useTransact";
+import { useContractRead } from "wagmi";
 
 interface Props {
   marketId: number;
@@ -53,10 +53,12 @@ export function CommitedOrderRow({ marketId, order, block }: Props) {
     };
   }, [market, orderType]);
 
-  const { strategy } = useGetSettlementStrategy(
-    marketId,
-    order.settlementStrategyId,
-  );
+  const { data: strategy } = useContractRead({
+    address: spotMarketProxy.address,
+    abi: spotMarketProxy.abi,
+    functionName: "getSettlementStrategy",
+    args: [order.marketId, order.settlementStrategyId],
+  });
 
   const outsideSettlementWindow = useMemo(() => {
     if (!block || !strategy?.settlementWindowDuration) return false;
