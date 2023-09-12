@@ -18,3 +18,14 @@ export const useChainId = () => {
   if (!network) throw new Error("Network not found");
   return network.id;
 };
+
+export const useChainContextName = () => {
+  const chain = useChainId();
+  const clientMap = {
+    "10": "optimism",
+    "420": "optimismGoerli",
+    "84531": "baseGoerli",
+  };
+
+  return (clientMap as any)[chain];
+};

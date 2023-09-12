@@ -10,11 +10,12 @@ export function SpotMarket() {
   const market = useSpotMarketId();
 
   if (!market) {
-    return null;
+    return <p>No markets found</p>;
   }
 
   return (
     <Flex height="100vh" maxHeight="100vh" flexDirection="column">
+      WOHOO
       <Header isSpot />
       <Flex flex="1" minHeight="0" overflow="hidden">
         <Flex

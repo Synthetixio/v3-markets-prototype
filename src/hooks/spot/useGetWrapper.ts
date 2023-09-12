@@ -2,7 +2,7 @@ import { gql, useQuery } from "@apollo/client";
 import { useMemo } from "react";
 import { useContractRead } from "wagmi";
 import { useContract } from "../useContract";
-import { useChainId } from "../useDefaultNetwork";
+import { useChainContextName } from "../useDefaultNetwork";
 
 const GET_WRAPPERS = gql`
   query GetSettlementWrappers($owner: String, $marketId: String) {
@@ -27,12 +27,11 @@ export interface Wrapper {
 }
 
 export const useGetWrapper = (marketId: number) => {
-  const chain = useChainId();
   const { loading, data, refetch } = useQuery(GET_WRAPPERS, {
     variables: {
       marketId: marketId.toString(),
     },
-    context: { clientName: chain === 10 ? "optimism" : "optimismGoerli" },
+    context: { clientName: useChainContextName() },
   });
 
   const wrapper = useMemo(() => {
