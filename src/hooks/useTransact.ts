@@ -5,7 +5,12 @@ import { EIP7412 } from "erc7412";
 import { PythAdapter } from "erc7412/dist/src/adapters/pyth";
 import * as viem from "viem";
 
-const MulticallThroughAbi = [
+export type TransactionRequest = Pick<
+  viem.TransactionRequest,
+  "to" | "data" | "value"
+>;
+
+export const MulticallThroughAbi = [
   {
     inputs: [
       {
@@ -37,9 +42,9 @@ const MulticallThroughAbi = [
   },
 ];
 
-async function generate7412CompatibleCall(
+export async function generate7412CompatibleCall(
   client: viem.PublicClient,
-  multicallFunc: (txn: any[]) => any,
+  multicallFunc: (txs: TransactionRequest[]) => TransactionRequest,
   txn: any,
 ) {
   const adapters = [];
@@ -77,7 +82,9 @@ export const useTransact = () => {
               (provider as any).send(method, params),
           }),
         });
-        const multicallFunc = function makeMulticallThroughCall(calls: any[]) {
+        const multicallFunc = function makeMulticallThroughCall(
+          calls: TransactionRequest[],
+        ): TransactionRequest {
           const ret = viem.encodeFunctionData({
             abi: MulticallThroughAbi,
             functionName: "multicallThrough",
@@ -94,10 +101,9 @@ export const useTransact = () => {
           }
 
           return {
-            account,
             to: txn.to,
             data: ret,
-            value: totalValue.toString(),
+            value: totalValue,
           };
         };
 
