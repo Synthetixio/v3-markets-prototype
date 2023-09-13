@@ -75,7 +75,7 @@ export const useReads = () => {
           },
         );
 
-        console.log({
+        console.log("HEY2", {
           txn,
         });
 
