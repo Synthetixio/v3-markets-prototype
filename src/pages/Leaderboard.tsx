@@ -225,7 +225,6 @@ export default function Leaderboard() {
                       );
                     }
                   })
-                  .filter((_, index) => index < 10)
                   .map((user, index) => (
                     <Tr key={user.address.concat(String(index))}>
                       <Td>#{user.rank}</Td>
