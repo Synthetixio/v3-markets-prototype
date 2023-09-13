@@ -1,4 +1,4 @@
-import { BigNumberish, Contract } from "ethers";
+import { ethers, BigNumberish, Contract } from "ethers";
 import { useCallback, useState } from "react";
 import { useProvider, useAccount } from "wagmi";
 import * as viem from "viem";
@@ -20,7 +20,7 @@ export const useReads = () => {
       value?: BigNumberish | undefined,
     ) => {
       setIsLoading(true);
-      console.log("read beging!");
+
       try {
         const data = contract.interface.encodeFunctionData(fn, args);
 
@@ -38,9 +38,12 @@ export const useReads = () => {
             abi: MulticallAbi,
             functionName: "aggregate3Value",
             args: [
-              calls.map((c) => c.to),
-              calls.map((c) => c.data),
-              calls.map((c) => c.value),
+              calls.map((call) => ({
+                target: call.to,
+                callData: call.data,
+                value: call.value || 0n,
+                allowFailure: false,
+              })),
             ],
           });
 
@@ -56,14 +59,6 @@ export const useReads = () => {
           };
         };
 
-        console.log({
-          multicallFunc,
-          from: account.address,
-          to: contract.address,
-          data,
-          value,
-        });
-
         const txn = await generate7412CompatibleCall(
           viemClient,
           multicallFunc,
@@ -75,20 +70,30 @@ export const useReads = () => {
           },
         );
 
-        console.log("HEY2", {
-          txn,
-        });
-
         const result = await viemClient.call({
-          account: account.address,
+          account: "0x4200000000000000000000000000000000000006", // simulate w/ wETH contract because it will have eth
           data: txn.data,
           to: txn.to,
-          value: 100000n,
+          value: txn.value,
         });
 
-        console.log({ result });
+        const decodedFunctionResult = viem.decodeFunctionResult({
+          abi: MulticallAbi,
+          functionName: "aggregate3Value",
+          data: result.data,
+        });
+
+        const decodedFunctionResult2 = viem.decodeFunctionResult({
+          abi: JSON.parse(
+            contract.interface.format(ethers.utils.FormatTypes.json),
+          ),
+          functionName: fn,
+          data: decodedFunctionResult[decodedFunctionResult.length - 1]
+            .returnData,
+        });
 
         setIsLoading(false);
+        console.log(decodedFunctionResult2);
       } catch (error) {
         setIsLoading(false);
         throw error;
