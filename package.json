@@ -33,7 +33,7 @@
     "@wagmi/cli": "^0.1.15",
     "buffer": "^6.0.3",
     "dayjs": "^1.11.7",
-    "erc7412": "^0.1.2",
+    "erc7412": "^0.1.15",
     "ethers": "^5.7.2",
     "framer-motion": "^10.0.1",
     "graphql": "^16.6.0",
@@ -42,11 +42,12 @@
     "process": "^0.11.10",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-query": "^3.39.3",
     "react-router-dom": "^6.8.2",
     "react-ts-tradingview-widgets": "^1.0.14",
     "sort-by": "^1.2.0",
     "util": "^0.12.4",
-    "viem": "1.10.9",
+    "viem": "^1.5.3",
     "wagmi": "^0.12.12"
   },
   "devDependencies": {

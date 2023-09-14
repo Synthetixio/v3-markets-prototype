@@ -13,13 +13,15 @@ import { prettyString } from "../../utils/format";
 import { Amount } from "../Amount";
 
 export interface PerpsAsyncOrder {
-  accountId: string;
-  marketId: string;
-  sizeDelta: BigNumber;
-  settlementStrategyId: string;
+  request: {
+    accountId: string;
+    marketId: string;
+    sizeDelta: BigNumber;
+    settlementStrategyId: string;
+    acceptablePrice: BigNumber;
+    trackingCode: string;
+  };
   settlementTime: BigNumber;
-  acceptablePrice: BigNumber;
-  trackingCode: string;
 }
 
 interface Props {
@@ -51,10 +53,7 @@ export function AsyncOrderClaim({ orderClaim, accountId, refetch }: Props) {
   });
 
   const settleOrderLocal = () => {
-    const extraData = defaultAbiCoder.encode(
-      ["uint128", "uint128"],
-      [perps?.id, accountId],
-    );
+    const extraData = defaultAbiCoder.encode(["uint128"], [accountId]);
 
     let settlementTimeBytes = defaultAbiCoder.encode(
       ["uint256"],
@@ -129,13 +128,14 @@ export function AsyncOrderClaim({ orderClaim, accountId, refetch }: Props) {
     }
 
     try {
-      await perpsMarket.contract.callStatic.settlePythOrder(
-        response.data,
-        extraData,
-        {
-          value: fee.toString(),
-        },
-      );
+      console.log(response.data, extraData);
+      // await perpsMarket.contract.callStatic.settlePythOrder(
+      //   response.data,
+      //   extraData,
+      //   {
+      //     value: fee.toString(),
+      //   },
+      // );
       await transact(
         perpsMarket.contract,
         "settlePythOrder",
@@ -160,35 +160,6 @@ export function AsyncOrderClaim({ orderClaim, accountId, refetch }: Props) {
     }
   };
 
-  const cancel = async () => {
-    try {
-      setCanceling(true);
-
-      await perpsMarket.contract.callStatic.cancelOrder(perps?.id, accountId);
-
-      await transact(perpsMarket.contract, "cancelOrder", [
-        perps?.id,
-        accountId,
-      ]);
-
-      toast({
-        title: "Successfully cancelled",
-        description: "Refresh in a few seconds",
-        status: "success",
-      });
-
-      refetch();
-    } catch (error: any) {
-      if (error.errorName) {
-        console.log("error:,", error.errorName);
-      } else {
-        console.log("error:,", error);
-      }
-    } finally {
-      setCanceling(false);
-    }
-  };
-
   return (
     <Box p="4" borderBottom="1px solid rgba(255,255,255,0.2)">
       <Flex flexDirection="column" height="100%" gap={2}>
@@ -198,7 +169,9 @@ export function AsyncOrderClaim({ orderClaim, accountId, refetch }: Props) {
           <Text display="inline" fontFamily="mono">
             <Amount
               value={wei(
-                formatEther(orderClaim.acceptablePrice?.toString() || "0"),
+                formatEther(
+                  orderClaim.request.acceptablePrice?.toString() || "0",
+                ),
               )}
               suffix="USD"
             />
@@ -209,7 +182,9 @@ export function AsyncOrderClaim({ orderClaim, accountId, refetch }: Props) {
           Size
           <Text display="inline" fontFamily="mono">
             <Amount
-              value={wei(formatEther(orderClaim.sizeDelta?.toString() || "0"))}
+              value={wei(
+                formatEther(orderClaim.request.sizeDelta?.toString() || "0"),
+              )}
             />
           </Text>
         </Box>
@@ -224,7 +199,7 @@ export function AsyncOrderClaim({ orderClaim, accountId, refetch }: Props) {
         <Box display="flex" alignItems="center" justifyContent="space-between">
           Tracking Code
           <Text display="inline" fontFamily="mono">
-            {prettyString(orderClaim.trackingCode)}
+            {prettyString(orderClaim.request.trackingCode)}
           </Text>
         </Box>
 
@@ -235,17 +210,6 @@ export function AsyncOrderClaim({ orderClaim, accountId, refetch }: Props) {
           mt={4}
           justifyContent="space-between"
         >
-          <Button
-            colorScheme="red"
-            flex={1}
-            ml="2"
-            onClick={cancel}
-            isLoading={canceling}
-            isDisabled={!outsideSettlementWindow || !block}
-          >
-            Cancel
-          </Button>
-
           <Button
             isDisabled={outsideSettlementWindow || !block}
             flex={1}

@@ -17,7 +17,7 @@ import { wei } from "@synthetixio/wei";
 import { formatEther } from "ethers/lib/utils.js";
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { useAccount, useContractRead } from "wagmi";
+import { useContractRead } from "wagmi";
 import { useActivePerpsMarket } from "../../../hooks/perps/useActivePerpsMarket";
 import { useSpotMarketId } from "../../../hooks/spot/useSpotMarketId";
 import { useSpotMarketInfo } from "../../../hooks/spot/useSpotMarketInfo";
@@ -25,6 +25,7 @@ import { useContract } from "../../../hooks/useContract";
 import { Amount } from "../../Amount";
 import { DepositCollateral } from "./DepositCollateral";
 import { WithdrawCollateral } from "./WithdrawCollateral";
+import { useMulticallRead } from "../../../hooks/useMulticallRead";
 
 export function AccountOverview() {
   const [openDeposit, setOpenDeposit] = useState(false);
@@ -37,7 +38,6 @@ export function AccountOverview() {
   const [searchParams] = useSearchParams();
   const selectedAccountId = searchParams.get("accountId");
 
-  const { address } = useAccount();
   const perpsMarket = useContract("PERPS_MARKET");
   const { data: collateralValue, refetch: refetchTotalCollateralValue } =
     useContractRead({
@@ -55,13 +55,7 @@ export function AccountOverview() {
       args: [selectedAccountId],
       enabled: !!selectedAccountId,
     });
-  const { data: price } = useContractRead({
-    address: perpsMarket.address,
-    abi: perpsMarket.abi,
-    functionName: "indexPrice",
-    args: [perps?.id],
-    enabled: !!address,
-  });
+
   const { data: availableMargin, refetch: refetchAvailableMargin } =
     useContractRead({
       address: perpsMarket.address,
@@ -76,6 +70,13 @@ export function AccountOverview() {
     refetshTotalAccountOpenInterest();
     refetchTotalCollateralValue();
   };
+
+  const { data: price } = useMulticallRead<bigint>(
+    perpsMarket.contract,
+    "indexPrice",
+    [perps?.id.toString()],
+  );
+
   return (
     <>
       {!selectedAccountId && (
@@ -192,6 +193,7 @@ export function AccountOverview() {
             </Text>
           </Box>
         </Box>
+
         {/*
       <Box mb="1">
         Margin Usage{" "}

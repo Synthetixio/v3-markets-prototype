@@ -1,11 +1,18 @@
 import { BigNumberish, Contract } from "ethers";
 import { useCallback, useState } from "react";
 import { useProvider, useSigner, useAccount } from "wagmi";
-import { EIP7412 } from "erc7412";
+import { EIP7412 } from "erc7412/dist/src/index";
 import { PythAdapter } from "erc7412/dist/src/adapters/pyth";
 import * as viem from "viem";
 
-const MulticallThroughAbi = [
+export type TransactionRequest = {
+  to?: `0x${string}` | undefined;
+  data?: `0x${string}` | undefined;
+  value?: bigint | undefined;
+  account?: `0x${string}` | undefined;
+};
+
+export const MulticallThroughAbi = [
   {
     inputs: [
       {
@@ -37,10 +44,10 @@ const MulticallThroughAbi = [
   },
 ];
 
-async function generate7412CompatibleCall(
+export async function generate7412CompatibleCall(
   client: viem.PublicClient,
-  multicallFunc: (txn: any[]) => any,
-  txn: any,
+  multicallFunc: (txs: TransactionRequest[]) => TransactionRequest,
+  txn: TransactionRequest,
 ) {
   const adapters = [];
 
@@ -49,8 +56,8 @@ async function generate7412CompatibleCall(
 
   const converter = new EIP7412(adapters, multicallFunc);
 
-  console.log("ENABLE ERC 7412", txn);
-  return await converter.enableERC7412(client, { account: txn.from, ...txn });
+  console.log(txn);
+  return await converter.enableERC7412(client, txn);
 }
 
 export const useTransact = () => {
@@ -77,14 +84,16 @@ export const useTransact = () => {
               (provider as any).send(method, params),
           }),
         });
-        const multicallFunc = function makeMulticallThroughCall(calls: any[]) {
+        const multicallFunc = function makeMulticallThroughCall(
+          calls: TransactionRequest[],
+        ): TransactionRequest {
           const ret = viem.encodeFunctionData({
             abi: MulticallThroughAbi,
             functionName: "multicallThrough",
             args: [
               calls.map((c) => c.to),
               calls.map((c) => c.data),
-              calls.map((c) => c.value),
+              calls.map((c) => c.value || 0n),
             ],
           });
 
@@ -94,10 +103,10 @@ export const useTransact = () => {
           }
 
           return {
-            account,
-            to: txn.to,
+            account: account.address,
+            to: contract.address as `0x${string}`,
             data: ret,
-            value: totalValue.toString(),
+            value: totalValue,
           };
         };
 
@@ -105,13 +114,12 @@ export const useTransact = () => {
           viemClient,
           multicallFunc,
           {
-            from: account.address,
-            to: contract.address,
-            data,
-            value,
+            account: account.address,
+            to: contract.address as `0x${string}`,
+            data: data as `0x${string}`,
+            value: value as bigint,
           },
         );
-
         const gas = await signer?.estimateGas({
           to: txn.to,
           data: txn.data,
@@ -134,6 +142,7 @@ export const useTransact = () => {
         await tx?.wait();
         setIsLoading(false);
       } catch (error) {
+        console.log("error in useTransact!", error);
         setIsLoading(false);
         throw error;
       }

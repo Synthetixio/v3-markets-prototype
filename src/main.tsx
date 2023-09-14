@@ -19,6 +19,8 @@ import { PerpsMarket } from "./pages/perps/PerpsMarket";
 import Leaderboard from "./pages/Leaderboard";
 import theme from "./theme";
 
+import { QueryClient, QueryClientProvider } from "react-query";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -47,6 +49,8 @@ const router = createBrowserRouter([
   { path: "/leaderboard", element: <Leaderboard /> },
 ]);
 
+const queryClient = new QueryClient();
+
 /**
  * Root providers and initialization of app
  * @see https://reactjs.org/docs/strict-mode.html
@@ -67,7 +71,9 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
             borderRadius: "small",
           })}
         >
-          <RouterProvider router={router} />
+          <QueryClientProvider client={queryClient}>
+            <RouterProvider router={router} />
+          </QueryClientProvider>
         </RainbowKitProvider>
       </WagmiConfig>
     </ChakraProvider>

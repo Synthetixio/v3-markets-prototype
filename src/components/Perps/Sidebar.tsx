@@ -6,6 +6,7 @@ import { useContract } from "../../hooks/useContract";
 import { AsyncOrderClaim, PerpsAsyncOrder } from "./AsyncOrderClaim";
 import { MarketSwitcher } from "./MarketSwitcher";
 import { AccountOverview, CurrentPosition, OrderForm } from "./Sidebar/index";
+import { useMulticallRead } from "../../hooks/useMulticallRead";
 
 export function Sidebar() {
   const [searchParams] = useSearchParams();
@@ -17,20 +18,21 @@ export function Sidebar() {
   const { data: asyncOrderClaimData, refetch } = useContractRead({
     address: perpsMarket.address,
     abi: perpsMarket.abi,
-    functionName: "getAsyncOrderClaim",
-    args: [selectedAccountId, perps?.id],
+    functionName: "getOrder",
+    args: [selectedAccountId],
     enabled: !!selectedAccountId,
   });
+
   const asyncOrderClaim = asyncOrderClaimData as unknown as PerpsAsyncOrder;
   const hasAsyncOrderOrder =
-    !!asyncOrderClaim && !asyncOrderClaim.sizeDelta.isZero();
+    !!asyncOrderClaim && !asyncOrderClaim?.request?.sizeDelta?.isZero();
 
-  const { data: openPosition, refetch: refetchOpenPosition } = useContractRead({
-    address: perpsMarket.address,
-    abi: perpsMarket.abi,
-    functionName: "getOpenPosition",
-    args: [selectedAccountId, perps?.id],
-  });
+  const { data: openPosition, refetch: refetchOpenPosition } = useMulticallRead<
+    any[]
+  >(perpsMarket.contract, "getOpenPosition", [
+    selectedAccountId,
+    perps?.id.toString(),
+  ]);
 
   return (
     <Flex
@@ -65,7 +67,7 @@ export function Sidebar() {
             }}
           />
         )}
-        {!hasAsyncOrderOrder && <OrderForm refetch={() => refetch()} />}
+        <OrderForm refetch={() => refetch()} />
       </Flex>
     </Flex>
   );

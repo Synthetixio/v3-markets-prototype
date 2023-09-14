@@ -1,6 +1,7 @@
 import { formatEther } from "ethers/lib/utils.js";
 import { useContractRead } from "wagmi";
 import { useContract } from "../useContract";
+import { useMulticallRead } from "../useMulticallRead";
 
 export const useSpotMarketInfo = (marketId: string | number | undefined) => {
   const spotMarketProxy = useContract("SPOT_MARKET");
@@ -53,13 +54,12 @@ export const useSpotMarketStat = (marketId: string | number) => {
   const spotMarketProxy = useContract("SPOT_MARKET");
   const synthetixProxy = useContract("SYNTHETIX");
 
-  const { data: reportedDebt } = useContractRead({
-    address: spotMarketProxy.address,
-    abi: spotMarketProxy.abi,
-    functionName: "reportedDebt",
-    args: [marketId],
-    enabled: !!marketId,
-  });
+  const { data: reportedDebt } = useMulticallRead<bigint>(
+    spotMarketProxy.contract,
+    "reportedDebt",
+    [marketId.toString()],
+  );
+
   const { data: wrappedAmount } = useContractRead({
     address: synthetixProxy.address,
     abi: synthetixProxy.abi,

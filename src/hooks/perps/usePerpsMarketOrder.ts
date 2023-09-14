@@ -1,9 +1,12 @@
-import { BigNumber, ethers } from "ethers";
-import { parseEther } from "ethers/lib/utils.js";
+import { ethers } from "ethers";
+import { Interface, parseEther } from "ethers/lib/utils.js";
 import { useCallback, useState } from "react";
 import { useContract } from "../useContract";
 import { useTransact } from "../useTransact";
 import { useActivePerpsMarket } from "./useActivePerpsMarket";
+import { readMulticall } from "../../utils/readMulticall";
+import { useAccount, useProvider } from "wagmi";
+import { perpsMarketPerpsMarketProxyABI } from "../../generated";
 
 export const usePerpsMarketOrder = (
   accountId: string | number,
@@ -17,6 +20,9 @@ export const usePerpsMarketOrder = (
   const perpsMarket = useContract("PERPS_MARKET");
   const { market } = useActivePerpsMarket();
 
+  const provider = useProvider();
+  const account = useAccount();
+
   const { transact } = useTransact();
 
   const commit = useCallback(async () => {
@@ -25,13 +31,21 @@ export const usePerpsMarketOrder = (
       const amountD18 = parseEther(sizeDelta || "0").toString();
       const amount = isBuy ? amountD18 : `-${Number(amountD18).toString()}`;
 
-      let price: BigNumber = await perpsMarket.contract.indexPrice(market?.id);
+      console.log("getting indexPrice!");
+      let price = (await readMulticall(
+        perpsMarket.contract,
+        "indexPrice",
+        [market?.id],
+        provider,
+        account.address,
+      )) as unknown as bigint;
 
       if (isBuy) {
-        price = price.mul(110).div(100);
+        price = (price * 110n) / 100n;
       } else {
-        price = price.mul(90).div(100);
+        price = (price * 90n) / 100n;
       }
+
       const fillPrice = await perpsMarket.contract.fillPrice(
         market?.id,
         amount,
@@ -40,22 +54,19 @@ export const usePerpsMarketOrder = (
 
       const commitment = {
         marketId: market?.id,
-        accountId,
+        accountId: Number(accountId),
         sizeDelta: amount,
         settlementStrategyId: 0,
         acceptablePrice: fillPrice.toString(),
         trackingCode: ethers.constants.HashZero,
+        referrer: ethers.constants.AddressZero,
       };
-      await perpsMarket.contract.callStatic.commitOrder(commitment);
-      await transact(perpsMarket.contract, "commitOrder", [commitment]);
+
+      await transact(perpsMarket.contract, "commitOrder", [commitment], 10n);
 
       onSuccess();
     } catch (error: any) {
-      if (error.errorName) {
-        console.log("error:", error.errorName);
-      } else {
-        console.log("error:", error);
-      }
+      console.log("error:", error);
     } finally {
       setIsLoading(false);
     }
@@ -64,6 +75,8 @@ export const usePerpsMarketOrder = (
     isBuy,
     perpsMarket.contract,
     market?.id,
+    provider,
+    account.address,
     accountId,
     transact,
     onSuccess,
