@@ -42,6 +42,14 @@ export function Header() {
             Perps
           </Button>
         </Link> */}
+        <Link to="/perps/markets/ETH">
+          <Button
+            variant="ghost"
+            opacity={pathname.includes("perps") ? "1" : ".5"}
+          >
+            Perps
+          </Button>
+        </Link>
         <Link to="/leaderboard">
           <Button
             variant="ghost"
