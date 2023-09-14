@@ -9,6 +9,7 @@ const multiCallAddress = "0xa0266eE94Bff06D8b07e7b672489F21d2E05636e";
 
 export const useReads = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const [data, setData] = useState(null);
   const provider = useProvider();
   const account = useAccount();
 
@@ -93,7 +94,7 @@ export const useReads = () => {
         });
 
         setIsLoading(false);
-        console.log(decodedFunctionResult2);
+        setData(decodedFunctionResult2);
       } catch (error) {
         setIsLoading(false);
         throw error;
@@ -105,5 +106,6 @@ export const useReads = () => {
   return {
     read,
     isLoading,
+    data,
   };
 };

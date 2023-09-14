@@ -15,7 +15,7 @@ import {
 } from "@chakra-ui/react";
 import { wei } from "@synthetixio/wei";
 import { formatEther } from "ethers/lib/utils.js";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useAccount, useContractRead } from "wagmi";
 import { useActivePerpsMarket } from "../../../hooks/perps/useActivePerpsMarket";
@@ -80,11 +80,16 @@ export function AccountOverview() {
     refetchTotalCollateralValue();
   };
 
-  const { read } = useReads();
+  const { read, isLoading, data } = useReads();
 
-  const readIndex = () => {
-    read(perpsMarket.contract, "indexPrice", [perps?.id]);
-  };
+  useEffect(() => {
+    const fetchData = async () => {
+      await read(perpsMarket.contract, "indexPrice", [perps?.id]);
+    };
+
+    fetchData();
+  }, [read]);
+
   return (
     <>
       {!selectedAccountId && (
@@ -202,7 +207,13 @@ export function AccountOverview() {
           </Box>
         </Box>
 
-        <Button onClick={readIndex}>Read Index!</Button>
+        {isLoading ? (
+          <p>Loading...</p>
+        ) : (
+          <div>
+            <p>Received Data: {data}</p>
+          </div>
+        )}
         {/*
       <Box mb="1">
         Margin Usage{" "}
