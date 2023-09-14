@@ -42,11 +42,12 @@
     "process": "^0.11.10",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-query": "^3.39.3",
     "react-router-dom": "^6.8.2",
     "react-ts-tradingview-widgets": "^1.0.14",
     "sort-by": "^1.2.0",
     "util": "^0.12.4",
-    "viem": "1.10.9",
+    "viem": "^1.5.3",
     "wagmi": "^0.12.12"
   },
   "devDependencies": {
