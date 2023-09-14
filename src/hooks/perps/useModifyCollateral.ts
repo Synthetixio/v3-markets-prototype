@@ -2,6 +2,7 @@ import { parseEther } from "ethers/lib/utils.js";
 import { useCallback, useMemo, useState } from "react";
 import { useApprove } from "../useApprove";
 import { useContract } from "../useContract";
+import { useTransact } from "../useTransact";
 
 export const useModifyCollateral = (
   marketId: number,
@@ -18,6 +19,7 @@ export const useModifyCollateral = (
     [amount],
   );
   const { approve } = useApprove(synth, amountD18, perpsProxy.address);
+  const { transact } = useTransact();
 
   const submit = useCallback(
     async (isDeposit: boolean) => {
@@ -34,11 +36,13 @@ export const useModifyCollateral = (
           isDeposit ? amountD18 : `-${Number(amountD18).toString()}`,
         ];
 
-        await perpsProxy.contract.callStatic.modifyCollateral(...args);
+        // await perpsProxy.contract.callStatic.modifyCollateral(...args);
 
-        const tx = await perpsProxy.contract.modifyCollateral(...args);
+        // const tx = await perpsProxy.contract.modifyCollateral(...args);
 
-        await tx.wait();
+        await transact(perpsProxy.contract, "modifyCollateral", args);
+
+        // await tx.wait();
         onSuccess();
       } catch (error: any) {
         if (error.errorName) {

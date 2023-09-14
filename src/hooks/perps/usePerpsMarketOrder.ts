@@ -1,12 +1,11 @@
 import { ethers } from "ethers";
-import { Interface, parseEther } from "ethers/lib/utils.js";
+import { parseEther } from "ethers/lib/utils.js";
 import { useCallback, useState } from "react";
 import { useContract } from "../useContract";
 import { useTransact } from "../useTransact";
 import { useActivePerpsMarket } from "./useActivePerpsMarket";
 import { readMulticall } from "../../utils/readMulticall";
 import { useAccount, useProvider } from "wagmi";
-import { perpsMarketPerpsMarketProxyABI } from "../../generated";
 
 export const usePerpsMarketOrder = (
   accountId: string | number,

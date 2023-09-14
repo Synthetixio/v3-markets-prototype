@@ -35,7 +35,6 @@ export function AsyncOrderClaim({ orderClaim, accountId, refetch }: Props) {
   const oracleVerifier = useContract("OracleVerifier");
   const { market: perps } = useActivePerpsMarket();
 
-  const [canceling, setCanceling] = useState(false);
   const [settling, setSettling] = useState(false);
   const { timestamp: block } = useGetBlock();
 
