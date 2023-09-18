@@ -5,8 +5,7 @@ import {
   TransactionRequest,
   generate7412CompatibleCall,
 } from "../hooks/useTransact";
-
-const multiCallAddress = "0xa0266eE94Bff06D8b07e7b672489F21d2E05636e";
+import Multicall from "../constants/TrustedMulticallForwarder.json";
 
 export const readMulticall = async (
   contract: Contract,
@@ -29,7 +28,7 @@ export const readMulticall = async (
       calls: TransactionRequest[],
     ): TransactionRequest {
       const ret = viem.encodeFunctionData({
-        abi: MulticallAbi,
+        abi: Multicall.abi,
         functionName: "aggregate3Value",
         args: [
           calls.map((call) => ({
@@ -47,17 +46,17 @@ export const readMulticall = async (
       }
 
       return {
-        to: multiCallAddress,
+        to: Multicall.address as `0x${string}`,
         data: ret,
         value: totalValue,
       };
     };
 
     const txn = await generate7412CompatibleCall(viemClient, multicallFunc, {
-      from: account,
-      to: contract.address,
-      data,
-      value,
+      account: account as `0x${string}`,
+      to: contract.address as `0x${string}`,
+      data: data as `0x${string}`,
+      value: value as any,
     });
 
     const result = await viemClient.call({
@@ -75,10 +74,12 @@ export const readMulticall = async (
       data: result.data!,
     }) as any[];
 
-    const decodedFunctionResult2 = viem.decodeFunctionResult({
+    const decodeFunction = viem.decodeFunctionResult;
+    const decodedFunctionResult2 = decodeFunction({
       abi: JSON.parse(
         contract.interface.format(ethers.utils.FormatTypes.json).toString(),
       ),
+      args: [],
       functionName: fn,
       data: decodedFunctionResult[decodedFunctionResult.length - 1].returnData,
     });

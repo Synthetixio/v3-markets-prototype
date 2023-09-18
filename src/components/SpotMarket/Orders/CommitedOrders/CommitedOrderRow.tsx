@@ -94,7 +94,7 @@ export function CommitedOrderRow({ marketId, order, block }: Props) {
       settlementTimeBytes;
 
     return {
-      urls: [strategy?.url!],
+      urls: [strategy?.url!] as string[],
       data,
       extraData,
     };

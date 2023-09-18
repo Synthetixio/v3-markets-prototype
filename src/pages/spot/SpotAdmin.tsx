@@ -7,7 +7,7 @@ import { FeeType } from "../../constants/order";
 export function SpotAdmin() {
   return (
     <Flex height="100vh" maxHeight="100vh" flexDirection="column">
-      <Header isSpot />
+      <Header />
       <Flex
         m={8}
         align="start"

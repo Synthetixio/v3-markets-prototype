@@ -33,16 +33,17 @@ const networks = {
 
 type Network = keyof typeof networks;
 
-const VITE_NETWORK = (import.meta.env.VITE_NETWORK || "cannon") as Network;
+const REACT_APP_NETWORK = (process.env.REACT_APP_NETWORK ||
+  "cannon") as Network;
 
-if (!networks[VITE_NETWORK]) {
-  throw new Error(`Invalid network name "${VITE_NETWORK}"`);
+if (!networks[REACT_APP_NETWORK]) {
+  throw new Error(`Invalid network name "${REACT_APP_NETWORK}"`);
 }
 
 export const networkList = Object.entries(networks)
   .map(([_key, value]) => value)
   .filter((network) => {
-    return VITE_NETWORK === "cannon" || network.id !== 13370;
+    return REACT_APP_NETWORK === "cannon" || network.id !== 13370;
   });
 
 /**
@@ -51,7 +52,7 @@ export const networkList = Object.entries(networks)
  * @see https://wagmi.sh/react/providers/configuring-chains
  */
 const { chains, provider } = configureChains(networkList, [
-  infuraProvider({ apiKey: import.meta.env.VITE_INFURA_API_KEY! }),
+  infuraProvider({ apiKey: process.env.REACT_APP_INFURA_API_KEY! }),
   /**
    * Tells wagmi to use the default RPC URL for each chain
    * for some dapps the higher rate limits of Alchemy may be required

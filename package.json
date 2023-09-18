@@ -3,13 +3,12 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "vite",
-    "synthetix": "cannon inspect synthetix-sandbox --write-deployments ./deployments/cannon && npm run wagmi && cannon synthetix-sandbox --fund-addresses 0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
-    "deployments:optimism-goerli": "cannon inspect synthetix-omnibus --chain-id 420 --write-deployments ./deployments/optimism-goerli",
-    "deployments:optimism": "cannon inspect synthetix-omnibus --chain-id 10 --write-deployments ./deployments/optimism",
-    "deployments:base-goerli": "cannon inspect synthetix-omnibus --chain-id 84531 --write-deployments ./deployments/base-goerli",
-    "build": "npm run wagmi && vite build",
-    "preview": "vite preview",
+    "dev": "craco start",
+    "synthetix": "cannon inspect synthetix-sandbox --write-deployments ./src/deployments/cannon && npm run wagmi && cannon synthetix-sandbox --fund-addresses 0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
+    "deployments:optimism-goerli": "cannon inspect synthetix-omnibus --chain-id 420 --write-deployments ./src/deployments/optimism-goerli",
+    "deployments:optimism": "cannon inspect synthetix-omnibus --chain-id 10 --write-deployments ./src/deployments/optimism",
+    "deployments:base-goerli": "cannon inspect synthetix-omnibus --chain-id 84531 --write-deployments ./src/deployments/base-goerli",
+    "build": "react-app-rewired build",
     "lint": "prettier --write \"**/*.{ts,tsx}\"",
     "typecheck": "tsc --noEmit",
     "wagmi": "wagmi generate"
@@ -27,9 +26,8 @@
     "@openzeppelin/contracts": "4.7.3",
     "@openzeppelin/contracts-upgradeable": "4.7.3",
     "@rainbow-me/rainbowkit": "^0.12.13",
-    "@rollup/plugin-json": "^6.0.0",
     "@synthetixio/wei": "^2.74.4",
-    "@usecannon/cli": "^2.6.0",
+    "@usecannon/cli": "^2.7.1",
     "@wagmi/cli": "^0.1.15",
     "buffer": "^6.0.3",
     "dayjs": "^1.11.7",
@@ -44,6 +42,7 @@
     "react-dom": "^18.2.0",
     "react-query": "^3.39.3",
     "react-router-dom": "^6.8.2",
+    "react-scripts": "5.0.1",
     "react-ts-tradingview-widgets": "^1.0.14",
     "sort-by": "^1.2.0",
     "util": "^0.12.4",
@@ -51,15 +50,44 @@
     "wagmi": "^0.12.12"
   },
   "devDependencies": {
+    "@craco/craco": "^7.1.0",
+    "@open-wc/building-rollup": "^3.0.2",
     "@pythnetwork/pyth-evm-js": "^1.25.0",
+    "@rollup/plugin-commonjs": "^25.0.4",
+    "@rollup/plugin-json": "^6.0.0",
+    "@rollup/plugin-node-resolve": "^15.2.1",
+    "@rollup/plugin-terser": "^0.4.3",
     "@types/react": "^18.0.9",
     "@types/react-dom": "^18.0.3",
-    "@vitejs/plugin-react": "^3.1.0",
+    "assert": "^2.1.0",
+    "crypto-browserify": "^3.12.0",
+    "deepmerge": "^4.3.1",
     "eslint": "^8.49.0",
     "eslint-config-react-app": "^7.0.1",
+    "https-browserify": "^1.0.0",
+    "os-browserify": "^0.3.0",
     "prettier": "^2.8.4",
-    "typescript": "^4.9.5",
-    "vite": "^4.1.4",
-    "vite-plugin-eslint": "^1.8.1"
+    "react-app-rewired": "^2.2.1",
+    "rimraf": "^5.0.1",
+    "rollup": "^3.29.2",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "stream-browserify": "^3.0.0",
+    "stream-http": "^3.2.0",
+    "ts-loader": "^9.3.1",
+    "typescript": "^5.1.6",
+    "url": "^0.11.3",
+    "webpack": "^5.74.0"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }

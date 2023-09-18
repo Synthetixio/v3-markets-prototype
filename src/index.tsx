@@ -49,8 +49,13 @@ const router = createBrowserRouter([
   { path: "/leaderboard", element: <Leaderboard /> },
 ]);
 
+const root = ReactDOM.createRoot(
+  document.getElementById("root") as HTMLElement,
+);
+
 Object.defineProperty(BigInt.prototype, "toJSON", {
   get() {
+    // eslint-disable-next-line strict
     "use strict";
     return () => String(this);
   },
@@ -58,13 +63,7 @@ Object.defineProperty(BigInt.prototype, "toJSON", {
 
 const queryClient = new QueryClient();
 
-/**
- * Root providers and initialization of app
- * @see https://reactjs.org/docs/strict-mode.html
- * @see https://wagmi.sh/react/WagmiConfig
- * @see https://www.rainbowkit.com/docs/installation
- */
-ReactDOM.createRoot(document.getElementById("root")!).render(
+root.render(
   <React.StrictMode>
     <ChakraProvider theme={theme}>
       <ColorModeScript initialColorMode={theme.config.initialColorMode} />

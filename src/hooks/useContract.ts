@@ -7,7 +7,7 @@ type ContractName =
   | keyof typeof contracts.cannon
   | keyof (typeof contracts)["optimism-goerli"];
 
-const NETWORK = (import.meta.env.VITE_NETWORK ||
+const NETWORK = (process.env.REACT_APP_NETWORK ||
   "cannon") as keyof typeof contracts;
 
 export const useContract = (name: ContractName) => {

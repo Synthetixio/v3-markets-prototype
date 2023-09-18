@@ -2,7 +2,7 @@ import { defineConfig } from "@wagmi/cli";
 import fs from "fs";
 import path from "path";
 
-const network = process.env.VITE_NETWORK || "cannon";
+const network = process.env.REACT_APP_NETWORK || "cannon";
 
 // Call the function and log the result
 const contracts = _readDeployments(`deployments/${network}`);

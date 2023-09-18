@@ -39,7 +39,7 @@ export function Amount({
     >
       <Text
         _hover={
-          onClick
+          !!onClick
             ? {
                 cursor: "pointer",
                 color: "cyan",
