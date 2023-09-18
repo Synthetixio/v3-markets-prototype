@@ -54,7 +54,15 @@ export const useModifyCollateral = (
         setIsLoading(false);
       }
     },
-    [accountId, marketId, amountD18, perpsProxy.contract, onSuccess, approve],
+    [
+      accountId,
+      marketId,
+      amountD18,
+      transact,
+      perpsProxy.contract,
+      onSuccess,
+      approve,
+    ],
   );
 
   return {

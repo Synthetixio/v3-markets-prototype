@@ -49,6 +49,13 @@ const router = createBrowserRouter([
   { path: "/leaderboard", element: <Leaderboard /> },
 ]);
 
+Object.defineProperty(BigInt.prototype, "toJSON", {
+  get() {
+    "use strict";
+    return () => String(this);
+  },
+});
+
 const queryClient = new QueryClient();
 
 /**
