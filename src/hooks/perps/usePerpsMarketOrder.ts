@@ -61,7 +61,7 @@ export const usePerpsMarketOrder = (
         referrer: ethers.constants.AddressZero,
       };
 
-      await transact(perpsMarket.contract, "commitOrder", [commitment], 10n);
+      await transact(perpsMarket.contract, "commitOrder", [commitment]);
 
       onSuccess();
     } catch (error: any) {

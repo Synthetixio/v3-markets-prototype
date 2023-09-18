@@ -32,7 +32,6 @@ interface Props {
 
 export function AsyncOrderClaim({ orderClaim, accountId, refetch }: Props) {
   const perpsMarket = useContract("PERPS_MARKET");
-  const oracleVerifier = useContract("OracleVerifier");
   const { market: perps } = useActivePerpsMarket();
 
   const [settling, setSettling] = useState(false);
@@ -94,7 +93,7 @@ export function AsyncOrderClaim({ orderClaim, accountId, refetch }: Props) {
     // let extraData = "";
 
     // try {
-    //   setSettling(true);
+    setSettling(true);
     //   await perpsMarket.contract.callStatic.settle(perps?.marketId, accountId);
     // } catch (error: any) {
     //   urls = error.errorArgs.urls;
@@ -112,7 +111,7 @@ export function AsyncOrderClaim({ orderClaim, accountId, refetch }: Props) {
       return;
     }
 
-    const fee = await oracleVerifier.contract.getUpdateFee(1);
+    // const fee = await oracleVerifier.contract.getUpdateFee(1);
     const parsedURL = urls[0].replace("{data}", data);
 
     const response = await fetch(parsedURL)
@@ -135,12 +134,10 @@ export function AsyncOrderClaim({ orderClaim, accountId, refetch }: Props) {
       //     value: fee.toString(),
       //   },
       // );
-      await transact(
-        perpsMarket.contract,
-        "settlePythOrder",
-        [response.data, extraData],
-        fee.toString(),
-      );
+      await transact(perpsMarket.contract, "settlePythOrder", [
+        response.data,
+        extraData,
+      ]);
 
       toast({
         title: "Successfully done",

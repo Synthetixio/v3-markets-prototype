@@ -1,9 +1,11 @@
 import { BigNumberish, Contract } from "ethers";
 import { useCallback, useState } from "react";
 import { useProvider, useSigner, useAccount } from "wagmi";
-import { EIP7412 } from "erc7412/dist/src/index";
+import { EIP7412 } from "erc7412";
 import { PythAdapter } from "erc7412/dist/src/adapters/pyth";
 import * as viem from "viem";
+import Multicall from "../constants/TrustedMulticallForwarder.json";
+// import PythERC7412Node from "../constants/PythERC7412Node.json";
 
 export type TransactionRequest = {
   to?: `0x${string}` | undefined;
@@ -57,7 +59,7 @@ export async function generate7412CompatibleCall(
   const converter = new EIP7412(adapters, multicallFunc);
 
   console.log(txn);
-  return await converter.enableERC7412(client, txn);
+  return await converter.enableERC7412(client as any, txn);
 }
 
 export const useTransact = () => {
@@ -84,16 +86,20 @@ export const useTransact = () => {
               (provider as any).send(method, params),
           }),
         });
+
         const multicallFunc = function makeMulticallThroughCall(
           calls: TransactionRequest[],
         ): TransactionRequest {
-          const ret = viem.encodeFunctionData({
-            abi: MulticallThroughAbi,
-            functionName: "multicallThrough",
+          const multicallData = viem.encodeFunctionData({
+            abi: Multicall.abi,
+            functionName: "aggregate3Value",
             args: [
-              calls.map((c) => c.to),
-              calls.map((c) => c.data),
-              calls.map((c) => c.value || 0n),
+              calls.map((c) => ({
+                target: c.to,
+                allowFailure: false,
+                value: c.value || 0n,
+                callData: c.data,
+              })),
             ],
           });
 
@@ -104,8 +110,8 @@ export const useTransact = () => {
 
           return {
             account: account.address,
-            to: contract.address as `0x${string}`,
-            data: ret,
+            to: Multicall.address as `0x${string}`,
+            data: multicallData,
             value: totalValue,
           };
         };
