@@ -58,6 +58,14 @@ export function Header() {
             Leaderboard
           </Button>
         </Link>
+        <Link to="/competition">
+          <Button
+            variant="ghost"
+            opacity={pathname.includes("competition") ? "1" : ".5"}
+          >
+            Trading Comp
+          </Button>
+        </Link>
         <Link target="_blank" to="https://v3.synthetix.io/">
           <Button variant="ghost" opacity=".5" rightIcon={<ExternalLinkIcon />}>
             LP

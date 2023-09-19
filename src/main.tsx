@@ -20,6 +20,7 @@ import Leaderboard from "./pages/Leaderboard";
 import theme from "./theme";
 
 import { QueryClient, QueryClientProvider } from "react-query";
+import Competition from "./pages/Competition";
 
 const router = createBrowserRouter([
   {
@@ -47,6 +48,7 @@ const router = createBrowserRouter([
     element: <SpotMarket />,
   },
   { path: "/leaderboard", element: <Leaderboard /> },
+  { path: "/competition", element: <Competition /> },
 ]);
 
 Object.defineProperty(BigInt.prototype, "toJSON", {
