@@ -16,11 +16,9 @@ import { SpotMarket } from "./pages/spot/SpotMarket";
 import { SpotAdmin } from "./pages/spot/SpotAdmin";
 
 import { PerpsMarket } from "./pages/perps/PerpsMarket";
-import Leaderboard from "./pages/Leaderboard";
 
 import { QueryClient, QueryClientProvider } from "react-query";
-import Competition from "./pages/Competition";
-import { theme } from "@synthetixio/v3-theme";
+import theme from "./theme";
 
 const router = createBrowserRouter([
   {
@@ -47,8 +45,6 @@ const router = createBrowserRouter([
     path: "/spot/markets/:marketId",
     element: <SpotMarket />,
   },
-  { path: "/leaderboard", element: <Leaderboard /> },
-  { path: "/competition", element: <Competition /> },
 ]);
 
 Object.defineProperty(BigInt.prototype, "toJSON", {
