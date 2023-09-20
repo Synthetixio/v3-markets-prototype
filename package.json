@@ -9,7 +9,7 @@
     "deployments:optimism": "cannon inspect synthetix-omnibus --chain-id 10 --write-deployments ./deployments/optimism",
     "deployments:base-goerli": "cannon inspect synthetix-omnibus --chain-id 84531 --write-deployments ./deployments/base-goerli",
     "build": "npm run wagmi && vite build",
-    "preview": "vite preview",
+    "preview": "npm run build && vite preview",
     "lint": "prettier --write \"**/*.{ts,tsx}\"",
     "typecheck": "tsc --noEmit",
     "wagmi": "wagmi generate"

@@ -16,10 +16,9 @@ import { SpotMarket } from "./pages/spot/SpotMarket";
 import { SpotAdmin } from "./pages/spot/SpotAdmin";
 
 import { PerpsMarket } from "./pages/perps/PerpsMarket";
-import Leaderboard from "./pages/Leaderboard";
-import theme from "./theme";
 
 import { QueryClient, QueryClientProvider } from "react-query";
+import theme from "./theme";
 
 const router = createBrowserRouter([
   {
@@ -46,7 +45,6 @@ const router = createBrowserRouter([
     path: "/spot/markets/:marketId",
     element: <SpotMarket />,
   },
-  { path: "/leaderboard", element: <Leaderboard /> },
 ]);
 
 Object.defineProperty(BigInt.prototype, "toJSON", {
@@ -69,7 +67,6 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <ChakraProvider theme={theme}>
       <ColorModeScript initialColorMode={theme.config.initialColorMode} />
-
       <WagmiConfig client={client}>
         <RainbowKitProvider
           chains={chains}
