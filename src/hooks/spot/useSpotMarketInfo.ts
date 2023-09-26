@@ -14,14 +14,6 @@ export const useSpotMarketInfo = (marketId: string | number | undefined) => {
     enabled: !!marketId,
   });
 
-  const { data: marketName } = useContractRead({
-    address: spotMarketProxy.address,
-    abi: spotMarketProxy.abi,
-    functionName: "name",
-    args: [marketId],
-    enabled: !!marketId,
-  });
-
   const { data: marketFees } = useContractRead({
     address: spotMarketProxy.address,
     abi: spotMarketProxy.abi,
@@ -40,7 +32,6 @@ export const useSpotMarketInfo = (marketId: string | number | undefined) => {
 
   return {
     synthAddress: synthAddress as unknown as string,
-    marketName: marketName as unknown as string,
     asyncFixedFee: formatEther(
       (marketFees as any)?.asyncFixedFee.mul(100) || "0",
     ),

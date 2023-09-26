@@ -5,9 +5,20 @@ import { MarketDetails } from "../../components/SpotMarket/MarketDetails";
 import { SpotMarketForm } from "../../components/SpotMarket/SpotMarketForm";
 import { ArrowUpDownIcon } from "@chakra-ui/icons";
 import { useSpotMarketId } from "../../hooks/spot/useSpotMarketId";
+import { useContractRead } from "wagmi";
+import { useContract } from "../../hooks/useContract";
 
 export function SpotMarket() {
   const market = useSpotMarketId();
+  const spotMarketProxy = useContract("SPOT_MARKET");
+
+  const { data: marketName } = useContractRead({
+    address: spotMarketProxy.address,
+    abi: spotMarketProxy.abi,
+    functionName: "name",
+    args: [market?.marketId],
+    enabled: !!market?.marketId,
+  });
 
   if (!market) {
     return <p>No markets found</p>;
@@ -29,7 +40,7 @@ export function SpotMarket() {
             p="4"
           >
             <Heading display="inline-block" size="md">
-              {market.synth} Spot Market
+              {marketName?.toString()}
             </Heading>
             <Box float="right" display="none">
               <ArrowUpDownIcon />

@@ -3,7 +3,7 @@ import { spotMarkets } from "../../constants/markets";
 import { useDefaultNetwork } from "../useDefaultNetwork";
 
 export const useSpotMarketId = () => {
-  const { marketSymbol } = useParams();
+  const { marketId } = useParams();
   const network = useDefaultNetwork();
   const markets = spotMarkets[network.id];
 
@@ -11,6 +11,6 @@ export const useSpotMarketId = () => {
     return null;
   }
 
-  const market = markets[marketSymbol?.toUpperCase() || "ETH"];
+  const market = markets[marketId?.toUpperCase() || "ETH"];
   return market;
 };
