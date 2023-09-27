@@ -40,7 +40,6 @@ export const useSpotMarkets = (marketFilter?: number | string) => {
     return data.markets as SpotMarket[];
   }, [data]);
 
-  console.log({ markets });
   const market = useMemo(() => {
     return markets.find((item) =>
       [

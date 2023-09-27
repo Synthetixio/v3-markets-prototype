@@ -57,7 +57,7 @@ export function SpotMarket() {
             <AdvancedRealTimeChart
               theme="dark"
               autosize
-              symbol={"PYTH:ETHUSD"}
+              symbol={market?.tradingViewSymbol || "PYTH:ETHUSD"}
             ></AdvancedRealTimeChart>
           </Flex>
         </Box>

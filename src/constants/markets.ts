@@ -30,6 +30,11 @@ export const spotMarkets: MarketData = {
       tradingViewSymbol: "PYTH:OPUSD",
       synth: "snxOP",
     },
+    SNX: {
+      marketId: 5,
+      tradingViewSymbol: "PYTH:SNXUSD",
+      synth: "fSNX",
+    },
   },
   420: {
     BTC: {
