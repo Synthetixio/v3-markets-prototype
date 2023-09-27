@@ -1,11 +1,16 @@
-import { Heading, Box } from "@chakra-ui/react";
-import { ArrowUpDownIcon } from "@chakra-ui/icons";
+import { Heading, Box, Tag, Flex } from "@chakra-ui/react";
 import { useMarkets } from "../../hooks/perps/useMarkets";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import { useMemo } from "react";
 
 export function MarketSwitcher() {
   const { marketSymbol } = useParams();
-  const { market } = useMarkets(marketSymbol);
+  const { market, markets } = useMarkets(marketSymbol);
+
+  const filteredMarkets = useMemo(
+    () => markets.filter((item) => item.id !== market?.id),
+    [market?.id, markets],
+  );
 
   return (
     <>
@@ -13,9 +18,17 @@ export function MarketSwitcher() {
         <Heading display="inline-block" size="md">
           {market?.marketName} Perps Market
         </Heading>
-        <Box float="right" display="none">
-          <ArrowUpDownIcon />
-        </Box>
+        {filteredMarkets.length > 0 && (
+          <Flex mt={3} gap={2} alignItems="center">
+            {filteredMarkets.map((item) => (
+              <Link key={item.id} to={"/perps/markets/" + item.marketSymbol}>
+                <Tag size="sm" variant="solid" colorScheme="teal">
+                  {item.marketSymbol}
+                </Tag>
+              </Link>
+            ))}
+          </Flex>
+        )}
       </Box>
     </>
   );

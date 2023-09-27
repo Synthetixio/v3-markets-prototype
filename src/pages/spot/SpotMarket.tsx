@@ -1,19 +1,32 @@
-import { Box, Button, Flex, Heading } from "@chakra-ui/react";
+import { Box, Flex, Heading, Tag } from "@chakra-ui/react";
 import { Header } from "../../components";
 import { AdvancedRealTimeChart } from "react-ts-tradingview-widgets";
 import { MarketDetails } from "../../components/SpotMarket/MarketDetails";
 import { SpotMarketForm } from "../../components/SpotMarket/SpotMarketForm";
-import { ArrowUpDownIcon } from "@chakra-ui/icons";
 import { useSpotMarketId } from "../../hooks/spot/useSpotMarketId";
 import { useContractRead, useNetwork } from "wagmi";
 import { useContract } from "../../hooks/useContract";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import { useDefaultNetwork } from "../../hooks/useDefaultNetwork";
+import { spotMarkets } from "../../constants/markets";
+import { useMemo } from "react";
 
 export function SpotMarket() {
   const { chain } = useNetwork();
   const { marketId } = useParams();
   const market = useSpotMarketId();
   const spotMarketProxy = useContract("SPOT_MARKET");
+
+  const network = useDefaultNetwork();
+  const markets = useMemo(
+    () =>
+      Object.entries(spotMarkets[network.id] || {})
+        .map(([key, item]) => ({ ...item, key }))
+        .filter(
+          (item) => item.key.toString() !== (marketId?.toUpperCase() || "ETH"),
+        ),
+    [marketId, network.id],
+  );
 
   const { data: marketName } = useContractRead({
     address: spotMarketProxy.address,
@@ -25,10 +38,13 @@ export function SpotMarket() {
 
   if (!market) {
     return (
-      <Flex p={10}>
-        <p>
-          {marketId} is not availble on {chain?.name}
-        </p>
+      <Flex height="100vh" maxHeight="100vh" flexDirection="column">
+        <Header />
+        <Flex p={10}>
+          <p>
+            {marketId} spot market is not availble on {chain?.name}
+          </p>
+        </Flex>
       </Flex>
     );
   }
@@ -51,9 +67,17 @@ export function SpotMarket() {
             <Heading display="inline-block" size="md">
               {marketName?.toString()}
             </Heading>
-            <Box float="right" display="none">
-              <ArrowUpDownIcon />
-            </Box>
+            {markets.length > 0 && (
+              <Flex mt={3} gap={2} alignItems="center">
+                {markets.map((item) => (
+                  <Link key={item.marketId} to={"/spot/markets/" + item.key}>
+                    <Tag size="sm" variant="solid" colorScheme="teal">
+                      {item.key}
+                    </Tag>
+                  </Link>
+                ))}
+              </Flex>
+            )}
           </Box>
           <SpotMarketForm id={market.marketId} />
           <Box flex="1" overflowY="auto" p="4">
