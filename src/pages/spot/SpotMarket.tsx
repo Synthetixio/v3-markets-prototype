@@ -1,14 +1,17 @@
-import { Box, Flex, Heading } from "@chakra-ui/react";
+import { Box, Button, Flex, Heading } from "@chakra-ui/react";
 import { Header } from "../../components";
 import { AdvancedRealTimeChart } from "react-ts-tradingview-widgets";
 import { MarketDetails } from "../../components/SpotMarket/MarketDetails";
 import { SpotMarketForm } from "../../components/SpotMarket/SpotMarketForm";
 import { ArrowUpDownIcon } from "@chakra-ui/icons";
 import { useSpotMarketId } from "../../hooks/spot/useSpotMarketId";
-import { useContractRead } from "wagmi";
+import { useContractRead, useNetwork } from "wagmi";
 import { useContract } from "../../hooks/useContract";
+import { useParams } from "react-router-dom";
 
 export function SpotMarket() {
+  const { chain } = useNetwork();
+  const { marketId } = useParams();
   const market = useSpotMarketId();
   const spotMarketProxy = useContract("SPOT_MARKET");
 
@@ -21,7 +24,13 @@ export function SpotMarket() {
   });
 
   if (!market) {
-    return <p>No markets found</p>;
+    return (
+      <Flex p={10}>
+        <p>
+          {marketId} is not availble on {chain?.name}
+        </p>
+      </Flex>
+    );
   }
 
   return (
