@@ -20,6 +20,7 @@ export function Amount({
     }
     const formattedValue = currency(value);
     const cleanNumber = wei(formattedValue.replaceAll(",", ""));
+
     return {
       formattedValue,
       preciseValue: value.eq(cleanNumber) ? formattedValue : value.toString(),
@@ -39,7 +40,7 @@ export function Amount({
     >
       <Text
         _hover={
-          onClick
+          !!onClick
             ? {
                 cursor: "pointer",
                 color: "cyan",
@@ -47,7 +48,7 @@ export function Amount({
               }
             : {}
         }
-        onClick={() => onClick(preciseValue)}
+        onClick={() => onClick(value?.toString() || "0")}
       >
         {prefix ? `${prefix} ` : ""}
         {formattedValue}&nbsp;
